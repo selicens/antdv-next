@@ -1,0 +1,10 @@
+{
+  "name": "antdv-next",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {},
+  "dependencies": {
+    "@ant-design/colors": "^7.2.1",
+    "@ant-design/fast-color": "^3.0.0"
+  }
+}
