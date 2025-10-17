@@ -1,4 +1,4 @@
-import { LoadingOutlined } from '@ant-design/icons-vue'
+import { LoadingOutlined } from '@antdv-next/icons'
 import { classNames } from '@v-c/util'
 import { defineComponent, Transition } from 'vue'
 import IconWrapper from './IconWrapper.tsx'

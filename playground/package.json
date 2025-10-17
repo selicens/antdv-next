@@ -8,8 +8,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@ant-design/icons-vue": "catalog:",
     "@antdv-next/cssinjs": "workspace:^",
+    "@antdv-next/icons": "workspace:^",
     "antdv-next": "workspace:^",
     "pinia": "catalog:",
     "vue": "catalog:",

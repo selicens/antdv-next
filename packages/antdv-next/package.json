@@ -9,8 +9,8 @@
   "dependencies": {
     "@ant-design/colors": "catalog:",
     "@ant-design/fast-color": "catalog:",
-    "@ant-design/icons-vue": "catalog:",
     "@antdv-next/cssinjs": "workspace:^",
+    "@antdv-next/icons": "workspace:^",
     "@v-c/color-picker": "catalog:",
     "@v-c/resize-observer": "catalog:",
     "@v-c/util": "catalog:",

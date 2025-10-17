@@ -10,4 +10,8 @@ export default antfu({
     'node/prefer-global/process': 0,
     'regexp/no-unused-capturing-group': 0,
   },
+}, {
+  ignores: [
+    'packages/icons/src/icons',
+  ],
 })

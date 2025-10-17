@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { SearchOutlined } from '@ant-design/icons-vue'
+import { SearchOutlined } from '@antdv-next/icons'
 </script>
 
 <template>

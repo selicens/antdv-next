@@ -1,0 +1,34 @@
+{
+  "name": "@antdv-next/icons",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "https://git.lingyu.org.cn/antdv-next/ui.git"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "test": "vitest run",
+    "build": "tsdown",
+    "gen:icons": "esno ./scripts/gen-icons.ts"
+  },
+  "peerDependencies": {
+    "vue": ">=3.2.0"
+  },
+  "dependencies": {
+    "@ant-design/colors": "catalog:",
+    "@ant-design/icons-svg": "^4.4.2",
+    "@v-c/util": "catalog:",
+    "es-toolkit": "catalog:"
+  },
+  "devDependencies": {
+    "pkg-types": "^2.3.0"
+  }
+}
