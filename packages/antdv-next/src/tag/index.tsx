@@ -26,7 +26,7 @@ export interface TagProps extends ComponentBaseProps {
   color?: LiteralUnion<PresetColorType | PresetStatusColorType>
   /** Advised to use closeIcon instead. */
   closable?: ClosableType
-  closeIcon?: VueNode
+  closeIcon?: VueNode | boolean
   icon?: VueNode
   bordered?: boolean
   styles?: Partial<Record<SemanticName, CSSProperties>>
@@ -93,7 +93,7 @@ const InternalTag = defineComponent<
   (props = defaultProps, { slots, attrs, emit, expose }) => {
     const configContext = useConfig()
     const prefixCls = computed(() => configContext.value.getPrefixCls('tag', props.prefixCls))
-    const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls.value)
+    const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls)
     const visible = shallowRef(true)
     const instance = getCurrentInstance()
     const tagRef = shallowRef<HTMLElement>()
@@ -193,8 +193,8 @@ const InternalTag = defineComponent<
           [`${prefixCls.value}-hidden`]: !visible.value,
         },
         props.rootClass,
-        hashId,
-        cssVarCls,
+        hashId.value,
+        cssVarCls.value,
         (attrs as any).class,
       )
 

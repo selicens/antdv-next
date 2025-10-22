@@ -56,7 +56,7 @@ const Col = defineComponent<ColProps>(
 
     const prefixCls = computed(() => configCtx.value?.getPrefixCls('col', props.prefixCls))
 
-    const [wrapCSSVar, hashId, cssVarCls] = useColStyle(prefixCls.value)
+    const [wrapCSSVar, hashId, cssVarCls] = useColStyle(prefixCls)
 
     return () => {
       const { span, order, offset, push, pull, flex } = props
@@ -105,8 +105,8 @@ const Col = defineComponent<ColProps>(
           [`${prefixCls.value}-pull-${pull}`]: pull,
         },
         sizeClassObj,
-        hashId,
-        cssVarCls,
+        hashId.value,
+        cssVarCls.value,
       )
       const mergedStyle: CSSProperties = {}
 

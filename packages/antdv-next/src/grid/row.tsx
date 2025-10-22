@@ -82,7 +82,7 @@ const Row = defineComponent<RowProps>(
     const mergedAlign = useMergedPropByScreen(computed(() => props.align), screens)
     const mergedJustify = useMergedPropByScreen(computed(() => props.justify), screens)
     const prefixCls = computed(() => configCtx.value?.getPrefixCls('row', props.prefixCls))
-    const [wrapCSSVar, hashId, cssVarCls] = useRowStyle(prefixCls.value)
+    const [wrapCSSVar, hashId, cssVarCls] = useRowStyle(prefixCls)
 
     const gutters = useGutter(computed(() => props.gutter), screens)
 
@@ -101,8 +101,8 @@ const Row = defineComponent<RowProps>(
           [`${prefixCls.value}-${mergedAlign.value}`]: mergedAlign.value,
           [`${prefixCls.value}-rtl`]: configCtx.value.direction === 'rtl',
         },
-        hashId,
-        cssVarCls,
+        hashId.value,
+        cssVarCls.value,
       )
 
       // Add gutter related style

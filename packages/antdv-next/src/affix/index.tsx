@@ -245,7 +245,7 @@ export const Affix = defineComponent<InternalAffixProps, AffixEmits, string>(
       updatePosition()
     })
 
-    const [wrapCSSVar, hashId, cssVarCls] = useStyle(affixPrefixCls.value)
+    const [wrapCSSVar, hashId, cssVarCls] = useStyle(affixPrefixCls)
 
     useResizeObserver(placeholderNodeRef, () => {
       updatePosition()
@@ -259,9 +259,9 @@ export const Affix = defineComponent<InternalAffixProps, AffixEmits, string>(
 
       const rootCls = classNames(
         rootClass,
-        hashId,
+        hashId.value,
         affixPrefixCls.value,
-        cssVarCls,
+        cssVarCls.value,
       )
 
       const mergedCls = classNames({ [rootCls]: affixStyle.value })

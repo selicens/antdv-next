@@ -61,7 +61,7 @@ const InternalBadge = defineComponent<
     const prefixCls = computed(() => configContext.value.getPrefixCls('badge', props.prefixCls))
     const badgeRef = shallowRef<HTMLSpanElement>()
     expose({ badgeRef })
-    const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls.value)
+    const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls)
 
     const numberedDisplayCount = computed(() => {
       const { count, overflowCount } = props
@@ -179,8 +179,8 @@ const InternalBadge = defineComponent<
         configContext.value.badge?.classes?.root,
         props.classes?.root,
         props.rootClass,
-        hashId,
-        cssVarCls,
+        hashId.value,
+        cssVarCls.value,
         attrClass as any,
       )
 

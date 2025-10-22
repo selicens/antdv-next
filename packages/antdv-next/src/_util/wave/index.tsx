@@ -46,8 +46,8 @@ export default defineComponent<WaveProps, WaveEmits, string, SlotsType<WaveSlots
     const containerRef = shallowRef<HTMLElement | null>(null)
 
     const prefixCls = computed(() => configCtx.value.getPrefixCls('wave'))
-    const [, hashId] = useStyle(prefixCls.value)
-    const waveClassName = computed(() => classNames(prefixCls.value, hashId))
+    const [, hashId] = useStyle(prefixCls)
+    const waveClassName = computed(() => classNames(prefixCls.value, hashId.value))
 
     const showWave = useWave(containerRef, waveClassName, computed(() => props.component))
 

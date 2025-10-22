@@ -76,14 +76,14 @@ const Compact = defineComponent<SpaceCompactProps>(
     const mergedSize = useSize<SizeType>(ctx => (props?.size ?? ctx) as SizeType)
     const configContext = useConfig()
     const prefixCls = computed(() => configContext.value?.getPrefixCls?.('space-compact', props.prefixCls))
-    const [wrapCSSVar, hashId] = useStyle(prefixCls.value)
+    const [wrapCSSVar, hashId] = useStyle(prefixCls)
     const compactItemContext = useSpaceCompactItemContext()
     return () => {
       const { rootClass, direction, block } = props
       const directionConfig = configContext.value?.direction
       const clx = classNames(
         prefixCls.value,
-        hashId,
+        hashId.value,
         {
           [`${prefixCls}-rtl`]: directionConfig === 'rtl',
           [`${prefixCls}-block`]: block,

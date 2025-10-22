@@ -19,7 +19,7 @@ const Flex = defineComponent<FlexProps, Record<string, any>, string, SlotsType<F
   (props = defaultFlexProps, { slots, attrs }) => {
     const configCtx = useConfig()
     const prefixCls = computed(() => configCtx.value.getPrefixCls('flex', props.prefixCls))
-    const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls.value)
+    const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls)
 
     return () => {
       const {
@@ -37,8 +37,8 @@ const Flex = defineComponent<FlexProps, Record<string, any>, string, SlotsType<F
         rootClass,
         ctxFlex?.class,
         prefixCls.value,
-        hashId,
-        cssVarCls,
+        hashId.value,
+        cssVarCls.value,
         createFlexClassNames(prefixCls.value, props),
         {
           [`${prefixCls.value}-rtl`]: ctxDirection === 'rtl',

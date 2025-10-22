@@ -1,4 +1,4 @@
-import type { VNodeChild } from 'vue'
+import type { Ref, VNodeChild } from 'vue'
 
 export type {
   ComponentToken,
@@ -12,6 +12,6 @@ export type {
 
 export type UseComponentStyleResult = [
   wrapSSR: (node: VNodeChild) => VNodeChild,
-  hashId: string,
-  cssVarCls?: string,
+  hashId: Ref<string>,
+  cssVarCls?: Ref<string>,
 ]

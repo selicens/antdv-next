@@ -1,4 +1,4 @@
-import type { UnwrapRef } from 'vue'
+import type { Ref, UnwrapRef } from 'vue'
 import type { AbstractCalculator, CSSInterpolation, CSSObject, TokenType } from '../../index'
 import type { UseCSP } from '../hooks/useCSP'
 import type { UsePrefix } from '../hooks/usePrefix'
@@ -192,7 +192,7 @@ function genStyleUtils<
 
     const useCSSVar = genCSSVarRegister(componentName, getDefaultToken, mergedOptions)
 
-    return (prefixCls: string, rootCls: string = prefixCls) => {
+    return (prefixCls: Ref<string>, rootCls: Ref<string | undefined> = prefixCls) => {
       const [, hashId] = useStyle(prefixCls, rootCls)
       const [wrapCSSVar, cssVarCls] = useCSSVar(rootCls)
 
@@ -268,20 +268,20 @@ function genStyleUtils<
       },
     })
 
-    return (rootCls: string) => {
+    return (rootCls: Ref<string | undefined>) => {
       const { cssVar } = useToken()
       return [
         (node: any) => {
           return injectStyle && cssVar?.value
             ? (
                 createVNode(Fragment, null, [
-                  createVNode(CSSVarRegister, { rootCls, cssVar: cssVar.value, component }),
+                  createVNode(CSSVarRegister, { rootCls: rootCls.value, cssVar: cssVar.value, component }),
                   node,
                 ])
               )
             : node
         },
-        cssVar?.value?.key,
+        computed(() => cssVar?.value?.key),
       ] as const
     }
   }
@@ -322,30 +322,32 @@ function genStyleUtils<
     }
 
     // Return new style hook
-    return (prefixCls: string, rootCls: string = prefixCls): UseComponentStyleResult => {
+    return (prefixCls: Ref<string>, rootCls?: Ref<string | undefined>): UseComponentStyleResult => {
       const { theme, realToken, hashId, token, cssVar } = useToken()
 
       const prefix = usePrefix()
       const csp = useCSP()
 
-      const type = cssVar?.value ? 'css' : 'js'
+      const type = computed(() => cssVar?.value ? 'css' : 'js')
 
       // Use unique memo to share the result across all instances
-      const calc = useUniqueMemo(() => {
-        const unitlessCssVar = new Set<string>()
-        if (cssVar) {
-          Object.keys(options.unitless || {}).forEach((key) => {
-            // Some component proxy the AliasToken (e.g. Image) and some not (e.g. Modal)
-            // We should both pass in `unitlessCssVar` to make sure the CSSVar can be unitless.
-            unitlessCssVar.add(token2CSSVar(key, cssVar.value.prefix))
-            unitlessCssVar.add(token2CSSVar(key, getCompVarPrefix(component, cssVar.value.prefix)))
-          })
-        }
+      const calc = computed(() => {
+        return useUniqueMemo(() => {
+          const unitlessCssVar = new Set<string>()
+          if (cssVar) {
+            Object.keys(options.unitless || {}).forEach((key) => {
+              // Some component proxy the AliasToken (e.g. Image) and some not (e.g. Modal)
+              // We should both pass in `unitlessCssVar` to make sure the CSSVar can be unitless.
+              unitlessCssVar.add(token2CSSVar(key, cssVar.value.prefix))
+              unitlessCssVar.add(token2CSSVar(key, getCompVarPrefix(component, cssVar.value.prefix)))
+            })
+          }
 
-        return genCalc(type, unitlessCssVar)
-      }, [type, component, cssVar?.value?.prefix])
+          return genCalc(type.value, unitlessCssVar)
+        }, [type, component, cssVar?.value?.prefix])
+      })
 
-      const { max, min } = genMaxMin(type)
+      const maxMinFunc = computed(() => genMaxMin(type.value))
 
       // Shared config
       const sharedConfig = computed(() => {
@@ -387,7 +389,7 @@ function genStyleUtils<
         computed(() => {
           return {
             ...sharedConfig.value,
-            path: [concatComponent, prefixCls, prefix.value.iconPrefixCls],
+            path: [concatComponent, prefixCls.value, prefix.value.iconPrefixCls],
           } as any
         }),
         () => {
@@ -403,7 +405,7 @@ function genStyleUtils<
             getDefaultToken as any,
           )
 
-          const componentCls = `.${prefixCls}`
+          const componentCls = `.${prefixCls.value}`
           const componentToken = getComponentToken<CompTokenMap, AliasToken, C>(
             component,
             realToken!.value!,
@@ -423,32 +425,32 @@ function genStyleUtils<
             proxyToken.value,
             {
               componentCls,
-              prefixCls,
+              prefixCls: prefixCls.value,
               iconCls: `.${prefix.value.iconPrefixCls}`,
               antCls: `.${prefix.value.rootPrefixCls}`,
-              calc,
-              max,
-              min,
+              calc: calc.value,
+              max: maxMinFunc.value.max,
+              min: maxMinFunc.value.min,
             },
             cssVar?.value ? defaultComponentToken : componentToken,
           )
 
           const styleInterpolation = styleFn(mergedToken, {
             hashId: hashId!.value!,
-            prefixCls,
+            prefixCls: prefixCls.value,
             rootPrefixCls: prefix.value.rootPrefixCls,
             iconPrefixCls: prefix.value.iconPrefixCls,
           })
           flush(component, componentToken)
           const commonStyle
             = typeof getCommonStyle === 'function'
-              ? getCommonStyle(mergedToken, prefixCls, rootCls, options.resetFont)
+              ? getCommonStyle(mergedToken, prefixCls.value, rootCls?.value, options.resetFont)
               : null
           return [options.resetStyle === false ? null : commonStyle, styleInterpolation]
         },
       )
 
-      return [wrapSSR, hashId!.value!]
+      return [wrapSSR, hashId!]
     }
   }
 
@@ -490,7 +492,7 @@ function genStyleUtils<
         rootCls: String,
       },
       setup(props) {
-        useStyle(props.prefixCls!, props.rootCls ?? props.prefixCls)
+        useStyle(computed(() => props.prefixCls!), computed(() => props.rootCls ?? props.prefixCls))
         return () => {
           return null
         }

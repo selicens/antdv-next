@@ -216,6 +216,20 @@ export function useConfig() {
   }) as Ref<ConfigConsumerProps>)
 }
 
+export function useBaseConfig<K extends string>(suffixCls?: K, props?: ComponentBaseProps) {
+  const config = useConfig()
+  return {
+    getPrefixCls: (suffixCls?: string, prefixCls?: string) => config.value?.getPrefixCls(suffixCls, prefixCls),
+    prefixCls: computed(() => {
+      return config.value?.getPrefixCls(suffixCls, props?.prefixCls)
+    }),
+    direction: computed(() => {
+      return config.value?.direction
+    }),
+    getPopupContainer: config?.value.getPopupContainer,
+  }
+}
+
 /**
  * Get ConfigProvider configured component props.
  * This help to reduce bundle size for saving `?.` operator.

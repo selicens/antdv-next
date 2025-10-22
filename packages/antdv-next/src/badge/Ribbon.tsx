@@ -32,7 +32,7 @@ export default defineComponent<
     const configContext = useConfig()
     const prefixCls = computed(() => configContext.value.getPrefixCls('ribbon', props.prefixCls))
     const wrapperCls = computed(() => `${prefixCls.value}-wrapper`)
-    const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls.value, wrapperCls.value)
+    const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls, wrapperCls)
 
     return () => {
       const placement = props.placement ?? 'end'
@@ -50,7 +50,7 @@ export default defineComponent<
 
       return wrapCSSVar(
         <div
-          class={classNames(wrapperCls.value, props.rootClass, hashId, cssVarCls)}
+          class={classNames(wrapperCls.value, props.rootClass, hashId.value, cssVarCls.value)}
         >
           {children}
           <div
@@ -63,7 +63,7 @@ export default defineComponent<
                 [`${prefixCls.value}-color-${props.color}`]: colorInPreset,
               },
               attrClass as any,
-              hashId,
+              hashId.value,
             )}
             style={[colorStyle, props.style, attrStyle as any]}
           >

@@ -42,7 +42,7 @@ const Divider = defineComponent<DividerProps>(
   (props = defaultProps, { slots, attrs }) => {
     const componentCtx = useComponentConfig('divider')
     const prefixCls = computed(() => componentCtx.value.getPrefixCls('divider', props.prefixCls))
-    const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls.value)
+    const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls)
     const sizeFullName = useSize(computed(() => props.size))
     const sizeCls = computed(() => sizeClassNameMap[sizeFullName.value!])
     const mergedOrientation = computed(() => {
@@ -83,8 +83,8 @@ const Divider = defineComponent<DividerProps>(
       const classString = classNames(
         prefixCls.value,
         componentCtx.value.class,
-        hashId,
-        cssVarCls,
+        hashId.value,
+        cssVarCls.value,
         `${prefixCls.value}-${type}`,
         {
           [`${prefixCls.value}-with-text`]: hasChildren,

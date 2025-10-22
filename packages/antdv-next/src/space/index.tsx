@@ -55,7 +55,7 @@ const InternalSpace = defineComponent<
     const isValidHorizontalSize = computed(() => isValidGapNumber(sizes.value?.[0]))
     const mergedAlign = computed(() => props.align === undefined && props.direction === 'horizontal' ? 'center' : props.align)
     const prefixCls = computed(() => componentCtx.value.getPrefixCls('space', props.prefixCls))
-    const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls.value)
+    const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls)
 
     const latestIndex = shallowRef(0)
     useSpaceContextProvider(computed(() => {
@@ -70,7 +70,7 @@ const InternalSpace = defineComponent<
       const cls = classNames(
         prefixCls.value,
         componentCtx.value.class,
-        hashId,
+        hashId.value,
         `${prefixCls.value}-${props.direction}`,
         {
           [`${prefixCls.value}-rtl`]: directionConfig === 'rtl',
@@ -79,7 +79,7 @@ const InternalSpace = defineComponent<
           [`${prefixCls.value}-gap-col-${horizontalSize}`]: isPresetHorizontalSize.value,
         },
         props.rootClass,
-        cssVarCls,
+        cssVarCls.value,
       )
       const childNodes = filterEmpty(slots?.default?.())
       const itemClassName = classNames(

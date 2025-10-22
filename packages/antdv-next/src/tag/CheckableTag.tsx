@@ -44,7 +44,7 @@ const CheckableTag = defineComponent<
       emit('change', !props.checked)
     }
     const prefixCls = computed(() => configCtx.value.getPrefixCls('tag', props.prefixCls))
-    const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls.value)
+    const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls)
 
     return () => {
       const tag = configCtx.value.tag
@@ -56,8 +56,8 @@ const CheckableTag = defineComponent<
           [`${prefixCls.value}-checkable-checked`]: checked,
         },
         tag?.class,
-        hashId,
-        cssVarCls,
+        hashId.value,
+        cssVarCls.value,
       )
       const icon = getSlotPropsFnRun(slots, props, 'icon')
 

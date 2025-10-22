@@ -115,7 +115,7 @@ const Anchor = defineComponent<
     const configCtx = useConfig()
     const prefixCls = computed(() => componentCtx.value?.getPrefixCls('anchor', props.prefixCls))
     const rootCls = useCSSVarCls(prefixCls)
-    const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls.value, rootCls.value)
+    const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls, rootCls)
 
     const getCurrentContainer = () => props?.getContainer?.() ?? configCtx.value?.getTargetContainer?.() ?? getDefaultContainer?.()
 
@@ -272,8 +272,8 @@ const Anchor = defineComponent<
     return () => {
       const { rootClass, affix, showInkInFixed, offsetTop } = props
       const wrapperClass = classNames(
-        hashId,
-        cssVarCls,
+        hashId.value,
+        cssVarCls.value,
         rootCls.value,
         rootClass,
         `${prefixCls.value}-wrapper`,

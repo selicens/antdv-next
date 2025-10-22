@@ -149,7 +149,7 @@ const InternalCompoundedButton = defineComponent<
       return props?.autoInsertSpace ?? componentCtx.value?.autoInsertSpace ?? true
     })
     const prefixCls = computed(() => componentCtx.value.getPrefixCls('btn', props.prefixCls))
-    const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls.value)
+    const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls)
     const disabled = useDisabledContext()
     const mergedDisabled = computed(() => {
       return props?.disabled ?? disabled.value
@@ -250,8 +250,8 @@ const InternalCompoundedButton = defineComponent<
 
       const cls = classNames(
         prefixCls.value,
-        hashId,
-        cssVarCls,
+        hashId.value,
+        cssVarCls.value,
         {
           [`${prefixCls.value}-${shape.value}`]: shape.value !== 'default' && shape.value,
           // Compatible with versions earlier than 5.21.0

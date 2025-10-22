@@ -128,7 +128,7 @@ const Alert = defineComponent<
     const prefixCls = computed(() => configContext.value?.getPrefixCls('alert', props.prefixCls))
     const closed = shallowRef(false)
     const internalRef = shallowRef<HTMLDivElement>()
-    const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls.value)
+    const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls)
     const handleClose = (e?: MouseEvent) => {
       closed.value = true
       emit('close', e)
@@ -188,8 +188,8 @@ const Alert = defineComponent<
         },
         configContext.value?.class,
         rootClass,
-        cssVarCls,
-        hashId,
+        cssVarCls.value,
+        hashId.value,
       )
       const mergedCloseIconFn = () => {
         if (typeof closable === 'object' && closable.closeIcon) {
