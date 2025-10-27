@@ -7,6 +7,8 @@ import type { ComponentBaseProps } from '../config-provider/context.ts'
 import { classNames } from '@v-c/util'
 import { computed, defineComponent, getCurrentInstance, shallowRef } from 'vue'
 import { isPresetColor, isPresetStatusColor } from '../_util/colors.ts'
+import useClosable, { pickClosable } from '../_util/hooks/useClosable.tsx'
+import { replaceElement } from '../_util/vueNode.ts'
 import { useConfig } from '../config-provider/context.ts'
 import CheckableTag from './CheckableTag.tsx'
 import useStyle from './style'
@@ -61,6 +63,30 @@ const InternalTag = defineComponent<
       e.stopPropagation()
       emit('close', e)
     }
+
+    const closableInfo = useClosable(
+      pickClosable(computed(() => props as unknown as any)) as any,
+      pickClosable(computed(() => configContext.value.tag as any)) as any,
+      computed(() => {
+        return {
+          closable: false,
+          closeIconRender(iconNode) {
+            const replacement = (
+              <span class={`${prefixCls.value}-close-icon`} onClick={handleCloseClick}>{iconNode}</span>
+            )
+            return replaceElement(iconNode, replacement, (originProps) => {
+              return {
+                onClick(e: MouseEvent) {
+                  originProps?.onClick(e)
+                  handleInternalClick(e)
+                },
+                class: classNames(originProps?.class, `${prefixCls.value}-close-icon`),
+              }
+            })
+          },
+        }
+      }),
+    )
 
     return () => {
       const {

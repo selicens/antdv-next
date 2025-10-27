@@ -1,8 +1,8 @@
-import type { AriaAttributes, VNodeChild } from 'vue'
+import type { AriaAttributes, Ref, VNodeChild } from 'vue'
 import type { RenderNodeFn, VueNode } from '../type.ts'
 import { CloseOutlined } from '@antdv-next/icons'
 import pickAttrs from '@v-c/util/dist/pickAttrs'
-import { cloneVNode, computed, isVNode } from 'vue'
+import { cloneVNode, computed, isVNode, ref } from 'vue'
 import extendsObject from '../extendsObject'
 import { getVNode } from '../vueNode.ts'
 
@@ -18,12 +18,14 @@ export interface BaseContextClosable {
 
 export type ContextClosable<T extends BaseContextClosable = any> = Partial<Pick<T, 'closable' | 'closeIcon'>>
 
-export function pickClosable<T extends BaseContextClosable>(context: ContextClosable<T>): ContextClosable<T> | undefined {
-  if (!context) {
-    return undefined
-  }
-  const { closable, closeIcon } = context
-  return { closable, closeIcon }
+export function pickClosable<T extends BaseContextClosable>(context: Ref<ContextClosable<T>>): Ref<ContextClosable<T> | undefined> {
+  return computed(() => {
+    if (!context.value) {
+      return undefined
+    }
+    const { closable, closeIcon } = context.value
+    return { closable, closeIcon }
+  })
 }
 
 /** Collection contains the all the props related with closable. e.g. `closable`, `closeIcon` */
@@ -50,9 +52,9 @@ export interface UseClosableParams {
 }
 
 /** Convert `closable` and `closeIcon` to config object */
-function useClosableConfig(closableCollection?: ClosableCollection | null) {
+function useClosableConfig(closableCollection?: Ref<ClosableCollection | null>) {
   return computed(() => {
-    const { closable, closeIcon } = closableCollection ?? {}
+    const { closable, closeIcon } = closableCollection?.value ?? {}
     if (!closable && (closable === false || closeIcon === false || closeIcon === null)) {
       // TODO
       return false
@@ -77,9 +79,9 @@ function useClosableConfig(closableCollection?: ClosableCollection | null) {
 const EmptyFallbackCloseCollection: FallbackCloseCollection = {}
 
 export default function useClosable(
-  propCloseCollection?: ClosableCollection,
-  contextCloseCollection?: ClosableCollection | null,
-  fallbackCloseCollection: FallbackCloseCollection = EmptyFallbackCloseCollection,
+  propCloseCollection?: Ref<ClosableCollection>,
+  contextCloseCollection?: Ref<ClosableCollection | null>,
+  fallbackCloseCollection: Ref<FallbackCloseCollection> = ref(EmptyFallbackCloseCollection),
 ) {
   // Align the `props`, `context` `fallback` to config object first
   const propCloseConfig = useClosableConfig(propCloseCollection)
@@ -94,7 +96,7 @@ export default function useClosable(
   const mergedFallbackCloseCollection = computed(() => {
     return {
       closeIcon: <CloseOutlined />,
-      ...fallbackCloseCollection,
+      ...fallbackCloseCollection.value,
     }
   })
 
