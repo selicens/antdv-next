@@ -53,13 +53,13 @@
 
 这些是最基础的布局组件，几乎所有项目都需要：
 
-1. **grid** - 栅格系统
-2. **row** - 行组件
-3. **col** - 列组件
-4. **layout** - 布局组件
-5. **space** - 间距组件
-6. **flex** - 弹性布局
-7. **divider** - 分割线
+1. **grid** - 栅格系统 ✅
+2. **row** - 行组件 ✅
+3. **col** - 列组件 ✅
+4. **layout** - 布局组件 ✅
+5. **space** - 间距组件 ✅
+6. **flex** - 弹性布局 ✅
+7. **divider** - 分割线 ✅
 
 **开发顺序**: grid → row/col (并行) → layout → space → flex → divider
 
@@ -75,13 +75,13 @@
 
 常用的展示类组件：
 
-1. **button** - 按钮 (最常用)
-2. **icon** - 图标
+1. **button** - 按钮 (最常用) ✅
+2. **icon** - 图标   ✅
 3. **typography** - 排版 (需要简化版，暂时不依赖 rc-textarea)
 4. **badge** - 徽标数
-5. **tag** - 标签
-6. **alert** - 警告提示
-7. **empty** - 空状态
+5. **tag** - 标签  ✅
+6. **alert** - 警告提示  ✅
+7. **empty** - 空状态 
 8. **result** - 结果页
 
 **开发顺序**: icon → button → badge → tag → alert → empty → result → typography(简化版)

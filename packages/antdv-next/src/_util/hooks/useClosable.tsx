@@ -4,6 +4,8 @@ import { CloseOutlined } from '@antdv-next/icons'
 import pickAttrs from '@v-c/util/dist/pickAttrs'
 import { filterEmpty } from '@v-c/util/dist/props-util'
 import { computed, createVNode, isVNode, ref } from 'vue'
+import defaultLocale from '../../locale/en_US'
+import useLocale from '../../locale/useLocale.ts'
 import extendsObject from '../extendsObject'
 import { getVNode } from '../vueNode.ts'
 
@@ -88,9 +90,7 @@ export default function useClosable(
   const propCloseConfig = useClosableConfig(propCloseCollection)
   const contextCloseConfig = useClosableConfig(contextCloseCollection)
   // 预留的多语言的部分
-  const contextLocale = {
-    close: '关闭',
-  }
+  const [contextLocale] = useLocale('global', defaultLocale.global)
   const closeBtnIsDisabled = computed(() => {
     return typeof propCloseConfig.value !== 'boolean' ? !!propCloseConfig.value?.disabled : false
   })
@@ -148,10 +148,10 @@ export default function useClosable(
       mergedCloseIcon = isVNode(mergedCloseIcon)
         ? createVNode(mergedCloseIcon, {
             ...mergedCloseIcon.props,
-            'aria-label': mergedCloseIcon.props?.['aria-label'] ?? contextLocale.close,
+            'aria-label': mergedCloseIcon.props?.['aria-label'] ?? contextLocale?.value?.close,
             ...ariaOrDataProps,
           })
-        : (<span aria-label={contextLocale.close} {...ariaOrDataProps}>{mergedCloseIcon}</span>)
+        : (<span aria-label={contextLocale?.value?.close} {...ariaOrDataProps}>{mergedCloseIcon}</span>)
       return [true, mergedCloseIcon, closeBtnIsDisabled.value, ariaOrDataProps]
     }
   })

@@ -1,3 +1,4 @@
+import type { Locale } from '../locale'
 import type {
   ComponentStyleConfig,
   CSPConfig,
@@ -28,7 +29,7 @@ export interface ConfigProviderProps {
    * @descCN 语言包配置，语言包可到 `antd/locale` 目录下寻找。
    * @descEN Language package setting, you can find the packages in `antd/locale`.
    */
-  // locale?: Locale
+  locale?: Locale
   componentSize?: SizeType
   componentDisabled?: boolean
   /**

@@ -1,10 +1,12 @@
 import type { App, SlotsType, VNodeChild } from 'vue'
+import type { Locale } from '../locale'
 import type { ConfigConsumerProps, Theme, ThemeConfig } from './context'
 import type { ConfigProviderEmits, ConfigProviderProps, ConfigProviderSlots } from './define'
 import { createTheme, useStyleContext } from '@antdv-next/cssinjs'
 import { IconContextProvider } from '@antdv-next/icons'
 import defu from 'defu'
 import { computed, defineComponent } from 'vue'
+import { ANT_MARK, LocaleProvider, useLocaleContext } from '../locale'
 import { defaultTheme, DesignTokenProvider } from '../theme/context.ts'
 import defaultSeedToken from '../theme/themes/seed'
 import { defaultIconPrefixCls, defaultPrefixCls, useConfig, useConfigProvider } from './context'
@@ -17,7 +19,7 @@ export type { CSPConfig } from './context'
 
 interface ProviderChildrenProps extends ConfigProviderProps {
   parentContext: ConfigConsumerProps
-  // legacyLocale: Locale;
+  legacyLocale?: Locale
 }
 
 // These props is used by `useContext` directly in sub component
@@ -119,6 +121,7 @@ const ProviderChildren = defineComponent<
         getPrefixCls,
         theme: mergedTheme.value,
         direction: props.direction,
+        locale: props.locale || props.legacyLocale,
         space: props.space,
       } as ConfigConsumerProps
       const config = defu(parentConfig, baseConfig)
@@ -185,6 +188,15 @@ const ProviderChildren = defineComponent<
     useConfigProvider(memoedConfig)
     return () => {
       let childNode = slots?.default?.()
+
+      if (props.locale) {
+        childNode = (
+          <LocaleProvider locale={props.locale} _ANT_MARK__={ANT_MARK}>
+            {childNode}
+          </LocaleProvider>
+        )
+      }
+
       if (iconPrefixCls.value || csp.value) {
         childNode = <IconContextProvider {...memoIconContextValue.value}>{childNode}</IconContextProvider>
       }
@@ -217,8 +229,16 @@ const ConfigProvider = defineComponent<
 >(
   (props = providerDefaultProps, { slots }) => {
     const context = useConfig()
+    const { locale } = useLocaleContext() ?? { }
     return () => {
-      return <ProviderChildren parentContext={context.value} {...props} v-slots={slots} />
+      return (
+        <ProviderChildren
+          parentContext={context.value}
+          {...props}
+          legacyLocale={locale?.value}
+          v-slots={slots}
+        />
+      )
     }
   },
   {

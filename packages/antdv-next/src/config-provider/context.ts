@@ -1,10 +1,11 @@
 import type { DerivativeFunc } from '@antdv-next/cssinjs'
 import type { CSSProperties, InjectionKey, Ref } from 'vue'
 import type { ShowWaveEffect } from '../_util/wave/interface.ts'
-import type { AlertProps } from '../alert/Alert.tsx'
+import type { AlertProps } from '../alert'
 import type { BadgeProps } from '../badge'
 import type { ButtonProps } from '../button'
-import type { FlexProps } from '../flex/interface.ts'
+import type { FlexProps } from '../flex'
+import type { Locale } from '../locale'
 import type { SpaceProps } from '../space'
 import type { TagProps } from '../tag'
 import type { AliasToken, MapToken, OverrideToken, SeedToken } from '../theme/interface'
@@ -186,7 +187,7 @@ export interface ConfigConsumerProps extends ConfigComponentProps {
   autoInsertSpaceInButton?: boolean
   // variant?: Variant
   virtual?: boolean
-  // locale?: Locale
+  locale?: Locale
   direction?: DirectionType
   popupMatchSelectWidth?: boolean
   // popupOverflow?: PopupOverflow

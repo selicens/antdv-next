@@ -8,6 +8,7 @@ export default antfu({
     'jsdoc/empty-tags': 0,
     'node/prefer-global/process': 0,
     'regexp/no-unused-capturing-group': 0,
+    'no-template-curly-in-string': 0,
   },
 }, {
   ignores: [
