@@ -31,13 +31,15 @@ export interface DescriptionsItemType extends Omit<DescriptionsItemProps, 'prefi
   key?: Key
 }
 
+export type RenderDescriptionsItem = (params: { item: InternalDescriptionsItemType, index: number, value: any }) => any
+
 export interface DescriptionsProps extends ComponentBaseProps {
   bordered?: boolean
   size?: 'middle' | 'small' | 'default'
   title?: VueNode
   extra?: VueNode
-  labelRender?: VueNode<[item: DescriptionsItemType, index: number]>
-  contentRender?: VueNode<[item: DescriptionsItemType, index: number]>
+  labelRender?: RenderDescriptionsItem
+  contentRender?: RenderDescriptionsItem
   column?: number | Partial<Record<Breakpoint, number>>
   layout?: 'horizontal' | 'vertical'
   colon?: boolean
@@ -54,8 +56,8 @@ const defaults = {
 export interface DescriptionsSlots {
   title?: () => any
   extra?: () => any
-  labelRender?: (item: DescriptionsItemType, index: number) => any
-  contentRender?: (item: DescriptionsItemType, index: number) => any
+  labelRender?: RenderDescriptionsItem
+  contentRender?: RenderDescriptionsItem
 }
 
 const Descriptions = defineComponent<
@@ -108,7 +110,8 @@ const Descriptions = defineComponent<
       const contextStyles = compCtx.value?.styles
       const title = getSlotPropsFnRun(slots, props, 'title')
       const extra = getSlotPropsFnRun(slots, props, 'extra')
-
+      const labelRender = slots?.labelRender ?? props?.labelRender
+      const contentRender = slots?.contentRender ?? props?.contentRender
       return wrapCSSVar(
         <div
           class={classNames(
@@ -176,6 +179,8 @@ const Descriptions = defineComponent<
                     <Row
                       key={index}
                       index={index}
+                      labelRender={labelRender}
+                      contentRender={contentRender}
                       colon={!!colon}
                       prefixCls={prefixCls.value}
                       vertical={layout === 'vertical'}

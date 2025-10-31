@@ -1,8 +1,10 @@
 import type { SlotsType } from 'vue'
 import type { EmptyEmit } from '../_util/type.ts'
 import type { DescriptionsContextProps } from './DescriptionsContext.ts'
-import type { InternalDescriptionsItemType } from './index.tsx'
+import type { InternalDescriptionsItemType, RenderDescriptionsItem } from './index.tsx'
+import { filterEmpty } from '@v-c/util/dist/props-util'
 import { defineComponent } from 'vue'
+import { getSlotPropsFnRun } from '../_util/tools.ts'
 import Cell from './Cell.tsx'
 import { useDescriptionsCtx } from './DescriptionsContext.ts'
 
@@ -14,7 +16,7 @@ interface CellConfig {
 }
 function renderCells(
   items: InternalDescriptionsItemType[],
-  { colon, prefixCls, bordered }: RowProps,
+  { colon, prefixCls, bordered, labelRender, contentRender }: RowProps,
   {
     component,
     type,
@@ -25,15 +27,30 @@ function renderCells(
 ) {
   return items.map((item, index) => {
     const {
-      label,
-      children,
       prefixCls: itemPrefixCls = prefixCls,
       span = 1,
       key,
       styles,
       style,
     } = item
+    let label = getSlotPropsFnRun({}, item, 'label')
+    let children = getSlotPropsFnRun({}, item, 'children')
+
     const className = item.class
+    if (labelRender) {
+      const _oldLabel = label
+      label = labelRender({ item, index, value: label }) ?? label
+      const arrLabel = Array.isArray(label) ? label : [label]
+      const _label = filterEmpty(arrLabel)
+      label = _label.length > 0 ? _label : _oldLabel
+    }
+    if (contentRender) {
+      const _oldChild = children
+      children = contentRender({ item, index, value: children }) ?? children
+      const arrChild = Array.isArray(children) ? children : [children]
+      const _child = filterEmpty(arrChild)
+      children = _child.length > 0 ? _child : _oldChild
+    }
 
     if (typeof component === 'string') {
       return (
@@ -106,6 +123,8 @@ export interface RowProps {
   bordered?: boolean
   colon: boolean
   index: number
+  labelRender?: RenderDescriptionsItem
+  contentRender?: RenderDescriptionsItem
 }
 
 export interface RowSlots {

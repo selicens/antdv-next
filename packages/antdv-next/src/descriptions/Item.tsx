@@ -6,11 +6,11 @@ import type { ComponentBaseProps } from '../config-provider/context.ts'
 type SemanticName = 'label' | 'content'
 
 export interface DescriptionsItemProps extends ComponentBaseProps {
-  class: string
-  style: CSSProperties
+  class?: string
+  style?: CSSProperties
   label?: VueNode
   styles?: Partial<Record<SemanticName, CSSProperties>>
   classes?: Partial<Record<SemanticName, string>>
-  children: VueNode
+  children?: VueNode
   span?: number | 'filled' | { [key in Breakpoint]?: number }
 }
