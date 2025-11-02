@@ -1,4 +1,4 @@
-import type { VNodeChild } from 'vue'
+import type { CSSProperties, VNodeChild } from 'vue'
 import { cloneVNode, createVNode, Fragment, isVNode, Text } from 'vue'
 import { PresetColors } from '../theme/interface'
 
@@ -8,7 +8,12 @@ export function isUnBorderedButtonVariant(type?: ButtonVariantType) {
   return type === 'text' || type === 'link'
 }
 
-function splitCNCharsBySpace(child: VNodeChild, needInserted: boolean): VNodeChild {
+function splitCNCharsBySpace(
+  child: VNodeChild,
+  needInserted: boolean,
+  style?: CSSProperties,
+  className?: string,
+): VNodeChild {
   if (child === null || child === undefined) {
     return child
   }
@@ -18,22 +23,25 @@ function splitCNCharsBySpace(child: VNodeChild, needInserted: boolean): VNodeChi
   if (typeof child === 'string' || typeof child === 'number') {
     const text = String(child)
     const content = isTwoCNChar(text) ? text.split('').join(SPACE) : text
-    return createVNode('span', null, content)
+    return createVNode('span', {
+      class: className,
+      style,
+    }, content)
   }
 
   if (isVNode(child)) {
     if (child.type === Text) {
       const text = String(child.children ?? '')
       const content = isTwoCNChar(text) ? text.split('').join(SPACE) : text
-      return createVNode('span', { key: (child as any).key }, content)
+      return createVNode('span', { key: (child as any).key, class: className, style }, content)
     }
 
     if (child.type === Fragment) {
-      return createVNode('span', { key: (child as any).key }, child.children)
+      return createVNode('span', { key: (child as any).key, class: className, style }, child.children)
     }
 
     if (typeof child.type === 'string' && typeof child.children === 'string' && isTwoCNChar(child.children)) {
-      return cloneVNode(child, null, (child as any).children?.split('')?.join?.(SPACE))
+      return cloneVNode(child, { class: className, style }, (child as any).children?.split('')?.join?.(SPACE))
     }
 
     return child
@@ -66,7 +74,12 @@ function getChildText(child: VNodeChild): string {
   return ''
 }
 
-export function spaceChildren(children: VNodeChild[], needInserted: boolean): VNodeChild[] {
+export function spaceChildren(
+  children: VNodeChild[],
+  needInserted: boolean,
+  style?: CSSProperties,
+  className?: string,
+): VNodeChild[] {
   const childList: VNodeChild[] = []
   let isPrevChildPure = false
 
@@ -92,7 +105,7 @@ export function spaceChildren(children: VNodeChild[], needInserted: boolean): VN
     isPrevChildPure = isCurrentChildPure
   })
 
-  return childList.map(item => splitCNCharsBySpace(item, needInserted))
+  return childList.map(item => splitCNCharsBySpace(item, needInserted, style, className))
 }
 
 const _ButtonTypes = ['default', 'primary', 'dashed', 'link', 'text'] as const

@@ -1,4 +1,5 @@
-import type { App, CSSProperties, SlotsType } from 'vue'
+import type { App, SlotsType } from 'vue'
+import type { SemanticClassNamesType, SemanticStylesType } from '../_util/hooks'
 import type { RenderNodeFn } from '../_util/type.ts'
 import type { ComponentBaseProps } from '../config-provider/context.ts'
 import type { SizeType } from '../config-provider/SizeContext'
@@ -8,9 +9,14 @@ import { filterEmpty } from '@v-c/util/dist/props-util'
 import { omit } from 'es-toolkit'
 import { toArray } from 'es-toolkit/compat'
 import { computed, defineComponent, nextTick, onBeforeUnmount, onMounted, shallowRef, watch } from 'vue'
-import { getSlotPropsFnRun } from '../_util/tools.ts'
+import {
+  useMergeSemantic,
+  useToArr,
+  useToProps,
+} from '../_util/hooks'
+import { getSlotPropsFnRun, toPropsRefs } from '../_util/tools'
 import Wave from '../_util/wave'
-import { useComponentConfig, useConfig } from '../config-provider/context.ts'
+import { useComponentBaseConfig } from '../config-provider/context.ts'
 import { useDisabledContext } from '../config-provider/DisabledContext.tsx'
 import { useSize } from '../config-provider/hooks/useSize.ts'
 import { useCompactItemContext } from '../space/Compact.tsx'
@@ -26,6 +32,12 @@ import CompactStyle from './style/compact.ts'
 
 export type LegacyButtonType = ButtonType | 'danger'
 
+export type ButtonSemanticName = 'root' | 'icon' | 'content'
+
+export type ButtonClassNamesType = SemanticClassNamesType<BaseButtonProps, ButtonSemanticName>
+
+export type ButtonStylesType = SemanticStylesType<BaseButtonProps, ButtonSemanticName>
+
 export interface BaseButtonProps extends ComponentBaseProps {
   type?: ButtonType
   color?: ButtonColorType
@@ -40,9 +52,14 @@ export interface BaseButtonProps extends ComponentBaseProps {
   danger?: boolean
   block?: boolean
   [key: `data-${string}`]: string
-  classes?: { icon: string }
-  styles?: { icon: CSSProperties }
+  classes?: ButtonClassNamesType
+  styles?: ButtonStylesType
   autoFocus?: boolean
+  // FloatButton reuse the Button as sub component,
+  // But this should not consume context semantic classNames and styles.
+  // Use props here to avoid context solution cost for normal usage.
+  /** @private Only for internal usage. Do not use in your production */
+  _skipSemantic?: boolean
 }
 
 export interface ButtonProps extends BaseButtonProps {
@@ -112,14 +129,34 @@ const InternalCompoundedButton = defineComponent<
     // https://github.com/ant-design/ant-design/issues/47605
     // Compatible with original `type` behavior
     const mergedType = computed(() => props.type || 'default')
-    const configCtx = useConfig()
+    const {
+      prefixCls,
+      direction,
+      class: contextClassName,
+      style: contextStyle,
+      classes: contextClassNames,
+      styles: contextStyles,
+      ...button
+    } = useComponentBaseConfig('button', props, ['autoInsertSpace', 'variant', 'shape', 'color'], 'btn')
+    const { classes, styles } = toPropsRefs(props, 'classes', 'styles')
+    // =========== Merged Props for Semantic ===========
+    const mergedProps = computed(() => props)
+    // ========================= Style ==========================
+    const [mergedClassNames, mergedStyles] = useMergeSemantic<
+      ButtonClassNamesType,
+      ButtonStylesType,
+      ButtonProps
+    >(
+      useToArr(...(props._skipSemantic ? [] : [contextClassNames, classes])),
+      useToArr(...(props._skipSemantic ? [] : [contextStyles, styles])),
+      useToProps(mergedProps),
+    )
 
-    const shape = computed(() => props.shape || configCtx.value?.button?.shape || 'default')
+    const shape = computed(() => props.shape || button?.shape.value || 'default')
 
     const mergedColorVariant = computed<ColorVariantPairType>(
       () => {
         const { color, variant, type, danger } = props
-        const button = configCtx.value?.button || {}
         // >>>>> Local
         // Color & Variant
         if (color && variant) {
@@ -134,8 +171,8 @@ const InternalCompoundedButton = defineComponent<
           return colorVariantPair
         }
         // >>> Context fallback
-        if (button?.color && button?.variant) {
-          return [button.color, button.variant]
+        if (button?.color?.value && button?.variant?.value) {
+          return [button.color.value, button.variant.value]
         }
         return ['default', 'outlined']
       },
@@ -144,17 +181,14 @@ const InternalCompoundedButton = defineComponent<
     const mergedVariant = computed(() => mergedColorVariant.value[1])
     const isDanger = computed(() => mergedColor.value === 'danger')
     const mergedColorText = computed(() => isDanger.value ? 'dangerous' : mergedColor.value)
-    const componentCtx = useComponentConfig('button')
     const mergedInsertSpace = computed(() => {
-      return props?.autoInsertSpace ?? componentCtx.value?.autoInsertSpace ?? true
+      return props?.autoInsertSpace ?? button.autoInsertSpace?.value ?? true
     })
-    const prefixCls = computed(() => componentCtx.value.getPrefixCls('btn', props.prefixCls))
     const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls)
     const disabled = useDisabledContext()
     const mergedDisabled = computed(() => {
       return props?.disabled ?? disabled.value
     })
-    const direction = computed(() => componentCtx.value?.direction)
 
     const loadingOrDelay = computed<LoadingConfigType>(() => {
       return getLoadingConfig(props.loading)
@@ -198,27 +232,31 @@ const InternalCompoundedButton = defineComponent<
       },
     )
 
-    watch([mergedInsertSpace, buttonRef, mergedVariant], async () => {
-      await nextTick()
-      // FIXME: for HOC usage like <FormatMessage />
-      if (!buttonRef.value || !mergedInsertSpace.value) {
-        return
-      }
-      const buttonText = buttonRef.value.textContent || ''
-      const children = filterEmpty(slots?.default?.())
-      const iconChildren = toArray(getSlotPropsFnRun(slots, props, 'icon')?.())
-      const needInserted = children.length === 1 && iconChildren.length === 0 && !isUnBorderedButtonVariant(mergedVariant.value)
-      if (needInserted && isTwoCNChar(buttonText.trim())) {
-        if (!hasTwoCNChar.value) {
-          hasTwoCNChar.value = true
+    watch(
+      [mergedInsertSpace, buttonRef, mergedVariant],
+      async () => {
+        await nextTick()
+        // FIXME: for HOC usage like <FormatMessage />
+        if (!buttonRef.value || !mergedInsertSpace.value) {
+          return
         }
-      }
-      else if (hasTwoCNChar.value) {
-        hasTwoCNChar.value = false
-      }
-    }, {
-      immediate: true,
-    })
+        const buttonText = buttonRef.value.textContent || ''
+        const children = filterEmpty(slots?.default?.())
+        const iconChildren = toArray(getSlotPropsFnRun(slots, props, 'icon'))
+        const needInserted = children.length === 1 && iconChildren.length === 0 && !isUnBorderedButtonVariant(mergedVariant.value)
+        if (needInserted && isTwoCNChar(buttonText.trim())) {
+          if (!hasTwoCNChar.value) {
+            hasTwoCNChar.value = true
+          }
+        }
+        else if (hasTwoCNChar.value) {
+          hasTwoCNChar.value = false
+        }
+      },
+      {
+        immediate: true,
+      },
+    )
 
     // ========================= Events =========================
     const handleClick = (e: MouseEvent) => {
@@ -245,7 +283,12 @@ const InternalCompoundedButton = defineComponent<
       const children = filterEmpty(slots?.default?.())
       const needInserted = children.length === 1 && !hasIcon && !isUnBorderedButtonVariant(mergedVariant.value)
       const kids = children.length
-        ? spaceChildren(children, needInserted && mergedInsertSpace.value)
+        ? spaceChildren(
+            children,
+            needInserted && mergedInsertSpace.value,
+            mergedStyles.value.content,
+            mergedClassNames.value.content,
+          )
         : null
 
       const cls = classNames(
@@ -270,11 +313,17 @@ const InternalCompoundedButton = defineComponent<
           [`${prefixCls.value}-icon-end`]: props.iconPlacement === 'end',
         },
         compactItemClassnames.value,
-        componentCtx.value.class,
+        (attrs as any).class,
         props.rootClass,
+        contextClassName.value,
+        mergedClassNames.value.root,
       )
-      const iconClasses = classNames(componentCtx.value.classes?.icon, props.classes?.icon)
-      const iconStyle = [componentCtx.value.styles?.icon, props.styles?.icon]
+
+      const fullStyle: any[] = [
+        mergedStyles.value.root,
+        contextStyle.value,
+        (attrs as any).style,
+      ]
       let loadingIconNode = null
       const iconNodes = filterEmpty(slots?.loadingIcon?.())
       if (iconNodes.length) {
@@ -285,12 +334,15 @@ const InternalCompoundedButton = defineComponent<
           ? (typeof loading.icon === 'function' ? loading.icon() : loading.icon)
           : null
       }
+      const iconSharedProps = {
+        class: mergedClassNames.value.icon,
+        style: mergedStyles.value.icon,
+      }
       const iconNode = hasIcon && !innerLoading.value
         ? (
             <IconWrapper
               prefixCls={prefixCls.value}
-              class={iconClasses}
-              style={iconStyle}
+              {...iconSharedProps}
             >
               {iconChildren}
             </IconWrapper>
@@ -299,8 +351,7 @@ const InternalCompoundedButton = defineComponent<
             ? (
                 <IconWrapper
                   prefixCls={prefixCls.value}
-                  class={iconClasses}
-                  style={iconStyle}
+                  {...iconSharedProps}
                 >
                   {loadingIconNode}
                 </IconWrapper>
@@ -311,10 +362,10 @@ const InternalCompoundedButton = defineComponent<
                   prefixCls={prefixCls.value}
                   loading={innerLoading.value}
                   mount={isMountRef.value}
+                  {...iconSharedProps}
                 />
               )
           )
-      const mergedStyle = [componentCtx.value.style]
       const mergedHref = props.href
       const htmlType = props.htmlType ?? 'button'
 
@@ -323,8 +374,8 @@ const InternalCompoundedButton = defineComponent<
           <a
             {...omit(attrs, ['class', 'style'])}
             ref={buttonRef as any}
-            class={[cls, { [`${prefixCls.value}-disabled`]: mergedDisabled.value }, attrs.class]}
-            style={[mergedStyle, (attrs as any).style]}
+            class={[cls, { [`${prefixCls.value}-disabled`]: mergedDisabled.value }]}
+            style={fullStyle}
             href={mergedDisabled.value ? undefined : mergedHref}
             onClick={handleClick}
             aria-disabled={mergedDisabled.value}
@@ -340,8 +391,8 @@ const InternalCompoundedButton = defineComponent<
           {...omit(attrs, ['class', 'style'])}
           ref={buttonRef as any}
           type={htmlType}
-          class={[cls, attrs.class]}
-          style={[mergedStyle, (attrs as any).style]}
+          class={cls}
+          style={fullStyle}
           onClick={handleClick}
           disabled={mergedDisabled.value}
         >

@@ -1,9 +1,9 @@
 import type { App, Plugin } from 'vue'
 import * as components from './components'
 
-export * from './components'
+export { useResponsive } from './_util/hooks/useResponsive'
 let prefix = 'A'
-export { useBreakpoint } from './grid'
+export * from './components'
 export default {
   setPrefix(newPrefix: string) {
     prefix = newPrefix
@@ -18,5 +18,7 @@ export default {
     })
   },
 } as Plugin
+
+export { useBreakpoint } from './grid'
 
 export { default as theme } from './theme'

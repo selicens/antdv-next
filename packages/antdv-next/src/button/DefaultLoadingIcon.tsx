@@ -32,7 +32,7 @@ export interface DefaultLoadingIconProps {
 }
 
 const DefaultLoadingIcon = defineComponent<DefaultLoadingIconProps>(
-  (props) => {
+  (props, { attrs }) => {
     function onBeforeEnter(el: Element) {
       const element = el as HTMLElement
       element.style.width = '0px'
@@ -70,7 +70,7 @@ const DefaultLoadingIcon = defineComponent<DefaultLoadingIconProps>(
       const visible = !!loading
 
       if (existIcon) {
-        return <InnerLoadingIcon prefixCls={prefixCls} />
+        return <InnerLoadingIcon prefixCls={prefixCls} {...attrs} />
       }
       return (
         <Transition
@@ -81,7 +81,7 @@ const DefaultLoadingIcon = defineComponent<DefaultLoadingIconProps>(
           onBeforeLeave={onBeforeLeave}
           onLeave={onLeave}
         >
-          {visible ? <InnerLoadingIcon prefixCls={prefixCls} /> : null}
+          {visible ? <InnerLoadingIcon prefixCls={prefixCls} {...attrs} /> : null}
         </Transition>
 
       )

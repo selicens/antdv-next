@@ -1,18 +1,11 @@
 <script setup lang="ts">
-import type { SizeType } from 'antdv-next/src/config-provider/SizeContext.tsx'
-import { shallowRef } from 'vue'
+import { useResponsive } from 'antdv-next'
 
-const size = shallowRef<SizeType>('middle')
-function change() {
-  size.value === 'middle' ? size.value = 'small' : size.value = 'middle'
-}
+const { xl } = useResponsive()
 </script>
 
 <template>
-  <a-button @click="change">
-    Change
-  </a-button>
-  <a-config-provider :component-size="size">
+  <a-config-provider :component-size="xl ? 'middle' : 'small'">
     <a-flex vertical gap="small">
       <a-flex gap="small" wrap>
         <a-button color="default" variant="solid">
