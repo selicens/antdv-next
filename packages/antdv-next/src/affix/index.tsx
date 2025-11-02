@@ -2,8 +2,9 @@ import type { App, CSSProperties } from 'vue'
 import type throttleByAnimationFrame from '../_util/throttleByAnimationFrame'
 import type { ComponentBaseProps } from '../config-provider/context'
 import { classNames } from '@v-c/util'
-import { useResizeObserver } from '@vueuse/core'
-import { computed, defineComponent, onBeforeUnmount, onMounted, shallowRef, watch } from 'vue'
+import { filterEmpty } from '@v-c/util/dist/props-util'
+import { unrefElement, useResizeObserver } from '@vueuse/core'
+import { computed, createVNode, defineComponent, isVNode, onBeforeUnmount, onMounted, shallowRef, watch } from 'vue'
 import throttleByAnimationFrameFn from '../_util/throttleByAnimationFrame'
 import { useConfig } from '../config-provider/context'
 import useStyle from './style'
@@ -75,6 +76,7 @@ export const Affix = defineComponent<InternalAffixProps, AffixEmits, string>(
 
     const placeholderNodeRef = shallowRef<HTMLDivElement>()
     const fixedNodeRef = shallowRef<HTMLDivElement>()
+    const contextRef = shallowRef<HTMLElement>()
     const timer = shallowRef<ReturnType<typeof setTimeout> | null>(null)
 
     const targetFunc = computed(() => props.target ?? configContext.value.getTargetContainer ?? getDefaultTarget)
@@ -114,7 +116,6 @@ export const Affix = defineComponent<InternalAffixProps, AffixEmits, string>(
         const targetRect = getTargetRect(targetNode)
         const fixedTop = getFixedTop(placeholderRect, targetRect, internalOffsetTop.value)
         const fixedBottom = getFixedBottom(placeholderRect, targetRect, props.offsetBottom)
-
         if (fixedTop !== undefined) {
           newState.affixStyle = {
             position: 'fixed',
@@ -250,7 +251,8 @@ export const Affix = defineComponent<InternalAffixProps, AffixEmits, string>(
     useResizeObserver(placeholderNodeRef, () => {
       updatePosition()
     })
-    useResizeObserver(fixedNodeRef, () => {
+
+    useResizeObserver(contextRef, () => {
       updatePosition()
     })
 
@@ -265,12 +267,24 @@ export const Affix = defineComponent<InternalAffixProps, AffixEmits, string>(
       )
 
       const mergedCls = classNames({ [rootCls]: affixStyle.value })
-
+      const children = filterEmpty(slots?.default?.() ?? [])
+      const node = children?.[0]
+      let childNode: any = null
+      if (isVNode(node)) {
+        childNode = createVNode(node, {
+          ref: (el: any) => {
+            const _el = unrefElement(el)
+            if (_el) {
+              contextRef.value = _el as any
+            }
+          },
+        })
+      }
       return wrapCSSVar(
         <div {...attrs} ref={placeholderNodeRef}>
           {affixStyle.value && <div style={placeholderStyle.value} aria-hidden="true" />}
           <div class={mergedCls} ref={fixedNodeRef} style={affixStyle.value}>
-            {slots.default?.()}
+            {childNode}
           </div>
         </div>,
       )

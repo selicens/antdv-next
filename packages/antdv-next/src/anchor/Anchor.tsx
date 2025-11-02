@@ -1,5 +1,6 @@
 import type { Key } from '@v-c/util/dist/type'
 import type { App, SlotsType, VNodeChild } from 'vue'
+import type { SemanticClassNamesType, SemanticStylesType } from '../_util/hooks/useMergeSemantic.ts'
 import type { SlotsDefineType } from '../_util/type.ts'
 import type { AffixProps } from '../affix'
 import type { ComponentBaseProps } from '../config-provider/context'
@@ -9,9 +10,16 @@ import { filterEmpty } from '@v-c/util/dist/props-util'
 import scrollIntoView from 'scroll-into-view-if-needed'
 import { computed, defineComponent, nextTick, ref, shallowRef, watch, watchEffect } from 'vue'
 import getScroll from '../_util/getScroll'
+import {
+
+  useMergeSemantic,
+  useToArr,
+  useToProps,
+} from '../_util/hooks/useMergeSemantic.ts'
 import scrollTo from '../_util/scrollTo'
+import { clsx, toPropsRefs } from '../_util/tools.ts'
 import { Affix } from '../affix'
-import { useComponentConfig, useConfig } from '../config-provider/context'
+import { useComponentBaseConfig } from '../config-provider/context'
 import useCSSVarCls from '../config-provider/hooks/useCSSVarCls'
 import AnchorLink from './AnchorLink'
 import { useAnchorProvider } from './context.ts'
@@ -33,7 +41,13 @@ interface Section {
 
 export type AnchorDirection = 'vertical' | 'horizontal'
 
+export type SemanticName = 'root' | 'item' | 'title' | 'indicator'
+export type AnchorClassNamesType = SemanticClassNamesType<AnchorProps, SemanticName>
+export type AnchorStylesType = SemanticStylesType<AnchorProps, SemanticName>
+
 export interface AnchorProps extends ComponentBaseProps {
+  classes?: AnchorClassNamesType
+  styles?: AnchorStylesType
   offsetTop?: number
   bounds?: number
   affix?: boolean | Omit<AffixProps, 'offsetTop' | 'target'>
@@ -112,13 +126,20 @@ const Anchor = defineComponent<
     const wrapperRef = shallowRef<HTMLElement>()
     const spanLinkNode = shallowRef<HTMLSpanElement>()
     const animating = shallowRef(false)
-    const componentCtx = useComponentConfig('anchor')
-    const configCtx = useConfig()
-    const prefixCls = computed(() => componentCtx.value?.getPrefixCls('anchor', props.prefixCls))
+    const {
+      prefixCls,
+      direction,
+      class: contextClassName,
+      style: contextStyle,
+      classes: contextClassNames,
+      styles: contextStyles,
+      getTargetContainer,
+    } = useComponentBaseConfig('anchor', props)
+    const { direction: anchorDirection, classes, styles } = toPropsRefs(props, 'direction', 'classes', 'styles')
     const rootCls = useCSSVarCls(prefixCls)
     const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls, rootCls)
 
-    const getCurrentContainer = () => props?.getContainer?.() ?? configCtx.value?.getTargetContainer?.() ?? getDefaultContainer?.()
+    const getCurrentContainer = () => props?.getContainer?.() ?? getTargetContainer?.() ?? getDefaultContainer?.()
 
     const dependencyListItem = computed(() => JSON.stringify(links.value))
 
@@ -229,6 +250,23 @@ const Anchor = defineComponent<
       })
     }
 
+    // =========== Merged Props for Semantic ==========
+    const mergedProps = computed(() => {
+      return {
+        ...props,
+        direction: anchorDirection.value,
+      }
+    })
+    const [mergedClassNames, mergedStyles] = useMergeSemantic<
+      AnchorClassNamesType,
+      AnchorStylesType,
+      AnchorProps
+    >(
+      useToArr(contextClassNames, classes),
+      useToArr(contextStyles, styles),
+      useToProps(mergedProps),
+    )
+
     useAnchorProvider({
       unregisterLink,
       registerLink,
@@ -237,7 +275,9 @@ const Anchor = defineComponent<
         emit('click', e, link)
       },
       activeLink,
-      direction: computed(() => props.direction!),
+      classes: mergedClassNames,
+      styles: mergedStyles,
+      direction: anchorDirection,
     })
 
     watch(
@@ -270,33 +310,41 @@ const Anchor = defineComponent<
         immediate: true,
       },
     )
+
     return () => {
       const { rootClass, affix, showInkInFixed, offsetTop } = props
-      const wrapperClass = classNames(
+      const wrapperClass = clsx(
         hashId.value,
         cssVarCls.value,
         rootCls.value,
         rootClass,
         `${prefixCls.value}-wrapper`,
         {
-          [`${prefixCls.value}-horizontal`]: props.direction === 'horizontal',
-          [`${prefixCls.value}-rtl`]: componentCtx.value.direction === 'rtl',
+          [`${prefixCls.value}-wrapper-horizontal`]: anchorDirection.value === 'horizontal',
+          [`${prefixCls.value}-rtl`]: direction.value === 'rtl',
         },
-        componentCtx.value?.class,
+        (attrs as any).class,
+        contextClassName.value,
+        mergedClassNames.value?.root,
       )
 
       const anchorClass = classNames(prefixCls.value, {
         [`${prefixCls.value}-fixed`]: !affix && !showInkInFixed,
       })
-      const inkClass = classNames(`${prefixCls.value}-ink`, {
-        [`${prefixCls.value}-ink-visible`]: activeLink.value,
-      })
+      const inkClass = classNames(
+        `${prefixCls.value}-ink`,
+        mergedClassNames.value?.indicator,
+        {
+          [`${prefixCls.value}-ink-visible`]: activeLink.value,
+        },
+      )
 
       const wrapperStyle = [
         {
           maxHeight: offsetTop ? `calc(100vh - ${offsetTop}px)` : '100vh',
         },
-        componentCtx.value?.style,
+        mergedStyles.value.root,
+        contextStyle.value,
         (attrs as any).style,
       ]
 
@@ -311,7 +359,7 @@ const Anchor = defineComponent<
                   title={_item.length ? _item as any : item.title}
                   key={item.key}
                 >
-                  {props.direction === 'vertical' && createNestedLink(item.children)}
+                  {anchorDirection.value === 'vertical' && createNestedLink(item.children)}
                 </AnchorLink>
               )
             })
@@ -321,7 +369,7 @@ const Anchor = defineComponent<
       const anchorContent = (
         <div ref={wrapperRef} class={wrapperClass} style={wrapperStyle}>
           <div class={anchorClass}>
-            <span class={inkClass} ref={spanLinkNode} />
+            <span class={inkClass} ref={spanLinkNode} style={mergedStyles.value.indicator} />
             {createNestedLink(props.items)}
           </div>
         </div>

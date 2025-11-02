@@ -181,6 +181,10 @@ export function useToArr<T = any>(...args: Ref<T | undefined>[]) {
   return computed(() => args.map(unref))
 }
 
+export function useToProps<T>(props: Ref<T>) {
+  return computed(() => ({ props: props.value }))
+}
+
 interface RemoveBaseAttributesOptions {
   class: boolean
   style: boolean

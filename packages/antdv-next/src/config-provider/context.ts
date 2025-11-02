@@ -379,5 +379,8 @@ export function useComponentBaseConfig<
     prefixCls: computed(() => {
       return context.value?.getPrefixCls(propName ?? suffixCls, props?.prefixCls)
     }),
+    getPopupContainer: context.value.getPopupContainer,
+    getPrefixCls: context.value.getPrefixCls,
+    getTargetContainer: context.value.getTargetContainer,
   }
 }

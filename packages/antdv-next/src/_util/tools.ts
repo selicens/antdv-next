@@ -1,4 +1,5 @@
 import type { Ref } from 'vue'
+import { classNames } from '@v-c/util'
 import { filterEmpty } from '@v-c/util/dist/props-util'
 import { toRef } from 'vue'
 
@@ -37,3 +38,5 @@ export function toPropsRefs<T extends Record<string, any>, K extends keyof T>(ob
   })
   return _res as { [key in K]-?: Ref<T[key]> }
 }
+
+export const clsx = classNames

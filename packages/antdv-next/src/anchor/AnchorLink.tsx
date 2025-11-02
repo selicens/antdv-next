@@ -3,7 +3,7 @@ import type { ComponentBaseProps } from '../config-provider/context.ts'
 import { classNames } from '@v-c/util'
 import { computed, defineComponent, nextTick, watch } from 'vue'
 import { getSlotPropsFnRun } from '../_util/tools.ts'
-import { useConfig } from '../config-provider/context.ts'
+import { useBaseConfig } from '../config-provider/context.ts'
 import { useAnchorContext } from './context.ts'
 
 export interface AnchorLinkBaseProps extends ComponentBaseProps {
@@ -21,11 +21,13 @@ export interface AnchorLinkEmits {
 export type AnchorLinkProps = AnchorLinkBaseProps
 
 const AnchorLink = defineComponent<
-  AnchorLinkProps
+  AnchorLinkProps,
+  AnchorLinkEmits,
+  string
 >(
   (props, { slots, attrs }) => {
-    const { registerLink, direction, unregisterLink, activeLink, scrollTo, onClick } = useAnchorContext() ?? {}
-    const context = useConfig()
+    const { registerLink, direction, unregisterLink, activeLink, scrollTo, onClick, classes: mergedClassNames, styles: mergedStyles } = useAnchorContext() ?? {}
+    const { prefixCls } = useBaseConfig('anchor', props)
     watch(
       () => props.href,
       async (href, _, onCleanup) => {
@@ -41,7 +43,7 @@ const AnchorLink = defineComponent<
     )
 
     const handleClick = (e: MouseEvent) => {
-      const { title: _title, href, replace } = props
+      const { href, replace } = props
       const title = getSlotPropsFnRun(slots, props, 'title')
 
       onClick?.(e, { title, href })
@@ -63,23 +65,32 @@ const AnchorLink = defineComponent<
       const historyMethod = replace ? 'replaceState' : 'pushState'
       window.history[historyMethod](null, '', href)
     }
-    const prefixCls = computed(() => context.value.getPrefixCls('anchor', props.prefixCls))
     const active = computed(() => activeLink?.value === props.href)
     return () => {
       const { href, target } = props
-      const wrapperClassName = classNames(`${prefixCls.value}-link`, {
-        [`${prefixCls.value}-link-active`]: active.value,
-      })
+      const wrapperClassName = classNames(
+        `${prefixCls.value}-link`,
+        (attrs as any).class,
+        mergedClassNames?.value?.item,
+        {
+          [`${prefixCls.value}-link-active`]: active.value,
+        },
+      )
 
-      const titleClassName = classNames(`${prefixCls.value}-link-title`, {
-        [`${prefixCls.value}-link-title-active`]: active.value,
-      })
+      const titleClassName = classNames(
+        `${prefixCls.value}-link-title`,
+        mergedClassNames?.value?.title,
+        {
+          [`${prefixCls.value}-link-title-active`]: active.value,
+        },
+      )
       const title = getSlotPropsFnRun(slots, props, 'title')
 
       return (
-        <div class={[wrapperClassName, attrs.class]}>
+        <div class={[wrapperClassName]} style={mergedStyles?.value?.item}>
           <a
             class={titleClassName}
+            style={mergedStyles?.value?.title}
             href={href}
             title={typeof title === 'string' ? title : ''}
             target={target}
