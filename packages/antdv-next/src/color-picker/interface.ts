@@ -76,7 +76,6 @@ export type ColorPickerStylesType = SemanticStylesType<
 >
 
 export type ColorPickerProps = {
-  color: Color
   prefixCls?: string
   mode?: ModeType | ModeType[]
   value?: ColorValueType

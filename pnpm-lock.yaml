@@ -43,8 +43,8 @@ catalogs:
       specifier: ^0.0.5
       version: 0.0.5
     '@v-c/color-picker':
-      specifier: ^1.0.2
-      version: 1.0.2
+      specifier: ^1.0.3
+      version: 1.0.3
     '@v-c/mutate-observer':
       specifier: ^0.0.2
       version: 0.0.2
@@ -225,7 +225,7 @@ importers:
         version: 0.0.5(vue@3.5.24(typescript@5.9.3))
       '@v-c/color-picker':
         specifier: 'catalog:'
-        version: 1.0.2(vue@3.5.24(typescript@5.9.3))
+        version: 1.0.3(vue@3.5.24(typescript@5.9.3))
       '@v-c/dropdown':
         specifier: ^0.0.3
         version: 0.0.3(vue@3.5.24(typescript@5.9.3))
@@ -1548,8 +1548,8 @@ packages:
     peerDependencies:
       vue: ^3.0.0
 
-  '@v-c/color-picker@1.0.2':
-    resolution: {integrity: sha512-QuIWjak22kHkxxQHFVrCgDzv92RtKFEZVW6u2LJi0gUwU99p3x6s+FjasX4CIwgGBRYG5DtEVVJ9E8kUY9f+jw==}
+  '@v-c/color-picker@1.0.3':
+    resolution: {integrity: sha512-Q2IFmqvs/ZL54G74c36I8N7B0vZG4A+C165YFeGbSDKA2gKC66wpF0YAzaWFQDwhSLeKOz8plWueeXblBxSsxQ==}
     peerDependencies:
       vue: ^3.0.0
 
@@ -5062,7 +5062,7 @@ snapshots:
       '@v-c/util': 0.0.18(vue@3.5.24(typescript@5.9.3))
       vue: 3.5.24(typescript@5.9.3)
 
-  '@v-c/color-picker@1.0.2(vue@3.5.24(typescript@5.9.3))':
+  '@v-c/color-picker@1.0.3(vue@3.5.24(typescript@5.9.3))':
     dependencies:
       '@ant-design/fast-color': 3.0.0
       '@v-c/util': 0.0.18(vue@3.5.24(typescript@5.9.3))

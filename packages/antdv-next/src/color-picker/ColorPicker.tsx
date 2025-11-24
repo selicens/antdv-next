@@ -3,11 +3,11 @@ import type { PopoverProps } from '../popover'
 import type { ColorFormatType, ColorPickerEmits, ColorPickerProps, ColorPickerSlots, ModeType } from './interface'
 import { clsx } from '@v-c/util'
 import { filterEmpty } from '@v-c/util/dist/props-util'
-import { computed, defineComponent, shallowRef } from 'vue'
+import { computed, defineComponent, shallowRef, watch } from 'vue'
 import { ContextIsolator } from '../_util/ContextIsolator.tsx'
 import { getAttrStyleAndClass, useMergeSemantic, useToArr, useToProps } from '../_util/hooks'
 import { getStatusClassNames } from '../_util/statusUtils.ts'
-import { toPropsRefs } from '../_util/tools'
+import { getSlotPropsFnRun, toPropsRefs } from '../_util/tools'
 import { useComponentBaseConfig } from '../config-provider/context'
 import { useDisabledContext } from '../config-provider/DisabledContext'
 import useCSSVarCls from '../config-provider/hooks/useCSSVarCls'
@@ -16,6 +16,8 @@ import { useFormItemInputContext } from '../form/context'
 import Popover from '../popover'
 import { useCompactItemContext } from '../space/Compact'
 import { AggregationColor } from './color'
+import ColorPickerPanel from './ColorPickerPanel'
+import ColorTrigger from './components/ColorTrigger'
 import useModeColor from './hooks/useModeColor'
 import useStyle from './style'
 import { genAlphaColor, generateColor, getColorAlpha } from './util'
@@ -27,6 +29,7 @@ const defaults = {
   autoAdjustOverflow: true,
   disabledAlpha: false,
   allowClear: false,
+  destroyOnHidden: false,
 } as any
 
 const ColorPicker = defineComponent<
@@ -44,7 +47,30 @@ const ColorPicker = defineComponent<
       classes: contextClassNames,
       styles: contextStyles,
     } = useComponentBaseConfig('colorPicker', props, [], 'color-picker')
-    const { size: customizeSize, classes, styles, value, mode } = toPropsRefs(props, 'size', 'classes', 'styles', 'value', 'mode')
+    const {
+      size: customizeSize,
+      classes,
+      styles,
+      value,
+      mode,
+      format,
+      open,
+      presets,
+      disabledAlpha,
+      disabledFormat,
+    } = toPropsRefs(
+      props,
+      'size',
+      'classes',
+      'styles',
+      'value',
+      'mode',
+      'format',
+      'open',
+      'presets',
+      'disabledAlpha',
+      'disabledFormat',
+    )
     const contextDisabled = useDisabledContext()
     const mergedDisabled = computed(() => props.disabled ?? contextDisabled.value)
 
@@ -56,6 +82,12 @@ const ColorPicker = defineComponent<
     const mergedProps = computed(() => {
       return {
         ...props,
+        trigger: props.trigger ?? 'click',
+        allowClear: props.allowClear ?? false,
+        autoAdjustOverflow: props.autoAdjustOverflow ?? true,
+        disabledAlpha: props.disabledAlpha ?? false,
+        arrow: props.arrow ?? true,
+        placement: props.placement ?? 'bottomLeft',
         disabled: mergedDisabled.value,
         size: mergedSize.value,
       } as ColorPickerProps
@@ -76,14 +108,23 @@ const ColorPicker = defineComponent<
       })),
     )
 
-    const internalPopupOpen = shallowRef(props?.open ?? false)
+    const internalPopupOpen = shallowRef(open.value ?? false)
+    watch(open, (val) => {
+      if (val !== undefined)
+        internalPopupOpen.value = val
+    })
 
     const popupOpen = computed(() => !mergedDisabled.value && internalPopupOpen.value)
-    const formatValue = shallowRef(props?.format ?? props.defaultFormat)
+    const formatValue = shallowRef<ColorFormatType | undefined>(format.value ?? props.defaultFormat)
+    watch(format, (val) => {
+      if (val !== undefined)
+        formatValue.value = val
+    })
 
     const triggerFormatChange = (newFormat?: ColorFormatType) => {
+      const prev = formatValue.value
       formatValue.value = newFormat
-      if (formatValue.value !== newFormat) {
+      if (prev !== newFormat) {
         emit('formatChange', newFormat)
       }
     }
@@ -92,6 +133,7 @@ const ColorPicker = defineComponent<
       if (!visible || !mergedDisabled.value) {
         internalPopupOpen.value = visible
         emit('openChange', visible)
+        emit('update:open', visible)
       }
     }
 
@@ -105,14 +147,11 @@ const ColorPicker = defineComponent<
     const isAlphaColor = computed(() => getColorAlpha(mergedColor.value) < 100)
 
     // ==================== Change =====================
-    // To enhance user experience, we cache the gradient color when switch from gradient to single
-    // If user not modify single color, we will use the cached gradient color.
     const cachedGradientColor = shallowRef<AggregationColor>()
 
     const onInternalChangeComplete = (color: AggregationColor) => {
       let changeColor = generateColor(color)
-      // ignore alpha color
-      if (props?.disabledAlpha && isAlphaColor) {
+      if (props?.disabledAlpha && isAlphaColor.value) {
         changeColor = genAlphaColor(color)
       }
       emit('changeComplete', changeColor)
@@ -120,7 +159,6 @@ const ColorPicker = defineComponent<
 
     const onInternalChange = (data?: AggregationColor, changeFromPickerDrag?: boolean) => {
       let color: AggregationColor = generateColor(data!)
-      // ignore alpha color
       if (props?.disabledAlpha && isAlphaColor.value) {
         color = genAlphaColor(color)
       }
@@ -128,43 +166,31 @@ const ColorPicker = defineComponent<
       setColor(color)
       cachedGradientColor.value = undefined
 
-      // Trigger change event
       emit('change', color, color.toCssString())
       emit('update:value', color.toCssString())
 
-      // Only for drag-and-drop color picking
       if (!changeFromPickerDrag) {
         onInternalChangeComplete(color)
       }
     }
 
-    // =================== Gradient ====================
     const activeIndex = shallowRef(0)
     const gradientDragging = shallowRef(false)
 
-    // Mode change should also trigger color change
     const onInternalModeChange = (newMode: ModeType) => {
       setModeState(newMode)
       if (newMode === 'single' && mergedColor.value?.isGradient()) {
         activeIndex.value = 0
         onInternalChange(new AggregationColor(mergedColor.value.getColors()[0]!.color!))
-        // Should after `onInternalChange` since it will clear the cached color
         cachedGradientColor.value = mergedColor.value
       }
       else if (newMode === 'gradient' && !mergedColor.value?.isGradient()) {
         const baseColor = isAlphaColor.value ? genAlphaColor(mergedColor.value) : mergedColor.value
-
         onInternalChange(
           new AggregationColor(
             cachedGradientColor.value || [
-              {
-                percent: 0,
-                color: baseColor,
-              },
-              {
-                percent: 100,
-                color: baseColor,
-              },
+              { percent: 0, color: baseColor },
+              { percent: 100, color: baseColor },
             ],
           ),
         )
@@ -179,10 +205,37 @@ const ColorPicker = defineComponent<
     const rootCls = useCSSVarCls(prefixCls)
     const [hashId, cssVarCls] = useStyle(prefixCls, rootCls)
 
+    const handleClear = () => {
+      const cleared = new AggregationColor('')
+      setColor(cleared)
+      emit('clear')
+      emit('change', cleared, cleared.toCssString())
+      emit('update:value', cleared.toCssString())
+    }
+
+    expose({
+      focus: () => {
+        // noop
+      },
+      blur: () => {
+        // noop
+      },
+    })
+
     return () => {
-      const { rootClass, trigger, placement, arrow, getPopupContainer, autoAdjustOverflow, destroyOnHidden } = props
+      const {
+        rootClass,
+        trigger,
+        placement,
+        arrow,
+        getPopupContainer,
+        autoAdjustOverflow,
+        destroyOnHidden,
+      } = props
       const { className, style, restAttrs } = getAttrStyleAndClass(attrs)
       const children = filterEmpty(slots?.default?.() ?? [])
+      const showText = getSlotPropsFnRun(slots, props, 'showText')
+      const panelRender = getSlotPropsFnRun(slots, props, 'panelRender')
       const rtlCls = {
         [`${prefixCls.value}-rtl`]: direction.value === 'rtl',
       }
@@ -217,25 +270,68 @@ const ColorPicker = defineComponent<
         ...style,
       }
 
-      // ============================ zIndex ============================
+      const panelNode = (
+        <ContextIsolator form>
+          <ColorPickerPanel
+            {...restAttrs}
+            prefixCls={prefixCls.value}
+            presets={presets.value}
+            panelRender={panelRender}
+            value={mergedColor.value}
+            allowClear={props.allowClear}
+            disabled={mergedDisabled.value}
+            disabledAlpha={disabledAlpha.value}
+            disabledFormat={disabledFormat.value}
+            mode={modeState.value!}
+            onModeChange={onInternalModeChange}
+            modeOptions={modeOptions.value as any}
+            onChange={onInternalChange}
+            onChangeComplete={onInternalChangeComplete}
+            onClear={handleClear}
+            activeIndex={activeIndex.value}
+            onActive={val => (activeIndex.value = val)}
+            gradientDragging={gradientDragging.value}
+            onGradientDragging={val => (gradientDragging.value = val)}
+            format={formatValue.value}
+            {
+              ...{
+                onFormatChange: triggerFormatChange,
+              }
+            }
+            classes={mergedClassNames.value as any}
+            styles={mergedStyles.value as any}
+          />
+        </ContextIsolator>
+      )
+
+      const triggerNode = children.length
+        ? children
+        : (
+            <ColorTrigger
+              activeIndex={popupOpen.value ? activeIndex.value : -1}
+              open={popupOpen.value}
+              className={mergedCls}
+              style={mergedStyle}
+              prefixCls={prefixCls.value}
+              disabled={mergedDisabled.value}
+              showText={showText as any}
+              format={formatValue.value}
+              color={mergedColor.value as any}
+            />
+          )
 
       return (
         <Popover
-          classes={{
-            root: mergedRootCls,
-          }}
+          classes={{ root: mergedPopupCls }}
           styles={{
             root: mergedStyles.value?.popup?.root,
             container: styles.value?.popupOverlayInner,
           }}
           onOpenChange={triggerOpenChange}
-          content={(
-            <ContextIsolator form>
-              {/*    */}
-            </ContextIsolator>
-          )}
+          content={panelNode}
           {...popoverProps}
         >
+          {triggerNode}
         </Popover>
       )
     }
