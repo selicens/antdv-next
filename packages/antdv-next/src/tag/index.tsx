@@ -168,7 +168,7 @@ const InternalTag = defineComponent<
         mergedClassNames.value.root,
         `${prefixCls.value}-${mergedVariant.value}`,
         {
-          [`${prefixCls.value}-${mergedVariant.value}`]: isInternalColor.value,
+          [`${prefixCls.value}-${mergedColor.value}`]: isInternalColor.value,
           [`${prefixCls.value}-hidden`]: !visible.value,
           [`${prefixCls.value}-rtl`]: direction.value === 'rtl',
           [`${prefixCls.value}-disabled`]: mergedDisabled.value,

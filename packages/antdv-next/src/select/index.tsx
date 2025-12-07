@@ -149,6 +149,8 @@ const omitKeys = [
   'onPopupScroll',
   'onPopupVisibleChange',
   'onSelect',
+  'popupRender',
+  'labelRender',
 ]
 
 export interface SelectEmits {
@@ -177,6 +179,8 @@ export interface SelectSlots {
   suffixIcon?: () => any
   prefix?: () => any
   tagRender?: SelectProps['tagRender']
+  labelRender?: SelectProps['labelRender']
+  popupRender?: SelectProps['popupRender']
 }
 
 const SECRET_COMBOBOX_MODE_DO_NOT_USE = 'SECRET_COMBOBOX_MODE_DO_NOT_USE'
@@ -349,7 +353,6 @@ const Select = defineComponent<
         popupMatchSelectWidth,
         dropdownMatchSelectWidth,
         showArrow,
-        popupRender,
         dropdownRender,
         status: customStatus,
         notFoundContent,
@@ -364,13 +367,13 @@ const Select = defineComponent<
         listHeight,
         getPopupContainer,
         maxCount,
-
         ...rest
       } = props
       const { className, style, restAttrs } = getAttrStyleAndClass(attrs)
       const showSuffixIcon = useShowArrow(props.suffixIcon, showArrow)
       const tagRender = slots?.tagRender ?? props?.tagRender
       const mergedPopupMatchSelectWidth = popupMatchSelectWidth ?? dropdownMatchSelectWidth ?? contextPopupMatchSelectWidth.value
+      const popupRender = slots?.popupRender ?? props?.popupRender
       const mergedPopupRender = usePopupRender(popupRender || dropdownRender)
       const {
         status: contextStatus,
@@ -486,6 +489,7 @@ const Select = defineComponent<
           emit('popupScroll', ...args)
         },
       }
+      const labelRender = slots?.labelRender ?? props?.labelRender
       return (
         <VcSelect
           {...restAttrs}
@@ -495,6 +499,7 @@ const Select = defineComponent<
           styles={mergedStyles.value as any}
           showSearch={showSearch.value}
           {...selectProps}
+          labelRender={labelRender}
           style={{ ...mergedStyles.value.root, ...contextStyle.value, ...style }}
           popupMatchSelectWidth={mergedPopupMatchSelectWidth}
           transitionName={getTransitionName(rootPrefixCls.value, 'slide-up', transitionName)}
@@ -533,8 +538,8 @@ const Select = defineComponent<
 
 ;(Select as any).install = (app: App) => {
   app.component(Select.name, Select)
-  app.component('ASelectOption', Option)
-  app.component('ASelectOptGroup', OptGroup)
+  app.component('ASelectOption', Option as any)
+  app.component('ASelectOptGroup', OptGroup as any)
 }
 
 ;(Select as any).SECRET_COMBOBOX_MODE_DO_NOT_USE = SECRET_COMBOBOX_MODE_DO_NOT_USE

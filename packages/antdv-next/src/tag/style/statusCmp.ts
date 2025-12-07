@@ -12,12 +12,19 @@ type CssVariableType = 'Success' | 'Info' | 'Error' | 'Warning'
 function genTagStatusStyle(token: TagToken, status: 'success' | 'processing' | 'error' | 'warning', cssVariableType: CssVariableType): CSSInterpolation {
   const capitalizedCssVariableType = capitalize<CssVariableType>(cssVariableType)
   return {
-    [`${token.componentCls}${token.componentCls}-${status}`]: {
-      color: token[`color${cssVariableType}`],
-      background: token[`color${capitalizedCssVariableType}Bg`],
-      borderColor: token[`color${capitalizedCssVariableType}Border`],
-      [`&${token.componentCls}-borderless`]: {
-        borderColor: 'transparent',
+    [`${token.componentCls}${token.componentCls}-${status}:not(${token.componentCls}-disabled)`]: {
+      [`&${token.componentCls}-outlined`]: {
+        backgroundColor: token[`color${capitalizedCssVariableType}Bg`],
+        borderColor: token[`color${capitalizedCssVariableType}Border`],
+        color: token[`color${cssVariableType}`],
+      },
+      [`&${token.componentCls}-solid`]: {
+        backgroundColor: token[`color${cssVariableType}`],
+        borderColor: token[`color${cssVariableType}`],
+      },
+      [`&${token.componentCls}-filled`]: {
+        backgroundColor: token[`color${capitalizedCssVariableType}Bg`],
+        color: token[`color${cssVariableType}`],
       },
     },
   }
