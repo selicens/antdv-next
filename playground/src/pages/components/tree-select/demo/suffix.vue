@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import { SmileOutlined } from '@antdv-next/icons'
 import type { TreeSelectEmits } from 'antdv-next'
 import { ref } from 'vue'
 
-const value = ref()
 const treeData = [
   {
     value: 'parent 1',
@@ -14,27 +14,11 @@ const treeData = [
         children: [
           {
             value: 'leaf1',
-            title: 'leaf1',
+            title: 'my leaf',
           },
           {
             value: 'leaf2',
-            title: 'leaf2',
-          },
-          {
-            value: 'leaf3',
-            title: 'leaf3',
-          },
-          {
-            value: 'leaf4',
-            title: 'leaf4',
-          },
-          {
-            value: 'leaf5',
-            title: 'leaf5',
-          },
-          {
-            value: 'leaf6',
-            title: 'leaf6',
+            title: 'your leaf',
           },
         ],
       },
@@ -43,8 +27,8 @@ const treeData = [
         title: 'parent 1-1',
         children: [
           {
-            value: 'leaf11',
-            title: 'leaf11',
+            value: 'sss',
+            title: 'sss',
           },
         ],
       },
@@ -52,15 +36,17 @@ const treeData = [
   },
 ]
 
-const onPopupScroll: TreeSelectEmits['popupScroll'] = (e) => {
-  console.log('onPopupScroll', e)
+const value = ref<string>()
+
+const onChange: TreeSelectEmits['change'] = (newValue) => {
+  console.log(newValue)
 }
 </script>
 
 <template>
   <a-tree-select
     v-model:value="value"
-    :tree-data="treeData"
+    show-search
     style="width: 100%"
     :styles="{
       popup: {
@@ -73,13 +59,32 @@ const onPopupScroll: TreeSelectEmits['popupScroll'] = (e) => {
     placeholder="Please select"
     allow-clear
     tree-default-expand-all
-    @popup-scroll="onPopupScroll"
+    :tree-data="treeData"
+    @change="onChange"
   >
-    <template #treeTitleRender="item">
-      <template v-if="item.value === 'leaf11'">
-        <b style="color: #08c">leaf11</b>
-      </template>
+    <template #suffixIcon>
+      <SmileOutlined />
     </template>
   </a-tree-select>
-  {{ value }}
+  <br>
+  <br>
+  <a-tree-select
+    v-model:value="value"
+    show-search
+    prefix="Prefix"
+    style="width: 100%"
+    :styles="{
+      popup: {
+        root: {
+          maxHeight: 400,
+          overflow: 'auto',
+        },
+      },
+    }"
+    placeholder="Please select"
+    allow-clear
+    tree-default-expand-all
+    :tree-data="treeData"
+    @change="onChange"
+  />
 </template>

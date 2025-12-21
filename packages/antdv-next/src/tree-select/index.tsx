@@ -404,7 +404,7 @@ const InternalTreeSelect = defineComponent<
       )
       const { style, className, restAttrs } = getAttrStyleAndClass(attrs)
       const mergedPopupRender = usePopupRender(popupRender || dropdownRender)
-      const customSuffixIcon = getSlotPropsFnRun(slots, props, 'suffixIcon')
+      const customSuffixIcon = getSlotPropsFnRun(slots, props, 'suffixIcon', false)
       const showSuffixIcon = useShowArrow(customSuffixIcon, props.showArrow)
       const mergedPopupMatchSelectWidth = popupMatchSelectWidth ?? dropdownMatchSelectWidth ?? configCtx.value?.popupMatchSelectWidth
       const isMultiple = !!(treeCheckable || multiple)
