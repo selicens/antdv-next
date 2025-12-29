@@ -297,8 +297,8 @@ importers:
         specifier: ^0.0.1
         version: 0.0.1(vue@3.5.25(typescript@5.9.3))
       '@v-c/table':
-        specifier: link:/Users/yanyu/workspace/github/antdv-next/vue-components/packages/table
-        version: link:../../../../../github/antdv-next/vue-components/packages/table
+        specifier: ^0.0.1
+        version: 0.0.1(vue@3.5.25(typescript@5.9.3))
       '@v-c/tabs':
         specifier: ^0.0.3
         version: 0.0.3(vue@3.5.25(typescript@5.9.3))
@@ -312,8 +312,8 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1(vue@3.5.25(typescript@5.9.3))
       '@v-c/tree':
-        specifier: link:/Users/yanyu/workspace/github/antdv-next/vue-components/packages/tree
-        version: link:../../../../../github/antdv-next/vue-components/packages/tree
+        specifier: ^0.0.2
+        version: 0.0.2(vue@3.5.25(typescript@5.9.3))
       '@v-c/tree-select':
         specifier: ^0.0.1
         version: 0.0.1(vue@3.5.25(typescript@5.9.3))
@@ -327,8 +327,8 @@ importers:
         specifier: ^1.0.4
         version: 1.0.4(vue@3.5.25(typescript@5.9.3))
       '@v-c/virtual-list':
-        specifier: ^1.0.4
-        version: 1.0.4(vue@3.5.25(typescript@5.9.3))
+        specifier: ^1.0.5
+        version: 1.0.5(vue@3.5.25(typescript@5.9.3))
       '@vueuse/core':
         specifier: 'catalog:'
         version: 13.9.0(vue@3.5.25(typescript@5.9.3))
@@ -1960,6 +1960,11 @@ packages:
     peerDependencies:
       vue: ^3.0.0
 
+  '@v-c/table@0.0.1':
+    resolution: {integrity: sha512-AHX5rvZne5ICnesmuvzMG4WVac6mMHhil+zsrEj1DOCj11L+GePSlxCi11+MgWdtM1gpTa6ldT2TjJxEhLB4+A==}
+    peerDependencies:
+      vue: ^3.0.0
+
   '@v-c/tabs@0.0.3':
     resolution: {integrity: sha512-5aJTTzngbTUdfWTDLBU9JfDs/BdRUak4892ihFswSaduuJZQz3FsOvUB2HcpkoVoVcXTEfRoqL3R9bJryI24VQ==}
     peerDependencies:
@@ -1990,6 +1995,11 @@ packages:
     peerDependencies:
       vue: ^3.0.0
 
+  '@v-c/tree@0.0.2':
+    resolution: {integrity: sha512-D4beI5X1OqEYHd9Omz/Ki23N7bIqkR/liE2tiXx0/iPTk+mzTdIjwJAmiaJR8DX1raENXJayMosYmu2/KepQVQ==}
+    peerDependencies:
+      vue: ^3.0.0
+
   '@v-c/trigger@1.0.2':
     resolution: {integrity: sha512-Y45BTpDa0k0o3ut0lTpRcpzOJlw2UupBf53CbrrFR7qI/+7qgbVYH1UEkobZF64+j7TixfFnQ5ApE8yPJZtvEA==}
     peerDependencies:
@@ -2005,8 +2015,8 @@ packages:
     peerDependencies:
       vue: ^3.0.0
 
-  '@v-c/virtual-list@1.0.4':
-    resolution: {integrity: sha512-69bFtdGuriObEJoz2WbvTfq7SnrssXf+Qt/1/2dbyMXJDQXqvKf4M/fioVGm2gpPMUUCpz8yN66v5w7Pp06jXA==}
+  '@v-c/virtual-list@1.0.5':
+    resolution: {integrity: sha512-hv+ZIXkT7Bprv4pRloa/EYfWsJjOL2hI6wRSWX/XOxMcra+eq9uFvTY5GSOzYURPyzA/ExGq4607+fl1vEhwZQ==}
     peerDependencies:
       vue: ^3.0.0
 
@@ -5831,7 +5841,7 @@ snapshots:
       '@v-c/overflow': 1.0.1(vue@3.5.25(typescript@5.9.3))
       '@v-c/trigger': 1.0.2(vue@3.5.25(typescript@5.9.3))
       '@v-c/util': 1.0.4(vue@3.5.25(typescript@5.9.3))
-      '@v-c/virtual-list': 1.0.4(vue@3.5.25(typescript@5.9.3))
+      '@v-c/virtual-list': 1.0.5(vue@3.5.25(typescript@5.9.3))
       vue: 3.5.25(typescript@5.9.3)
 
   '@v-c/slick@0.0.1(vue@3.5.25(typescript@5.9.3))':
@@ -5853,6 +5863,13 @@ snapshots:
   '@v-c/switch@0.0.1(vue@3.5.25(typescript@5.9.3))':
     dependencies:
       '@v-c/util': 1.0.4(vue@3.5.25(typescript@5.9.3))
+      vue: 3.5.25(typescript@5.9.3)
+
+  '@v-c/table@0.0.1(vue@3.5.25(typescript@5.9.3))':
+    dependencies:
+      '@v-c/resize-observer': 1.0.3(vue@3.5.25(typescript@5.9.3))
+      '@v-c/util': 1.0.4(vue@3.5.25(typescript@5.9.3))
+      '@v-c/virtual-list': 1.0.5(vue@3.5.25(typescript@5.9.3))
       vue: 3.5.25(typescript@5.9.3)
 
   '@v-c/tabs@0.0.3(vue@3.5.25(typescript@5.9.3))':
@@ -5894,7 +5911,13 @@ snapshots:
   '@v-c/tree@0.0.1(vue@3.5.25(typescript@5.9.3))':
     dependencies:
       '@v-c/util': 1.0.4(vue@3.5.25(typescript@5.9.3))
-      '@v-c/virtual-list': 1.0.4(vue@3.5.25(typescript@5.9.3))
+      '@v-c/virtual-list': 1.0.5(vue@3.5.25(typescript@5.9.3))
+      vue: 3.5.25(typescript@5.9.3)
+
+  '@v-c/tree@0.0.2(vue@3.5.25(typescript@5.9.3))':
+    dependencies:
+      '@v-c/util': 1.0.4(vue@3.5.25(typescript@5.9.3))
+      '@v-c/virtual-list': 1.0.5(vue@3.5.25(typescript@5.9.3))
       vue: 3.5.25(typescript@5.9.3)
 
   '@v-c/trigger@1.0.2(vue@3.5.25(typescript@5.9.3))':
@@ -5913,7 +5936,7 @@ snapshots:
     dependencies:
       vue: 3.5.25(typescript@5.9.3)
 
-  '@v-c/virtual-list@1.0.4(vue@3.5.25(typescript@5.9.3))':
+  '@v-c/virtual-list@1.0.5(vue@3.5.25(typescript@5.9.3))':
     dependencies:
       '@v-c/resize-observer': 1.0.3(vue@3.5.25(typescript@5.9.3))
       '@v-c/util': 1.0.4(vue@3.5.25(typescript@5.9.3))
