@@ -41,7 +41,6 @@ const Menu = defineComponent<
         onDeselect: (...args: any[]) => emit('deselect', ...args),
         onOpenChange: (...args: any[]) => emit('openChange', ...args),
       }
-      console.log('Render', props.selectedKeys, props.items)
       return (
         <InternalMenu
           ref={menuRef}

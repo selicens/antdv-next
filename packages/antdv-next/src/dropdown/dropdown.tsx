@@ -155,7 +155,6 @@ const Dropdown = defineComponent<
     const onInnerOpenChange = (nextOpen: boolean) => {
       emit('openChange', nextOpen, { source: 'trigger' })
       emit('update:open', nextOpen)
-      mergedOpen.value = nextOpen
     }
 
     const builtinPlacements = computed(() => getPlacements({
@@ -173,7 +172,6 @@ const Dropdown = defineComponent<
       }
       emit('update:open', false)
       emit('openChange', false, { source: 'menu' })
-      mergedOpen.value = false
     }
     const mergedRootStyles = computed(() => {
       return {

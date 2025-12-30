@@ -258,8 +258,8 @@ importers:
         specifier: ^0.0.1
         version: 0.0.1(vue@3.5.25(typescript@5.9.3))
       '@v-c/menu':
-        specifier: ^1.0.1
-        version: 1.0.1(vue@3.5.25(typescript@5.9.3))
+        specifier: ^1.0.2
+        version: 1.0.2(vue@3.5.25(typescript@5.9.3))
       '@v-c/mutate-observer':
         specifier: 'catalog:'
         version: 0.0.2(vue@3.5.25(typescript@5.9.3))
@@ -433,9 +433,6 @@ importers:
       '@vueuse/core':
         specifier: 'catalog:'
         version: 13.9.0(vue@3.5.25(typescript@5.9.3))
-      antdv-next:
-        specifier: workspace:^
-        version: link:../packages/antdv-next
       es-toolkit:
         specifier: 'catalog:'
         version: 1.43.0
@@ -1877,8 +1874,8 @@ packages:
     peerDependencies:
       vue: ^3.0.0
 
-  '@v-c/menu@1.0.1':
-    resolution: {integrity: sha512-WhNOwTrQGPkdo9axwMPr9n1p9o6di9ylPfe++AR61syWX4HSEY75d162MjJjRp4OIh5zy7OiZyrLstpHpMkUmQ==}
+  '@v-c/menu@1.0.2':
+    resolution: {integrity: sha512-occRB7GIvpZPBIwXeSdaO7/ZaPhRTVeK9MzBP5Y+OZw5ITtiCnBGbLjQICyGe5pYgbdAMwG8zIZaEi3oBAcexQ==}
     peerDependencies:
       vue: ^3.0.0
 
@@ -6240,13 +6237,13 @@ snapshots:
   '@v-c/mentions@0.0.1(vue@3.5.25(typescript@5.9.3))':
     dependencies:
       '@v-c/input': 1.0.0(vue@3.5.25(typescript@5.9.3))
-      '@v-c/menu': 1.0.1(vue@3.5.25(typescript@5.9.3))
+      '@v-c/menu': 1.0.2(vue@3.5.25(typescript@5.9.3))
       '@v-c/textarea': 1.0.1(vue@3.5.25(typescript@5.9.3))
       '@v-c/trigger': 1.0.2(vue@3.5.25(typescript@5.9.3))
       '@v-c/util': 1.0.4(vue@3.5.25(typescript@5.9.3))
       vue: 3.5.25(typescript@5.9.3)
 
-  '@v-c/menu@1.0.1(vue@3.5.25(typescript@5.9.3))':
+  '@v-c/menu@1.0.2(vue@3.5.25(typescript@5.9.3))':
     dependencies:
       '@v-c/overflow': 1.0.1(vue@3.5.25(typescript@5.9.3))
       '@v-c/trigger': 1.0.2(vue@3.5.25(typescript@5.9.3))
@@ -6361,7 +6358,7 @@ snapshots:
   '@v-c/tabs@0.0.3(vue@3.5.25(typescript@5.9.3))':
     dependencies:
       '@v-c/dropdown': 1.0.1(vue@3.5.25(typescript@5.9.3))
-      '@v-c/menu': 1.0.1(vue@3.5.25(typescript@5.9.3))
+      '@v-c/menu': 1.0.2(vue@3.5.25(typescript@5.9.3))
       '@v-c/overflow': 1.0.1(vue@3.5.25(typescript@5.9.3))
       '@v-c/resize-observer': 1.0.3(vue@3.5.25(typescript@5.9.3))
       '@v-c/util': 1.0.4(vue@3.5.25(typescript@5.9.3))

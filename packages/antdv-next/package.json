@@ -52,7 +52,7 @@
     "@v-c/input": "^1.0.0",
     "@v-c/input-number": "^1.0.0",
     "@v-c/mentions": "^0.0.1",
-    "@v-c/menu": "^1.0.1",
+    "@v-c/menu": "^1.0.2",
     "@v-c/mutate-observer": "catalog:",
     "@v-c/notification": "^0.0.2",
     "@v-c/pagination": "^0.0.1",
