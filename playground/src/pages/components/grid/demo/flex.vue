@@ -1,3 +1,15 @@
+<docs lang="zh-CN">
+布局基础。
+
+子元素根据 `start`、`center`、`end`、`space-between`、`space-around` 和 `space-evenly` 在父节点内进行排版。
+</docs>
+
+<docs lang="en-US">
+Basic layout.
+
+Child elements are aligned in the parent by `start`, `center`, `end`, `space-between`, `space-around`, and `space-evenly`.
+</docs>
+
 <template>
   <a-divider orientation="left">
     sub-element align left

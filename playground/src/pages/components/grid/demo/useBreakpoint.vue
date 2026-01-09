@@ -1,3 +1,11 @@
+<docs lang="zh-CN">
+使用 `useBreakpoint` Hook 实现个性化布局，其中 `xs` 仅当满足最小宽度时生效。
+</docs>
+
+<docs lang="en-US">
+Use the `useBreakpoint` hook to build personalized layouts. `xs` only takes effect when the screen matches the minimum width.
+</docs>
+
 <script setup lang="ts">
 import { useBreakpoint } from 'antdv-next'
 import { computed } from 'vue'
@@ -10,11 +18,9 @@ const screenKeys = computed(() => Object.entries(screens.value ?? {}).filter(scr
   Current break point:
   <div class="gap-2 inline-flex">
     <template v-for="item in screenKeys" :key="item[0]">
-      <span>{{ item[0] }} </span>
+      <a-tag color="blue">
+        {{ item[0] }}
+      </a-tag>
     </template>
   </div>
 </template>
-
-<style scoped>
-
-</style>

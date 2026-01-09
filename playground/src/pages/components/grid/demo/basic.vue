@@ -1,6 +1,14 @@
-<script setup lang="ts">
+<docs lang="zh-CN">
+从堆叠到水平排列。11
 
-</script>
+使用一组 `Row` 和 `Col` 创建基础栅格，所有列（Col）必须放在 `Row` 内。
+</docs>
+
+<docs lang="en-US">
+From the stack to the horizontal arrangement.
+
+Create a basic grid using a single set of `Row` and `Col`. All `Col` must be placed inside a `Row`.
+</docs>
 
 <template>
   <a-row>
@@ -43,7 +51,3 @@
     </a-col>
   </a-row>
 </template>
-
-<style scoped>
-
-</style>
