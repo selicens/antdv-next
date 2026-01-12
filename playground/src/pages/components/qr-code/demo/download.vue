@@ -1,3 +1,11 @@
+<docs lang="zh-CN">
+下载二维码的简单实现。
+</docs>
+
+<docs lang="en-US">
+A way to download QRCode.
+</docs>
+
 <script setup lang="ts">
 import type { QRCodeProps } from 'antdv-next'
 import { ref, useTemplateRef } from 'vue'

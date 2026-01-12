@@ -1,3 +1,11 @@
+<docs lang="zh-CN">
+带气泡卡片的例子。
+</docs>
+
+<docs lang="en-US">
+With Popover.
+</docs>
+
 <script setup lang="ts">
 defineOptions({ name: 'Popover' })
 </script>

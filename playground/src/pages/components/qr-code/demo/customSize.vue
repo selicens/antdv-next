@@ -1,3 +1,11 @@
+<docs lang="zh-CN">
+自定义尺寸。
+</docs>
+
+<docs lang="en-US">
+Custom Size.
+</docs>
+
 <script setup lang="ts">
 import { MinusOutlined, PlusOutlined } from '@antdv-next/icons'
 import { shallowRef } from 'vue'

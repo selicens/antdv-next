@@ -1,3 +1,11 @@
+<docs lang="zh-CN">
+通过设置 errorLevel 调整不同的容错等级。
+</docs>
+
+<docs lang="en-US">
+set Error Level.
+</docs>
+
 <script setup lang="ts">
 import type { QRCodeProps } from 'antdv-next'
 import { ref } from 'vue'

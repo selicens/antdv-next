@@ -1,3 +1,11 @@
+<docs lang="zh-CN">
+可以通过 `statusRender` 的值控制二维码不同状态的渲染逻辑。
+</docs>
+
+<docs lang="en-US">
+You can control the rendering logic of the QR code in different states through the value of `statusRender`.
+</docs>
+
 <script setup lang="ts">
 import { CheckCircleFilled, CloseCircleFilled, ReloadOutlined } from '@antdv-next/icons'
 

@@ -1,3 +1,11 @@
+<docs lang="zh-CN">
+基本用法。
+</docs>
+
+<docs lang="en-US">
+Basic Usage.
+</docs>
+
 <script setup lang="ts">
 import { ref } from 'vue'
 
