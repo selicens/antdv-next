@@ -1,3 +1,11 @@
+<docs lang="zh-CN">
+支持显示、隐藏以及将箭头保持居中定位。
+</docs>
+
+<docs lang="en-US">
+Support show, hide or keep arrow in the center.
+</docs>
+
 <script setup lang="ts">
 import type { TooltipProps } from 'antdv-next'
 import { computed, shallowRef } from 'vue'
