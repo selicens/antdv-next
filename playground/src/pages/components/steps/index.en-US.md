@@ -14,6 +14,18 @@ coverDark: https://mdn.alipayobjects.com/huamei_7uahnr/afts/img/A*cFsBQLA0b7UAAA
 ## Examples {#examples}
 
 <demo-group>
+<demo src="./demo/basic.vue">Basic</demo>
+<demo src="./demo/error.vue">Error Status</demo>
+<demo src="./demo/vertical.vue">Vertical</demo>
+<demo src="./demo/clickable.vue">Clickable</demo>
+<demo src="./demo/panel.vue">Panel Steps</demo>
+<demo src="./demo/icon.vue">With icon</demo>
+<demo src="./demo/title-placement.vue">Title Placement and Progress</demo>
+<demo src="./demo/progress-dot.vue">Dot Style</demo>
+<demo src="./demo/nav.vue">Navigation Steps</demo>
+<demo src="./demo/inline.vue">Inline Steps</demo>
+<demo src="./demo/inline-variant.vue">Inline Style Combination</demo>
+<demo src="./demo/style-class.vue">Custom semantic dom styling</demo>
 </demo-group>
 
 ## API

@@ -1,3 +1,11 @@
+<docs lang="zh-CN">
+内联类型的步骤条，适用于列表内容场景中展示对象所在流程、当前状态的情况。
+</docs>
+
+<docs lang="en-US">
+Inline type steps, suitable for displaying the process and current state of the object in the list content scene.
+</docs>
+
 <script setup lang="ts">
 const items = [
   {
@@ -35,19 +43,33 @@ const data = [
 </script>
 
 <template>
-  <a-space vertical>
-    <template v-for="(item, index) in data" :key="index">
-      <div>
-        <div>{{ item.title }}-{{ index }}</div>
-        <div>
-          <a-steps
-            :current="item.current"
-            :items="items"
-            type="inline"
-            :status="item.status as 'error'"
-          />
+  <a-flex vertical>
+    <div
+      v-for="(item, index) in data"
+      :key="index"
+      class="flex items-start py-4 border-b border-[var(--ant-color-split)]"
+    >
+      <div class="flex flex-1 items-start">
+        <div class="mr-4">
+          <a-avatar :src="`https://api.dicebear.com/7.x/miniavs/svg?seed=${index}`" />
+        </div>
+        <div class="min-w-0">
+          <div class="mb-1">
+            <a href="https://ant.design">{{ item.title }}</a>
+          </div>
+          <div class="text-[var(--ant-color-text-secondary)]">
+            Ant Design, a design language for background applications, is refined by Ant UED Team
+          </div>
         </div>
       </div>
-    </template>
-  </a-space>
+      <div class="ml-6">
+        <a-steps
+          type="inline"
+          :current="item.current"
+          :status="item.status as 'error'"
+          :items="items"
+        />
+      </div>
+    </div>
+  </a-flex>
 </template>

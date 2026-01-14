@@ -19,6 +19,14 @@ coverDark: https://mdn.alipayobjects.com/huamei_7uahnr/afts/img/A*cFsBQLA0b7UAAA
 <demo src="./demo/error.vue">步骤运行错误</demo>
 <demo src="./demo/vertical.vue">竖直方向的步骤条</demo>
 <demo src="./demo/clickable.vue">可点击</demo>
+<demo src="./demo/panel.vue">面板式步骤</demo>
+<demo src="./demo/icon.vue">带图标的步骤条</demo>
+<demo src="./demo/title-placement.vue">标签放置位置与进度</demo>
+<demo src="./demo/progress-dot.vue">点状步骤条</demo>
+<demo src="./demo/nav.vue">导航步骤</demo>
+<demo src="./demo/inline.vue">内联步骤</demo>
+<demo src="./demo/inline-variant.vue">内联样式组合</demo>
+<demo src="./demo/style-class.vue">自定义语义结构的样式和类</demo>
 </demo-group>
 
 ## API
