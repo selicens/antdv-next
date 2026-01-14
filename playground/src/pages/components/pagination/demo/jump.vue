@@ -8,25 +8,23 @@ Jump to a page directly.
 
 <script setup lang="ts">
 import type { PaginationEmits } from 'antdv-next'
-import { ref } from 'vue'
 
 const handleChange: PaginationEmits['change'] = (pageNumber) => {
   console.log('Page: ', pageNumber)
 }
-const current = ref(2)
 </script>
 
 <template>
   <a-space direction="vertical" size="middle" style="width: 100%">
     <a-pagination
-      v-model:current="current"
       show-quick-jumper
+      :default-current="2"
       :total="500"
       @change="handleChange"
     />
     <a-pagination
-      v-model:current="current"
       show-quick-jumper
+      :default-current="2"
       :total="500"
       disabled
       @change="handleChange"

@@ -6,14 +6,21 @@
 Use text link for prev and next button.
 </docs>
 
+<script setup lang="ts">
+import type { PaginationProps } from 'antdv-next'
+import { h } from 'vue'
+
+const itemRender: PaginationProps['itemRender'] = (_, type, originalElement) => {
+  if (type === 'prev') {
+    return h('a', 'Previous')
+  }
+  if (type === 'next') {
+    return h('a', 'Next')
+  }
+  return originalElement
+}
+</script>
+
 <template>
-  <a-pagination :total="500">
-    <template #itemRender="{ type, element }">
-      <a v-if="type === 'prev'">Previous</a>
-      <a v-else-if="type === 'next'">Next</a>
-      <template v-else>
-        <component :is="element" />
-      </template>
-    </template>
-  </a-pagination>
+  <a-pagination :total="500" :item-render="itemRender" />
 </template>

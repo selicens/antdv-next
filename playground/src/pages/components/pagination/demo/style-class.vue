@@ -1,16 +1,19 @@
 <docs lang="zh-CN">
-通过 `classNames` 和 `styles` 传入对象/函数可以自定义 Pagination 的[语义化结构](#semantic-dom)样式。
+通过 `classes` 和 `styles` 传入对象/函数可以自定义 Pagination 的[语义化结构](#semantic-dom)样式。
 </docs>
 
 <docs lang="en-US">
-You can customize the [semantic dom](#semantic-dom) style of Pagination by passing objects/functions through `classNames` and `styles`.
+You can customize the [semantic dom](#semantic-dom) style of Pagination by passing objects/functions through `classes` and `styles`.
 </docs>
 
 <script setup lang="ts">
 import type { PaginationProps } from 'antdv-next'
+import { useCssModule } from 'vue'
+
+const moduleStyles = useCssModule()
 
 const classes: PaginationProps['classes'] = {
-  root: 'border-2 border-dashed border-gray-300 p-2',
+  root: moduleStyles.root,
 }
 
 const stylesObject: PaginationProps['styles'] = {
@@ -38,3 +41,10 @@ const stylesFn: PaginationProps['styles'] = ({ props }) => {
     <a-pagination :total="500" size="small" :classes="classes" :styles="stylesFn" />
   </a-flex>
 </template>
+
+<style module>
+.root {
+  border: 2px dashed #ccc;
+  padding: 8px;
+}
+</style>

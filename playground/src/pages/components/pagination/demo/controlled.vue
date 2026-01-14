@@ -11,13 +11,13 @@ import type { PaginationEmits } from 'antdv-next'
 import { ref } from 'vue'
 
 const current = ref(3)
-const pageSize = ref(10)
 
-const handleChange: PaginationEmits['change'] = (page, pageSize) => {
-  console.log(page, pageSize)
+const handleChange: PaginationEmits['change'] = (page) => {
+  console.log(page)
+  current.value = page
 }
 </script>
 
 <template>
-  <a-pagination v-model:current="current" v-model:page-size="pageSize" :total="50" @change="handleChange" />
+  <a-pagination :current="current" :total="50" @change="handleChange" />
 </template>
