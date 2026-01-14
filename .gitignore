@@ -26,3 +26,5 @@ dist-ssr
 *.sln
 *.sw?
 .turbo
+web-types.json
+web-tags.json

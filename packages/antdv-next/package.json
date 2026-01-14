@@ -32,6 +32,7 @@
     "./global.d.ts": "./global.d.ts",
     "./global": "./global.d.ts",
     "./dist/reset.css": "./dist/reset.css",
+    "./web-types.json": "./web-types.json",
     "./package.json": "./package.json"
   },
   "unpkg": "dist/antd.js",
@@ -39,13 +40,23 @@
   "files": [
     "dist",
     "global.d.ts",
-    "package.json"
+    "package.json",
+    "web-tags.json",
+    "web-types.json"
   ],
+  "contributes": {
+    "html": {
+      "customData": [
+        "./web-tags.json"
+      ]
+    }
+  },
   "scripts": {
     "test": "vitest run",
-    "build": "run-s build:esm build:umd",
+    "build": "run-s build:esm build:umd build:web-types",
     "build:esm": "tsdown",
     "build:umd": "vite build",
+    "build:web-types": "esno ./scripts/web-types/index.ts",
     "prepublish": "pnpm build",
     "bump": "bumpp --commit \"chore(release): antdv-next %s\" --push --tag \"antdv-next@%s\""
   },
@@ -97,5 +108,11 @@
     "defu": "catalog:",
     "es-toolkit": "catalog:",
     "scroll-into-view-if-needed": "catalog:"
-  }
+  },
+  "web-types": "web-types.json",
+  "browserslist": [
+    "> 1%",
+    "not ie 11",
+    "not op_mini all"
+  ]
 }
