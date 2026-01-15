@@ -1,9 +1,9 @@
 <docs lang="zh-CN">
-最简单的用法。
+自定义指示器。
 </docs>
 
 <docs lang="en-US">
-The most basic usage.
+Custom indicator.
 </docs>
 
 <script setup lang="ts">
@@ -15,11 +15,11 @@ const ref1 = shallowRef()
 const ref2 = shallowRef()
 const ref3 = shallowRef()
 const open = shallowRef(false)
+
 const steps: TourStepItem[] = [
   {
     title: 'Upload File',
     description: 'Put your files here.',
-
     target: ref1,
   },
   {
@@ -33,6 +33,10 @@ const steps: TourStepItem[] = [
     target: ref3,
   },
 ]
+
+const indicatorsRender = (current: number, total: number) => {
+  return `${current + 1} / ${total}`
+}
 </script>
 
 <template>
@@ -53,15 +57,9 @@ const steps: TourStepItem[] = [
       </template>
     </a-button>
   </a-space>
-  <a-tour v-model:open="open" :steps="steps">
-    <template #coverRender="{ index }">
-      <template v-if="index === 0">
-        <img
-          draggable="false"
-          alt="tour.png"
-          src="https://user-images.githubusercontent.com/5378891/197385811-55df8480-7ff4-44bd-9d43-a7dade598d70.png"
-        >
-      </template>
-    </template>
-  </a-tour>
+  <a-tour
+    v-model:open="open"
+    :steps="steps"
+    :indicators-render="indicatorsRender"
+  />
 </template>

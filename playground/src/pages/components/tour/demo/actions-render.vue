@@ -1,25 +1,26 @@
 <docs lang="zh-CN">
-最简单的用法。
+自定义操作按钮。
 </docs>
 
 <docs lang="en-US">
-The most basic usage.
+Custom action.
 </docs>
 
 <script setup lang="ts">
 import type { TourStepItem } from 'antdv-next'
 import { EllipsisOutlined } from '@antdv-next/icons'
-import { shallowRef } from 'vue'
+import { Button } from 'antdv-next'
+import { shallowRef, h } from 'vue'
 
 const ref1 = shallowRef()
 const ref2 = shallowRef()
 const ref3 = shallowRef()
 const open = shallowRef(false)
+
 const steps: TourStepItem[] = [
   {
     title: 'Upload File',
     description: 'Put your files here.',
-
     target: ref1,
   },
   {
@@ -33,6 +34,33 @@ const steps: TourStepItem[] = [
     target: ref3,
   },
 ]
+
+const actionsRender = (originNode: any, info: { current: number, total: number }) => {
+  const nodes: any[] = []
+  if (info.current !== info.total - 1) {
+    nodes.push(
+      h(
+        Button,
+        {
+          size: 'small',
+          onClick: () => {
+            open.value = false
+          },
+        },
+        {
+          default: () => 'Skip',
+        },
+      ),
+    )
+  }
+  if (Array.isArray(originNode)) {
+    nodes.push(...originNode)
+  }
+  else {
+    nodes.push(originNode)
+  }
+  return nodes
+}
 </script>
 
 <template>
@@ -53,15 +81,9 @@ const steps: TourStepItem[] = [
       </template>
     </a-button>
   </a-space>
-  <a-tour v-model:open="open" :steps="steps">
-    <template #coverRender="{ index }">
-      <template v-if="index === 0">
-        <img
-          draggable="false"
-          alt="tour.png"
-          src="https://user-images.githubusercontent.com/5378891/197385811-55df8480-7ff4-44bd-9d43-a7dade598d70.png"
-        >
-      </template>
-    </template>
-  </a-tour>
+  <a-tour
+    v-model:open="open"
+    :steps="steps"
+    :actions-render="actionsRender"
+  />
 </template>

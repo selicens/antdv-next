@@ -1,9 +1,9 @@
 <docs lang="zh-CN">
-最简单的用法。
+自定义遮罩样式。
 </docs>
 
 <docs lang="en-US">
-The most basic usage.
+Custom mask style.
 </docs>
 
 <script setup lang="ts">
@@ -15,22 +15,36 @@ const ref1 = shallowRef()
 const ref2 = shallowRef()
 const ref3 = shallowRef()
 const open = shallowRef(false)
+
+const mask = {
+  style: {
+    boxShadow: 'inset 0 0 15px #333',
+  },
+  color: 'rgba(80, 255, 255, .4)',
+}
+
 const steps: TourStepItem[] = [
   {
     title: 'Upload File',
     description: 'Put your files here.',
-
     target: ref1,
   },
   {
     title: 'Save',
     description: 'Save your changes.',
     target: ref2,
+    mask: {
+      style: {
+        boxShadow: 'inset 0 0 15px #fff',
+      },
+      color: 'rgba(40, 0, 255, .4)',
+    },
   },
   {
     title: 'Other Actions',
     description: 'Click to see other actions.',
     target: ref3,
+    mask: false,
   },
 ]
 </script>
@@ -53,7 +67,7 @@ const steps: TourStepItem[] = [
       </template>
     </a-button>
   </a-space>
-  <a-tour v-model:open="open" :steps="steps">
+  <a-tour v-model:open="open" :steps="steps" :mask="mask">
     <template #coverRender="{ index }">
       <template v-if="index === 0">
         <img
