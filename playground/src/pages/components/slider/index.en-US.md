@@ -13,9 +13,25 @@ demo:
 
 ## When To Use {#when-to-use}
 
+To let user select a value/range from a set of values.
+
 ## Examples {#examples}
 
 <demo-group>
+  <demo src="./demo/basic.vue">Basic</demo>
+  <demo src="./demo/input-number.vue">Slider with InputNumber</demo>
+  <demo src="./demo/icon-slider.vue">Slider with icon</demo>
+  <demo src="./demo/tip-formatter.vue">Customize tooltip</demo>
+  <demo src="./demo/event.vue">Event</demo>
+  <demo src="./demo/mark.vue">Graduated slider</demo>
+  <demo src="./demo/vertical.vue">Vertical</demo>
+  <demo src="./demo/show-tooltip.vue">Control ToolTip</demo>
+  <demo src="./demo/reverse.vue">Reverse</demo>
+  <demo src="./demo/draggableTrack.vue">Draggable Track</demo>
+  <demo src="./demo/multiple.vue">Multiple Handles</demo>
+  <demo src="./demo/editable.vue">Dynamic edit nodes</demo>
+  <demo src="./demo/style-class.vue">Customize Semantic Elements</demo>
+  <demo src="./demo/component-token.vue">Component Token</demo>
 </demo-group>
 
 ## API

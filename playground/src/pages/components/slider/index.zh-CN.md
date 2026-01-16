@@ -14,14 +14,28 @@ demo:
 
 ## 何时使用 {#when-to-use}
 
-## 示例 {#examples}
+当用户需要在数值区间/自定义区间内进行选择时，可为连续或离散值。
+
+## 代码演示 {#examples}
 
 <demo-group>
+  <demo src="./demo/basic.vue">基本</demo>
+  <demo src="./demo/input-number.vue">带输入框的滑块</demo>
+  <demo src="./demo/icon-slider.vue">带 icon 的滑块</demo>
+  <demo src="./demo/tip-formatter.vue">自定义提示</demo>
+  <demo src="./demo/event.vue">事件</demo>
+  <demo src="./demo/mark.vue">带标签的滑块</demo>
+  <demo src="./demo/vertical.vue">垂直</demo>
+  <demo src="./demo/show-tooltip.vue">控制 ToolTip 的显示</demo>
+  <demo src="./demo/reverse.vue">反向</demo>
+  <demo src="./demo/draggableTrack.vue">范围可拖拽</demo>
+  <demo src="./demo/multiple.vue">多点组合</demo>
+  <demo src="./demo/editable.vue">动态增减节点</demo>
+  <demo src="./demo/style-class.vue">自定义语义结构的样式和类</demo>
+  <demo src="./demo/component-token.vue">组件 Token</demo>
 </demo-group>
 
 ## API
-
-### 属性 {#property}
 
 通用属性参考：[通用属性](/docs/vue/common-props)
 
