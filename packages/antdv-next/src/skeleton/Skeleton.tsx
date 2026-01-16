@@ -156,7 +156,7 @@ const Skeleton = defineComponent<SkeletonProps, EmptyEmit, string, SlotsType<Ske
               <Element
                 class={mergedClassNames.value.avatar}
                 {...avatarProps}
-                style={mergedStyles.value.header}
+                style={mergedStyles.value.avatar}
               />
             </div>
           )

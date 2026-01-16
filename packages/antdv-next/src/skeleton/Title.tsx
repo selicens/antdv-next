@@ -6,7 +6,6 @@ import { defineComponent } from 'vue'
 export interface SkeletonTitleProps {
   prefixCls?: string
   rootClass?: string
-  style?: CSSProperties
   width?: number | string
 }
 
