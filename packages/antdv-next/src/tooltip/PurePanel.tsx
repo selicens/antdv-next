@@ -1,15 +1,16 @@
 import type { TooltipClassNamesType, TooltipProps, TooltipStylesType } from '.'
 import { Popup } from '@v-c/tooltip'
 import { clsx } from '@v-c/util'
+import { omit } from 'es-toolkit'
 import { computed, defineComponent } from 'vue'
 import { useMergeSemantic, useToArr, useToProps } from '../_util/hooks'
 import { getSlotPropsFnRun, toPropsRefs } from '../_util/tools.ts'
 import { useComponentBaseConfig } from '../config-provider/context'
+import useCSSVarCls from '../config-provider/hooks/useCSSVarCls'
 import useStyle from './style'
 import { parseColor } from './util.ts'
 
 export interface PurePanelProps extends TooltipProps {
-
 }
 
 const defaults = {
@@ -20,7 +21,7 @@ const defaults = {
 const PurePanel = defineComponent<PurePanelProps>(
   (props = defaults, { attrs, slots }) => {
     const { prefixCls, rootPrefixCls } = useComponentBaseConfig('tooltip', props)
-    const rootCls = rootPrefixCls
+    const rootCls = useCSSVarCls(prefixCls)
     const { placement, classes, styles } = toPropsRefs(props, 'placement', 'classes', 'styles')
     const [hashId, cssVarCls] = useStyle(prefixCls, rootCls)
 
@@ -30,9 +31,12 @@ const PurePanel = defineComponent<PurePanelProps>(
     }))
     const colorInfo = computed(() => parseColor(rootPrefixCls.value, prefixCls.value, props.color))
 
-    const innerStyles = computed(() => ({
-      container: colorInfo.value.overlayStyle,
-    }))
+    const innerStyles = computed(() => {
+      const mergedStyle = {
+        ...colorInfo.value.overlayStyle,
+      }
+      return { container: mergedStyle }
+    })
 
     const [mergedClassNames, mergedStyles] = useMergeSemantic<
       TooltipClassNamesType,
@@ -57,7 +61,7 @@ const PurePanel = defineComponent<PurePanelProps>(
         <div class={rootClassName} style={arrowContentStyle}>
           <div class={`${prefixCls.value}-arrow`} />
           <Popup
-            {...props}
+            {...omit(props, ['class'])}
             className={hashId.value}
             prefixCls={prefixCls.value}
             classNames={mergedClassNames.value}

@@ -91,7 +91,7 @@ const checkboxOptions = computed(() => [
 
 <template>
   <Tilt :options="{ max: 4, glare: false, scale: 0.98 }" class="holder">
-    <ModalPanel title="Ant Design" width="100%">
+    <ModalPanel title="Antdv Next" width="100%">
       {{ locales.text }}
     </ModalPanel>
     <a-alert :title="locales.infoText" type="info" />
