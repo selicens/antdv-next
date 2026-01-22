@@ -28,3 +28,5 @@ dist-ssr
 .turbo
 web-types.json
 web-tags.json
+playground/src/assets/token-meta.json
+playground/src/assets/token.json

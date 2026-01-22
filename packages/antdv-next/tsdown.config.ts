@@ -16,5 +16,7 @@ export default defineConfig({
   external: [
     'vue',
     '@antdv-next/icons',
+    '@antdv-next/cssinjs/cssinjs-utils',
+    '@antdv-next/cssinjs',
   ],
 })
