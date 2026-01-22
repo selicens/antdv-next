@@ -19,6 +19,7 @@
     "@antfu/eslint-config": "catalog:dev",
     "@changesets/cli": "catalog:dev",
     "@mdit-vue/plugin-frontmatter": "catalog:docs",
+    "@mdit-vue/shared": "catalog:docs",
     "@types/jsdom": "catalog:types",
     "@types/markdown-it": "catalog:types",
     "@types/node": "catalog:types",

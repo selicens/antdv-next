@@ -97,7 +97,6 @@ catalogs:
     '@v-c/color-picker': ^1.0.3
     '@v-c/dialog': ^0.0.4
     '@v-c/drawer': ^0.0.4
-    '@v-c/portal': ^1.0.5
     '@v-c/dropdown': ^1.0.1
     '@v-c/image': ^1.0.0
     '@v-c/input': ^1.0.1
@@ -108,6 +107,7 @@ catalogs:
     '@v-c/notification': ^0.0.3
     '@v-c/pagination': ^0.0.1
     '@v-c/picker': ^0.0.7
+    '@v-c/portal': ^1.0.5
     '@v-c/progress': ^0.0.2
     '@v-c/qrcode': ^0.0.5
     '@v-c/rate': ^0.0.2
