@@ -52,3 +52,22 @@ Antdv Next is inspired by and built upon the following open-source projects.
 - [Ant Design](https://ant.design/)
 - [Vue.js](https://vuejs.org/)
 - [Vite](https://vitejs.dev/)
+
+
+## Contribute
+
+We are very welcome to have you participate in our open source project.
+
+**Pull Request:**
+
+1. Fork code!
+2. Create your own branch: `git checkout -b feat-xxxx`
+3. Submit your changes: `git commit -am 'feat(function): add xxxxx'`
+4. Push your branch: `git push origin feat-xxxx`
+5. submit`pull request`
+
+Thank you to all the people who already contributed to Antdv Next!
+
+<a href="https://github.com/antdv-next/antdv-next/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=antdv-next/antdv-next&max=100&columns=15" />
+</a>

@@ -52,3 +52,21 @@ Antdv Next 在设计与实现过程中参考、借鉴并使用了以下优秀的
 - [Ant Design](https://ant.design/)
 - [Vue.js](https://vuejs.org/)
 - [Vite](https://vitejs.dev/)
+
+## 贡献
+
+非常欢迎您参与到我们的开源项目中来~
+
+**PR流程：**
+
+1. Fork 代码!
+2. 创建自己的分支: `git checkout -b feat-xxxx`
+3. 提交你的修改: `git commit -am 'feat(function): add xxxxx'`
+4. 推送您的分支: `git push origin feat-xxxx`
+5. 提交`pull request`
+
+感谢所有为 Antdv Next 做出贡献的小伙伴儿们！
+
+<a href="https://github.com/antdv-next/antdv-next/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=antdv-next/antdv-next&max=100&columns=15" />
+</a>
