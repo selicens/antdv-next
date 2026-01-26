@@ -30,6 +30,7 @@ demo:
   <demo src="./demo/with-icon.vue">With Icon</demo>
   <demo src="./demo/icon-only.vue">With Icon only</demo>
   <demo src="./demo/with-name.vue">With name</demo>
+  <demo src="./demo/style-class.vue">Custom semantic dom styling</demo>
 </demo-group>
 
 ## API

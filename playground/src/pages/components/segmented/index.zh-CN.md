@@ -31,6 +31,7 @@ demo:
   <demo src="./demo/with-icon.vue">设置图标</demo>
   <demo src="./demo/icon-only.vue">只设置图标</demo>
   <demo src="./demo/with-name.vue">配合name使用</demo>
+  <demo src="./demo/style-class.vue">自定义语义结构的样式和类</demo>
 </demo-group>
 
 ## API
