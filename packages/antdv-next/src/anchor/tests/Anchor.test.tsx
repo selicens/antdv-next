@@ -3,7 +3,7 @@ import scrollIntoView from 'scroll-into-view-if-needed'
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 import { defineComponent, ref } from 'vue'
 import Anchor from '..'
-import { mount, waitFakeTimer } from '../../../../../tests/utils'
+import { mount, waitFakeTimer } from '/@tests/utils'
 
 vi.mock('scroll-into-view-if-needed', () => ({
   default: vi.fn(),
