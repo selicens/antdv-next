@@ -62,6 +62,7 @@
     "./global.d.ts": "./global.d.ts",
     "./global": "./global.d.ts",
     "./dist/reset.css": "./dist/reset.css",
+    "./dist/antd.css": "./dist/antd.css",
     "./web-types.json": "./web-types.json",
     "./web-tags.json": "./web-tags.json",
     "./package.json": "./package.json"
