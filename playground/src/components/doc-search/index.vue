@@ -404,6 +404,7 @@ function handleFocus() {
 function handleSelect(item: SearchResultItem) {
   const target: RouteLocationRaw = { path: item.path }
   router.push(target)
+  searchValue.value = ''
   open.value = false
 }
 
@@ -616,7 +617,7 @@ watch(
 .ant-doc-search-panel-item-inner {
   display: flex;
   gap: 12px;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .ant-doc-search-panel-icon {
