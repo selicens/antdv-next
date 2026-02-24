@@ -2,6 +2,41 @@
 title: Component Changelog
 ---
 
+## V1.0.5
+
+This release focuses on **fixing component interaction and data flow issues**, while also **expanding unit test coverage** for more components. It includes fixes for Tooltip, DatePicker, Autocomplete, Select, Descriptions, and app-level class/style handling.
+
+**🐞 Fixes**
+
+* fix: passive clear of `v-model` value not working by @aibayanyu20 in [#228](https://github.com/antdv-next/antdv-next/pull/228)
+* fix(tooltip): fix incorrect position calculation when arrow is displayed by @cc-hearts in [#231](https://github.com/antdv-next/antdv-next/pull/231)
+* fix: improve two-way binding and one-way data flow handling by @aibayanyu20 in [#230](https://github.com/antdv-next/antdv-next/pull/230)
+* fix: fix app class & style ref deconstruction by @aibayanyu20 in [#232](https://github.com/antdv-next/antdv-next/pull/232)
+* fix: Autocomplete input clears automatically when pressing Enter by @aibayanyu20 in [#234](https://github.com/antdv-next/antdv-next/pull/234)
+* fix(descriptions): render `id` prop on root element by @shiqkuangsan in [#236](https://github.com/antdv-next/antdv-next/pull/236)
+* fix: DatePicker manual clear not working by @aibayanyu20 in [#237](https://github.com/antdv-next/antdv-next/pull/237)
+* fix: fix Select `showSearchConfig` by @aibayanyu20 in [#240](https://github.com/antdv-next/antdv-next/pull/240)
+
+**🧪 Tests**
+
+This release adds unit tests for Splitter, Steps, and Popover to improve regression protection.
+
+* test(splitter): add unit test by @cc-hearts in [#227](https://github.com/antdv-next/antdv-next/pull/227)
+* test(steps): add unit tests by @z-kunf in [#222](https://github.com/antdv-next/antdv-next/pull/222)
+* test(popover): add unit tests for Popover component by @shiqkuangsan in [#239](https://github.com/antdv-next/antdv-next/pull/239)
+
+---
+
+**👏 New Contributors**
+
+Thanks to the following contributors for their first contributions:
+
+* @z-kunf in [#222](https://github.com/antdv-next/antdv-next/pull/222)
+
+**Full Changelog**
+https://github.com/antdv-next/antdv-next/compare/antdv-next@1.0.4...antdv-next@1.0.5
+
+
 ## V1.0.4
 
 This release focuses on **expanding unit test coverage**, **fixing component behavior issues**, and **improving docs/playground tooling**. It also includes style sync updates, project structure refinements, and **improved Nuxt compatibility**.

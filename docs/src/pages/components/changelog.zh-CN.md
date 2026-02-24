@@ -2,6 +2,41 @@
 title: 组件更新日志
 ---
 
+## V1.0.5
+
+本次版本主要聚焦于 **组件交互与数据流相关问题修复**，并进一步 **补充单元测试覆盖**。包含 Tooltip、DatePicker、Autocomplete、Select、Descriptions 以及应用级 class/style 处理等修复。
+
+**🐞 问题修复 Fixes**
+
+* fix：修复被动清空时 `v-model` 值未正确清除的问题 by @aibayanyu20 [#228](https://github.com/antdv-next/antdv-next/pull/228)
+* fix(tooltip)：修复显示箭头时位置计算错误的问题 by @cc-hearts [#231](https://github.com/antdv-next/antdv-next/pull/231)
+* fix：改进双向绑定与单向数据流处理 by @aibayanyu20 [#230](https://github.com/antdv-next/antdv-next/pull/230)
+* fix：修复 app class 与 style ref 解构问题 by @aibayanyu20 [#232](https://github.com/antdv-next/antdv-next/pull/232)
+* fix：修复 Autocomplete 按 Enter 后输入内容被自动清空的问题 by @aibayanyu20 [#234](https://github.com/antdv-next/antdv-next/pull/234)
+* fix(descriptions)：在根节点渲染 `id` 属性 by @shiqkuangsan [#236](https://github.com/antdv-next/antdv-next/pull/236)
+* fix：修复 DatePicker 手动清空无效的问题 by @aibayanyu20 [#237](https://github.com/antdv-next/antdv-next/pull/237)
+* fix：修复 Select `showSearchConfig` 配置问题 by @aibayanyu20 [#240](https://github.com/antdv-next/antdv-next/pull/240)
+
+**🧪 单元测试 Tests**
+
+本版本为 Splitter、Steps 与 Popover 组件补充单元测试，提升回归保护能力。
+
+* test(splitter)：新增单元测试 by @cc-hearts [#227](https://github.com/antdv-next/antdv-next/pull/227)
+* test(steps)：新增单元测试 by @z-kunf [#222](https://github.com/antdv-next/antdv-next/pull/222)
+* test(popover)：为 Popover 组件新增单元测试 by @shiqkuangsan [#239](https://github.com/antdv-next/antdv-next/pull/239)
+
+---
+
+**👏 新贡献者 New Contributors**
+
+感谢以下社区贡献者的首次参与：
+
+* @z-kunf（[#222](https://github.com/antdv-next/antdv-next/pull/222)）
+
+**Full Changelog**
+https://github.com/antdv-next/antdv-next/compare/antdv-next@1.0.4...antdv-next@1.0.5
+
+
 ## V1.0.4
 
 本次版本主要聚焦于 **单元测试覆盖率提升**、**组件行为问题修复**，以及 **文档 / Playground 工具链改进**，同时包含样式同步、项目结构优化，并增强了 **Nuxt 兼容性**。
