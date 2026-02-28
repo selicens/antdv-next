@@ -51,7 +51,9 @@ export type CollapseStylesType = SemanticStylesType<CollapseProps, CollapseSeman
 export type CollapseItemType = Omit<ItemType, 'children'> & {
   content?: ItemType['children']
 }
-export interface CollapseProps {
+export interface CollapseProps extends
+  /* @vue-ignore */
+  CollapseEmitsProps {
   activeKey?: Array<string | number> | string | number
   defaultActiveKey?: Array<string | number> | string | number
   /** 手风琴效果 */
@@ -77,6 +79,9 @@ export interface CollapseProps {
 
 export interface CollapseEmits {
   change: (key: string[]) => void
+}
+export interface CollapseEmitsProps {
+  onChange?: CollapseEmits['change']
 }
 
 interface PanelProps {

@@ -45,7 +45,9 @@ export type FloatButtonClassNamesType = SemanticClassNamesType<
 
 export type FloatButtonStylesType = SemanticStylesType<FloatButtonProps, ButtonSemanticStyles>
 
-export interface FloatButtonProps extends ComponentBaseProps {
+export interface FloatButtonProps extends ComponentBaseProps,
+  /* @vue-ignore */
+  FloatButtonEmitsProps {
   icon?: VueNode
   /** @deprecated Use `content` instead */
   description?: VueNode
@@ -75,6 +77,13 @@ export interface FloatButtonEmits {
   mouseleave: (e: MouseEvent) => void
   focus: (e: FocusEvent) => void
   blur: (e: FocusEvent) => void
+}
+export interface FloatButtonEmitsProps {
+  onClick?: FloatButtonEmits['click']
+  onMouseenter?: FloatButtonEmits['mouseenter']
+  onMouseleave?: FloatButtonEmits['mouseleave']
+  onFocus?: FloatButtonEmits['focus']
+  onBlur?: FloatButtonEmits['blur']
 }
 
 export const floatButtonPrefixCls = 'float-btn'

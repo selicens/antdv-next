@@ -30,6 +30,7 @@ import Typography from '../Typography'
 import CopyBtn from './CopyBtn'
 import Ellipsis from './Ellipsis'
 import EllipsisTooltip from './EllipsisTooltip'
+
 import { isEleEllipsis, isValidText, toList } from './util'
 
 const ELLIPSIS_STR = '...'
@@ -65,8 +66,16 @@ function wrapperDecorations(props: BlockProps, content: any) {
   return currentContent
 }
 
+export type TypographyBaseEmitsProps = {
+  [K in keyof TypographyBaseEmits as `on${Capitalize<string & K>}`]?: TypographyBaseEmits[K]
+}
+
+interface InternalBlockProps extends BlockProps,
+  /* @vue-ignore */
+  TypographyBaseEmitsProps {}
+
 const Base = defineComponent<
-  BlockProps,
+  InternalBlockProps,
   TypographyBaseEmits,
   string,
   SlotsType<TypographySlots>

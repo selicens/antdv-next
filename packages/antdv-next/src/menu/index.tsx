@@ -1,7 +1,7 @@
 import type { MenuInfo, MenuItemGroupProps, SelectInfo, MenuRef as VcMenuRef } from '@v-c/menu'
 import type { App, SlotsType } from 'vue'
 import type { ItemType } from './interface.ts'
-import type { MenuEmits, MenuProps, MenuSlots } from './menu'
+import type { MenuProps as BaseMenuProps, MenuEmits, MenuEmitsProps, MenuSlots } from './menu'
 import type { MenuItemProps } from './MenuItem'
 import type { SubMenuProps } from './SubMenu'
 import { computed, defineComponent, shallowRef } from 'vue'
@@ -9,18 +9,25 @@ import { useSiderCtx } from '../layout/Sider.tsx'
 import InternalMenu from './menu'
 import MenuDivider from './MenuDivider'
 import Item from './MenuItem'
+
 import SubMenu from './SubMenu'
 
 export type MenuItemType = ItemType
-export type { MenuEmits, MenuItemGroupProps, MenuItemProps, MenuProps, MenuSlots, SubMenuProps }
+export type { MenuEmits, MenuItemGroupProps, MenuItemProps, MenuSlots, SubMenuProps }
 
 export interface MenuRef {
   menu: VcMenuRef | null
   focus: (options?: FocusOptions) => void
 }
 
+export interface InternalMenuProps extends BaseMenuProps,
+  /* @vue-ignore */
+  MenuEmitsProps {}
+
+export type MenuProps = InternalMenuProps
+
 const Menu = defineComponent<
-  MenuProps,
+  InternalMenuProps,
   MenuEmits,
   string,
   SlotsType<MenuSlots>

@@ -64,6 +64,23 @@ export interface DatePickerSlots {
   [key: string]: any
 }
 
+export interface DatePickerEmitsProps<DateType = AnyObject> {
+  onChange?: DatePickerEmits<DateType>['change']
+  'onUpdate:value'?: DatePickerEmits<DateType>['update:value']
+  onCalendarChange?: DatePickerEmits<DateType>['calendarChange']
+  onPanelChange?: DatePickerEmits<DateType>['panelChange']
+  onOpenChange?: DatePickerEmits<DateType>['openChange']
+  onOk?: DatePickerEmits<DateType>['ok']
+  onSelect?: DatePickerEmits<DateType>['select']
+  onFocus?: DatePickerEmits<DateType>['focus']
+  onBlur?: DatePickerEmits<DateType>['blur']
+  onKeydown?: DatePickerEmits<DateType>['keydown']
+}
+
+export interface InternalPickerProps<DateType extends AnyObject = AnyObject> extends PickerProps<DateType>,
+  /* @vue-ignore */
+  Omit<DatePickerEmitsProps<DateType>, keyof PickerProps<DateType>> {}
+
 function generatePicker<DateType extends AnyObject = AnyObject>(generateConfig: GenerateConfig<DateType>) {
   type DatePickerProps = PickerProps<DateType>
   type TimePickerProps = GenericTimePickerProps<DateType>
@@ -74,7 +91,7 @@ function generatePicker<DateType extends AnyObject = AnyObject>(generateConfig: 
     const name = displayName ? `A${displayName}` : 'ADatePicker'
 
     return defineComponent<
-      PickerProps<DateType>,
+      InternalPickerProps<DateType>,
       DatePickerEmits<DateType>,
       string,
       SlotsType<DatePickerSlots>

@@ -3,11 +3,18 @@ import type { BlockProps, TypographyBaseEmits, TypographySlots } from './interfa
 import { omit } from 'es-toolkit'
 import { computed, defineComponent, watchEffect } from 'vue'
 import { devUseWarning, isDev } from '../_util/warning'
+
 import Base from './Base'
+
+export type TypographyBaseEmitsProps = {
+  [K in keyof TypographyBaseEmits as `on${Capitalize<string & K>}`]?: TypographyBaseEmits[K]
+}
 
 const TITLE_ELE_LIST = [1, 2, 3, 4, 5] as const
 
-export interface TitleProps extends Omit<BlockProps, 'strong'> {
+export interface TitleProps extends Omit<BlockProps, 'strong'>,
+  /* @vue-ignore */
+  TypographyBaseEmitsProps {
   level?: (typeof TITLE_ELE_LIST)[number]
 }
 

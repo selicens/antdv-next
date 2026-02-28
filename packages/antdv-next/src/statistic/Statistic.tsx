@@ -82,8 +82,17 @@ const defaults = {
   prefix: undefined,
 } as any
 
+export interface InternalStatisticProps extends StatisticProps,
+  /* @vue-ignore */
+  StatisticEmitsProps {}
+
+export interface StatisticEmitsProps {
+  onMouseenter?: StatisticEmits['mouseenter']
+  onMouseleave?: StatisticEmits['mouseleave']
+}
+
 const Statistic = defineComponent<
-  StatisticProps,
+  InternalStatisticProps,
   StatisticEmits,
   string,
   SlotsType<StatisticSlots>

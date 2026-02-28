@@ -77,7 +77,9 @@ export interface MentionsOptionProps extends VcMentionsOptionProps {
 
 export interface MentionProps extends
   Omit<VcMentionsProps, 'suffix' | 'classNames' | 'className' | 'styles' | 'onFocus' | 'onChange' | 'onBlur' | 'onSelect' | 'onPopupScroll' | 'onSearch'>,
-  ComponentBaseProps {
+  ComponentBaseProps,
+  /* @vue-ignore */
+  MentionsEmitsProps {
   loading?: boolean
   status?: InputStatus
   options?: MentionsOptionProps[]
@@ -105,6 +107,15 @@ export interface MentionsEmits {
   'popupScroll': (event: Event) => void
   'search': (text: string, prefix: string) => void
   'update:value': (value: string) => void
+}
+export interface MentionsEmitsProps {
+  onFocus?: MentionsEmits['focus']
+  onBlur?: MentionsEmits['blur']
+  onChange?: MentionsEmits['change']
+  onSelect?: MentionsEmits['select']
+  onPopupScroll?: MentionsEmits['popupScroll']
+  onSearch?: MentionsEmits['search']
+  'onUpdate:value'?: MentionsEmits['update:value']
 }
 
 export interface MentionsSlots {

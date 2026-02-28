@@ -58,7 +58,9 @@ export type FloatButtonGroupStylesType = SemanticStylesType<
   FloatButtonGroupSemanticStyles
 >
 
-export interface FloatButtonGroupProps extends Omit<FloatButtonProps, 'classes' | 'styles'>, ComponentBaseProps {
+export interface FloatButtonGroupProps extends Omit<FloatButtonProps, 'classes' | 'styles'>, ComponentBaseProps,
+  /* @vue-ignore */
+  FloatButtonGroupEmitsProps {
   // Styles
   classes?: FloatButtonGroupClassNamesType
   styles?: FloatButtonGroupStylesType
@@ -83,6 +85,11 @@ export interface FloatButtonGroupEmits {
   'openChange': (open: boolean) => void
   'update:open': (open: boolean) => void
   'click': (e: MouseEvent) => void
+}
+export interface FloatButtonGroupEmitsProps {
+  onOpenChange?: FloatButtonGroupEmits['openChange']
+  'onUpdate:open'?: FloatButtonGroupEmits['update:open']
+  onClick?: FloatButtonGroupEmits['click']
 }
 
 const groupOmittedProps: (keyof FloatButtonGroupProps)[] = [

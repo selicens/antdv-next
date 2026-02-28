@@ -14,6 +14,7 @@ import useBase from './hooks/useBase'
 import useCheckable from './hooks/useCheckable'
 import useIcons from './hooks/useIcons'
 import useStyle from './style'
+
 import usePanelStyle from './style/panel'
 
 export type PanelPickType
@@ -39,11 +40,17 @@ export interface CascaderPanelProps<
   OptionType extends DefaultOptionType = DefaultOptionType,
   ValueField extends keyof OptionType = keyof OptionType,
   Multiple extends boolean = boolean,
-> extends Pick<CascaderProps<OptionType, ValueField, Multiple>, PanelPickType> {}
+> extends Pick<CascaderProps<OptionType, ValueField, Multiple>, PanelPickType>,
+  /* @vue-ignore */
+  CascaderPanelEmitsProps {}
 
 export interface CascaderPanelEmits {
   'change': NonNullable<VcCascaderProps['onChange']>
   'update:value': (value: any) => void
+}
+export interface CascaderPanelEmitsProps {
+  onChange?: CascaderPanelEmits['change']
+  'onUpdate:value'?: CascaderPanelEmits['update:value']
 }
 
 export interface CascaderPanelSlots {

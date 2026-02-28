@@ -9,6 +9,7 @@ import { addMediaQueryListener, removeMediaQueryListener } from '../_util/mediaQ
 import { getSlotPropsFnRun } from '../_util/tools.ts'
 import { useBaseConfig } from '../config-provider/context.ts'
 import { useLayoutCtx } from './context.ts'
+
 import useStyle from './style/sider'
 
 const dimensionMaxMap: Record<Breakpoint, string> = {
@@ -45,7 +46,9 @@ export type CollapseType = 'clickTrigger' | 'responsive'
 
 export type SiderTheme = 'light' | 'dark'
 
-export interface SiderProps {
+export interface SiderProps extends
+  /* @vue-ignore */
+  SiderEmitsProps {
   prefixCls?: string
   collapsible?: boolean
   collapsed?: boolean
@@ -62,6 +65,11 @@ export interface SiderEmits {
   'collapse': (collapsed: boolean, type: CollapseType) => void
   'update:collapsed': (collapsed: boolean) => void
   'breakpoint': (broken: boolean) => void
+}
+export interface SiderEmitsProps {
+  onCollapse?: SiderEmits['collapse']
+  'onUpdate:collapsed'?: SiderEmits['update:collapsed']
+  onBreakpoint?: SiderEmits['breakpoint']
 }
 
 export interface SiderSlots {

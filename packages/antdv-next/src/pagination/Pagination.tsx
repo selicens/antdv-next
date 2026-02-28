@@ -39,8 +39,19 @@ const omitKeys = [
   'selectComponentClass',
 ] as const
 
+export interface InternalPaginationProps extends PaginationProps,
+  /* @vue-ignore */
+  PaginationEmitsProps {}
+
+export interface PaginationEmitsProps {
+  onChange?: PaginationEmits['change']
+  onShowSizeChange?: PaginationEmits['showSizeChange']
+  'onUpdate:current'?: PaginationEmits['update:current']
+  'onUpdate:pageSize'?: PaginationEmits['update:pageSize']
+}
+
 const Pagination = defineComponent<
-  PaginationProps,
+  InternalPaginationProps,
   PaginationEmits,
   string,
   SlotsType<PaginationSlots>

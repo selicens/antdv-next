@@ -95,7 +95,9 @@ export type PreviewConfig = OriginPreviewConfig
 export interface ImageProps extends Omit<
   VcImageProps,
 'preview' | 'classNames' | 'styles' | 'rootClassName' | 'onError' | 'onClick'
-> {
+>,
+  /* @vue-ignore */
+  ImageEmitsProps {
   preview?: boolean | PreviewConfig
   /** @deprecated Use `styles.root` instead */
   wrapperStyle?: CSSProperties
@@ -107,6 +109,10 @@ export interface ImageProps extends Omit<
 export interface ImageEmits {
   error: NonNullable<VcImageProps['onError']>
   click: NonNullable<VcImageProps['onClick']>
+}
+export interface ImageEmitsProps {
+  onError?: ImageEmits['error']
+  onClick?: ImageEmits['click']
 }
 
 export interface ImageSlots {

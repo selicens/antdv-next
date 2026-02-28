@@ -20,6 +20,7 @@ import { useDisabledContext } from '../config-provider/DisabledContext.tsx'
 import { useSliderInternalContext } from './Context'
 import SliderTooltip from './SliderTooltip.tsx'
 import useStyle from './style'
+
 import useRafLock from './useRafLock'
 
 export type SliderMarks = VcSliderProps['marks']
@@ -110,7 +111,9 @@ export interface SliderBaseProps {
   ariaValueTextFormatterForHandle?: SliderProps['ariaValueTextFormatterForHandle']
 }
 
-export interface SliderInternalProps extends SliderBaseProps {
+export interface SliderInternalProps extends SliderBaseProps,
+  /* @vue-ignore */
+  SliderEmitsProps {
   range?: boolean | SliderRange
   value?: number | number[]
   defaultValue?: number | number[]
@@ -131,6 +134,12 @@ export interface SliderEmits {
   'afterChange': (value: any) => void
   'update:value': (value: any) => void
   'changeComplete': (value: any) => void
+}
+export interface SliderEmitsProps {
+  onChange?: SliderEmits['change']
+  onAfterChange?: SliderEmits['afterChange']
+  'onUpdate:value'?: SliderEmits['update:value']
+  onChangeComplete?: SliderEmits['changeComplete']
 }
 
 export interface SliderSlots {

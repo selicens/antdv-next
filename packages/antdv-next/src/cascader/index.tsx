@@ -152,7 +152,9 @@ export interface CascaderProps<
     | 'onPopupVisibleChange'
     | 'multiple'
     | 'value'
-  > {
+  >,
+  /* @vue-ignore */
+  CascaderEmitsProps {
   value?: any
   multiple?: boolean
   size?: SizeType
@@ -208,6 +210,14 @@ export interface CascaderEmits {
   'change': NonNullable<VcCascaderProps['onChange']>
   'update:value': (value: any) => void
   'search': NonNullable<VcCascaderProps['onSearch']>
+}
+export interface CascaderEmitsProps {
+  onOpenChange?: CascaderEmits['openChange']
+  onDropdownVisibleChange?: CascaderEmits['dropdownVisibleChange']
+  onPopupVisibleChange?: CascaderEmits['popupVisibleChange']
+  onChange?: CascaderEmits['change']
+  'onUpdate:value'?: CascaderEmits['update:value']
+  onSearch?: CascaderEmits['search']
 }
 
 const InternalCascader = defineComponent<

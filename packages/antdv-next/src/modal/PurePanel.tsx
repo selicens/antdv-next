@@ -12,16 +12,21 @@ import { useComponentBaseConfig } from '../config-provider/context'
 import useCSSVarCls from '../config-provider/hooks/useCSSVarCls'
 import { ConfirmContent } from './ConfirmDialog'
 import { Footer, renderCloseIcon } from './shared'
+
 import useStyle from './style'
 
 export interface PurePanelProps
   extends Omit<DialogProps, 'prefixCls' | 'footer' | 'visible' | 'classNames' | 'styles' | 'style'>,
-  Pick<ModalFuncProps, 'type' | 'footer'> {
+  Pick<ModalFuncProps, 'type' | 'footer'>,
+  /* @vue-ignore */
+  PurePanelEmitsProps {
   prefixCls?: string
   rootClass?: string
   classes?: ModalClassNamesType
   styles?: ModalStylesType
 }
+
+export interface PurePanelEmitsProps {}
 
 export interface PurePanelSlots {
   default?: () => any

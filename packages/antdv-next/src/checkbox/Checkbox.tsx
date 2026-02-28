@@ -21,6 +21,7 @@ import useCSSVarCls from '../config-provider/hooks/useCSSVarCls'
 import { useFormItemContext, useFormItemInputContext } from '../form/context'
 import { useGroupContext } from './GroupContext'
 import useStyle from './style'
+
 import useBubbleLock from './useBubbleLock.ts'
 
 export type CheckedValueType = string | number | boolean | object
@@ -60,6 +61,19 @@ export interface CheckboxEmits {
   'blur': (event: FocusEvent) => void
   'click': (event: MouseEvent) => void
 }
+export interface CheckboxEmitsProps {
+  onChange?: CheckboxEmits['change']
+  'onUpdate:checked'?: CheckboxEmits['update:checked']
+  'onUpdate:value'?: CheckboxEmits['update:value']
+  onMouseenter?: CheckboxEmits['mouseenter']
+  onMouseleave?: CheckboxEmits['mouseleave']
+  onKeypress?: CheckboxEmits['keypress']
+  onKeydown?: CheckboxEmits['keydown']
+  onFocus?: CheckboxEmits['focus']
+  onBlur?: CheckboxEmits['blur']
+  onClick?: CheckboxEmits['click']
+}
+
 export interface CheckboxSlots {
   default?: () => any
 }
@@ -85,7 +99,9 @@ export type CheckboxClassNamesType = SemanticClassNamesType<
 
 export type CheckboxStylesType = SemanticStylesType<CheckboxProps, CheckboxSemanticStyles>
 
-export interface CheckboxProps extends AbstractCheckboxProps {
+export interface CheckboxProps extends AbstractCheckboxProps,
+  /* @vue-ignore */
+  CheckboxEmitsProps {
   indeterminate?: boolean
   classes?: CheckboxClassNamesType
   styles?: CheckboxStylesType

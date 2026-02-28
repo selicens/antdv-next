@@ -22,6 +22,7 @@ import { useFormItemInputContext } from '../form/context.tsx'
 import useVariant from '../form/hooks/useVariant'
 import { useCompactItemContext } from '../space/Compact.tsx'
 import { useSharedStyle } from './style'
+
 import useStyle from './style/textarea'
 
 export type TextAreaSemanticName = keyof TextAreaSemanticClassNames & keyof TextAreaSemanticStyles
@@ -69,7 +70,9 @@ export interface TextAreaProps
     | 'maxLength'
     | 'readOnly'
     | 'minLength'
-  > {
+  >,
+  /* @vue-ignore */
+  TextAreaEmitsProps {
   /** @deprecated Use `variant` instead */
   bordered?: boolean
   size?: SizeType
@@ -96,6 +99,18 @@ export interface TextAreaEmits {
   'compositionend': (e: CompositionEvent) => void
   'mousedown': (e: MouseEvent) => void
   'update:value': (value?: string | number) => void
+}
+export interface TextAreaEmitsProps {
+  onPressEnter?: TextAreaEmits['pressEnter']
+  onChange?: TextAreaEmits['change']
+  onFocus?: TextAreaEmits['focus']
+  onBlur?: TextAreaEmits['blur']
+  onResize?: TextAreaEmits['resize']
+  onKeydown?: TextAreaEmits['keydown']
+  onCompositionstart?: TextAreaEmits['compositionstart']
+  onCompositionend?: TextAreaEmits['compositionend']
+  onMousedown?: TextAreaEmits['mousedown']
+  'onUpdate:value'?: TextAreaEmits['update:value']
 }
 
 export interface TextAreaSlots {

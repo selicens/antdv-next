@@ -9,23 +9,24 @@ import { omit } from 'es-toolkit'
 import { computed, defineComponent, shallowRef, watch } from 'vue'
 import { useComponentBaseConfig } from '../config-provider/context.ts'
 import Tree from './Tree.tsx'
+
 import { calcRangeKeys, convertDirectoryKeysToNodes } from './utils/dictUtil.ts'
 
 export type ExpandAction = false | 'click' | 'doubleClick'
 
-export interface DirectoryTreeProps<T extends BasicDataNode = DataNode> extends TreeProps<T> {
+export interface DirectoryTreeProps<T extends BasicDataNode = DataNode> extends TreeProps<T>,
+  /* @vue-ignore */
+  DirectoryTreeEmitsProps {
   expandAction?: ExpandAction
 }
 
 export interface DirectoryTreeEmits extends TreeEmits {
 
 }
-
-export type DirectoryTreeEmitsMap<T extends Record<string, any>> = {
-  [K in keyof T as `on${Capitalize<K & string>}`]: T[K]
+export type DirectoryTreeEmitsProps = {
+  [K in keyof DirectoryTreeEmits as `on${Capitalize<string & K>}`]?: DirectoryTreeEmits[K]
 }
-
-export type DirectoryTreeEmitsType = DirectoryTreeEmitsMap<DirectoryTreeEmits>
+export type DirectoryTreeEmitsType = DirectoryTreeEmitsProps
 export interface DirectoryTreeSlots extends TreeSlots {}
 
 function getIcon(props: AntdTreeNodeAttribute) {

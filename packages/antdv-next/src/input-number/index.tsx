@@ -64,7 +64,9 @@ export interface InputNumberStepContext {
 
 export interface InputNumberProps
   extends ComponentBaseProps,
-  Omit<VcInputNumberProps, 'class' | 'controls' | 'className' | 'style' | 'prefixCls' | 'classNames' | 'styles' | 'prefix' | 'suffix' | 'onChange' | 'onClick' | 'onInput' | 'onBeforeInput' | 'onBlur' | 'onCompositionEnd' | 'onCompositionStart' | 'onKeyDown' | 'onKeyUp' | 'onMouseDown' | 'onMouseEnter' | 'onPressEnter' | 'onMouseUp' | 'onMouseMove' | 'onFocus'> {
+  Omit<VcInputNumberProps, 'class' | 'controls' | 'className' | 'style' | 'prefixCls' | 'classNames' | 'styles' | 'prefix' | 'suffix' | 'onChange' | 'onClick' | 'onInput' | 'onBeforeInput' | 'onBlur' | 'onCompositionEnd' | 'onCompositionStart' | 'onKeyDown' | 'onKeyUp' | 'onMouseDown' | 'onMouseEnter' | 'onPressEnter' | 'onMouseUp' | 'onMouseMove' | 'onFocus'>,
+  /* @vue-ignore */
+  InputNumberEmitsProps {
   size?: SizeType
   status?: InputStatus
   disabled?: boolean
@@ -105,6 +107,27 @@ export interface InputNumberEmits {
   'compositionstart': (e: CompositionEvent) => void
   'compositionend': (e: CompositionEvent) => void
   'beforeinput': (e: InputEvent) => void
+}
+export interface InputNumberEmitsProps {
+  onChange?: InputNumberEmits['change']
+  'onUpdate:value'?: InputNumberEmits['update:value']
+  onInput?: InputNumberEmits['input']
+  onPressEnter?: InputNumberEmits['pressEnter']
+  onStep?: InputNumberEmits['step']
+  onMousedown?: InputNumberEmits['mousedown']
+  onClick?: InputNumberEmits['click']
+  onMouseup?: InputNumberEmits['mouseup']
+  onMouseleave?: InputNumberEmits['mouseleave']
+  onMousemove?: InputNumberEmits['mousemove']
+  onMouseenter?: InputNumberEmits['mouseenter']
+  onMouseout?: InputNumberEmits['mouseout']
+  onFocus?: InputNumberEmits['focus']
+  onBlur?: InputNumberEmits['blur']
+  onKeydown?: InputNumberEmits['keydown']
+  onKeyup?: InputNumberEmits['keyup']
+  onCompositionstart?: InputNumberEmits['compositionstart']
+  onCompositionend?: InputNumberEmits['compositionend']
+  onBeforeinput?: InputNumberEmits['beforeinput']
 }
 
 export interface InputNumberSlots {

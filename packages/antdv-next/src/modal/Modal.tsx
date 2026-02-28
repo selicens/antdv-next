@@ -20,6 +20,7 @@ import useFocusable from '../drawer/useFocusable.ts'
 import Skeleton from '../skeleton'
 import { usePanelRef } from '../watermark/context.ts'
 import { Footer, renderCloseIcon } from './shared.tsx'
+
 import useStyle from './style'
 
 let mousePosition: MousePosition
@@ -48,8 +49,18 @@ const defaults = {
   width: 520,
 } as any
 
+export interface InternalModalProps extends ModalProps,
+  /* @vue-ignore */
+  ModalEmitsProps {}
+
+export interface ModalEmitsProps {
+  onOk?: ModalEmits['ok']
+  onCancel?: ModalEmits['cancel']
+  'onUpdate:open'?: ModalEmits['update:open']
+}
+
 const Modal = defineComponent<
-  ModalProps,
+  InternalModalProps,
   ModalEmits,
   string,
   SlotsType<ModalSlots>

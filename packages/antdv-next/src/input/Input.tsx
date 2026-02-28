@@ -75,7 +75,9 @@ interface BaseVcInputProps {
   inputMode?: string
 }
 
-export interface InputProps extends ComponentBaseProps, BaseVcInputProps {
+export interface InputProps extends ComponentBaseProps, BaseVcInputProps,
+  /* @vue-ignore */
+  InputEmitsProps {
   size?: SizeType
   disabled?: boolean
   status?: InputStatus
@@ -102,6 +104,18 @@ export interface InputEmits {
   'compositionstart': NonNullable<VcInputProps['onCompositionStart']>
   'compositionend': NonNullable<VcInputProps['onCompositionEnd']>
   'update:value': (value: VcInputProps['value']) => void
+}
+export interface InputEmitsProps {
+  onPressEnter?: InputEmits['pressEnter']
+  onClear?: InputEmits['clear']
+  onChange?: InputEmits['change']
+  onBlur?: InputEmits['blur']
+  onFocus?: InputEmits['focus']
+  onKeydown?: InputEmits['keydown']
+  onKeyup?: InputEmits['keyup']
+  onCompositionstart?: InputEmits['compositionstart']
+  onCompositionend?: InputEmits['compositionend']
+  'onUpdate:value'?: InputEmits['update:value']
 }
 
 export interface InputSlots {

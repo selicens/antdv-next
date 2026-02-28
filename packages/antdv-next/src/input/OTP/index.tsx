@@ -37,7 +37,9 @@ export type OTPStylesType = SemanticStylesType<OTPProps, OTPSemanticStyles>
 
 export interface OTPProps extends ComponentBaseProps,
   /* @vue-ignore */
-  Omit<HTMLAttributes, 'onChange' | 'onInput'> {
+  Omit<HTMLAttributes, 'onChange' | 'onInput'>,
+  /* @vue-ignore */
+  OTPEmitsProps {
   length?: number
   variant?: Variant
   size?: SizeType
@@ -59,6 +61,11 @@ export interface OTPEmits {
   'change': (value: string) => void
   'input': (cells: string[]) => void
   'update:value': (value: string) => void
+}
+export interface OTPEmitsProps {
+  onChange?: OTPEmits['change']
+  onInput?: OTPEmits['input']
+  'onUpdate:value'?: OTPEmits['update:value']
 }
 
 export interface OPTSlots {

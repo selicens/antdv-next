@@ -149,8 +149,9 @@ export interface SelectProps
     | 'dropdownStyle'
     | 'classes'
     | 'styles'
-    | RcEventKeys>
-{
+    | RcEventKeys>,
+  /* @vue-ignore */
+  SelectEmitsProps {
   placement?: SelectCommonPlacement
   mode?: 'multiple' | 'tags'
   status?: InputStatus
@@ -215,6 +216,26 @@ export interface SelectEmits {
   'focus': NonNullable<VcSelectProps['onFocus']>
   'popupScroll': NonNullable<VcSelectProps['onPopupScroll']>
   'select': NonNullable<VcSelectProps['onSelect']>
+}
+export interface SelectEmitsProps {
+  onOpenChange?: SelectEmits['openChange']
+  onDropdownVisibleChange?: SelectEmits['dropdownVisibleChange']
+  onClear?: SelectEmits['clear']
+  onKeydown?: SelectEmits['keydown']
+  onKeyup?: SelectEmits['keyup']
+  onBlur?: SelectEmits['blur']
+  'onUpdate:value'?: SelectEmits['update:value']
+  onClick?: SelectEmits['click']
+  onActive?: SelectEmits['active']
+  onChange?: SelectEmits['change']
+  onDeselect?: SelectEmits['deselect']
+  onInputKeydown?: SelectEmits['inputKeydown']
+  onMousedown?: SelectEmits['mousedown']
+  onMouseleave?: SelectEmits['mouseleave']
+  onMouseenter?: SelectEmits['mouseenter']
+  onFocus?: SelectEmits['focus']
+  onPopupScroll?: SelectEmits['popupScroll']
+  onSelect?: SelectEmits['select']
 }
 
 type OptionParams = Parameters<NonNullable<VcSelectProps['optionRender']>>

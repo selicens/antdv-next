@@ -59,7 +59,9 @@ export type AnchorClassNamesType = SemanticClassNamesType<AnchorProps, AnchorSem
 
 export type AnchorStylesType = SemanticStylesType<AnchorProps, AnchorSemanticStyles>
 
-export interface AnchorProps extends ComponentBaseProps {
+export interface AnchorProps extends ComponentBaseProps,
+  /* @vue-ignore */
+  AnchorEmitsProps {
   classes?: AnchorClassNamesType
   styles?: AnchorStylesType
   offsetTop?: number
@@ -79,6 +81,11 @@ export interface AnchorProps extends ComponentBaseProps {
 export interface AnchorEmits {
   click: (e: MouseEvent, link: { title: VNodeChild, href: string }) => any
   change: (currentActiveLink: string) => any
+}
+
+export interface AnchorEmitsProps {
+  onClick?: AnchorEmits['click']
+  onChange?: AnchorEmits['change']
 }
 
 export type AnchorSlots = SlotsDefineType<{

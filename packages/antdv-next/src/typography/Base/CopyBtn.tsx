@@ -5,9 +5,12 @@ import { CheckOutlined, CopyOutlined, LoadingOutlined } from '@antdv-next/icons'
 import { classNames } from '@v-c/util'
 import { defineComponent } from 'vue'
 import Tooltip from '../../tooltip'
+
 import { getNode, toList } from './util'
 
-export interface CopyBtnProps extends Omit<CopyConfig, 'onCopy'> {
+export interface CopyBtnProps extends Omit<CopyConfig, 'onCopy'>,
+  /* @vue-ignore */
+  CopyBtnEmitsProps {
   prefixCls: string
   copied: boolean
   locale: Locale['Text']
@@ -19,6 +22,9 @@ export interface CopyBtnProps extends Omit<CopyConfig, 'onCopy'> {
 
 export interface CopyBtnEmits {
   copy: (e: MouseEvent) => void
+}
+export interface CopyBtnEmitsProps {
+  onCopy?: CopyBtnEmits['copy']
 }
 
 const CopyBtn = defineComponent<

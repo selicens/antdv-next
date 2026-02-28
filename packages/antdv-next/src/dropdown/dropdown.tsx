@@ -22,6 +22,7 @@ import useCSSVarCls from '../config-provider/hooks/useCSSVarCls'
 import Menu from '../menu'
 import { OverrideProvider } from '../menu/OverrideContext.tsx'
 import { useToken } from '../theme/internal'
+
 import useStyle from './style'
 
 const _Placements = [
@@ -68,7 +69,9 @@ export type DropdownClassNamesType = SemanticClassNamesType<
 
 export type DropdownStylesType = SemanticStylesType<DropdownProps, DropdownSemanticStyles>
 
-export interface DropdownProps extends ComponentBaseProps {
+export interface DropdownProps extends ComponentBaseProps,
+  /* @vue-ignore */
+  DropdownEmitsProps {
   classes?: DropdownClassNamesType
   styles?: DropdownStylesType
   menu?: MenuProps & { activeKey?: VcMenuProps['activeKey'], onClick?: MenuEmits['click'] }
@@ -99,6 +102,11 @@ export interface DropdownEmits {
   'update:open': (open: boolean) => void
   'openChange': (open: boolean, info: { source: 'trigger' | 'menu' }) => void
   'menuClick': MenuEmits['click']
+}
+export interface DropdownEmitsProps {
+  'onUpdate:open'?: DropdownEmits['update:open']
+  onOpenChange?: DropdownEmits['openChange']
+  onMenuClick?: DropdownEmits['menuClick']
 }
 
 export interface DropdownSlots extends MenuSlots {

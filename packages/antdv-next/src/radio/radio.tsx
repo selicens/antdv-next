@@ -25,10 +25,28 @@ import { useDisabledContext } from '../config-provider/DisabledContext.tsx'
 import useCSSVarCls from '../config-provider/hooks/useCSSVarCls'
 import { useFormItemInputContext } from '../form/context.tsx'
 import { useRadioGroupContext, useRadioOptionTypeContext } from './context'
+
 import useStyle from './style'
 
+export interface InternalRadioProps extends RadioProps,
+  /* @vue-ignore */
+  RadioEmitsProps {}
+
+export interface RadioEmitsProps {
+  onChange?: RadioEmits['change']
+  'onUpdate:checked'?: RadioEmits['update:checked']
+  'onUpdate:value'?: RadioEmits['update:value']
+  onMouseenter?: RadioEmits['mouseenter']
+  onMouseleave?: RadioEmits['mouseleave']
+  onKeypress?: RadioEmits['keypress']
+  onKeydown?: RadioEmits['keydown']
+  onFocus?: RadioEmits['focus']
+  onBlur?: RadioEmits['blur']
+  onClick?: RadioEmits['click']
+}
+
 const InternalRadio = defineComponent<
-  RadioProps,
+  InternalRadioProps,
   RadioEmits,
   string,
   SlotsType<RadioSlots>

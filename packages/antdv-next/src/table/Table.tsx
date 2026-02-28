@@ -11,10 +11,19 @@ import {
   SELECTION_INVERT,
   SELECTION_NONE,
 } from './hooks/useSelection.tsx'
+
 import InternalTable from './InternalTable.tsx'
 
+export type TableEmitsProps = {
+  [K in keyof TableEmits as `on${Capitalize<string & K>}`]?: TableEmits[K]
+}
+
+interface InternalTableProps extends TableProps,
+  /* @vue-ignore */
+  TableEmitsProps {}
+
 const Table = defineComponent<
-  TableProps,
+  InternalTableProps,
   TableEmits,
   string,
   SlotsType<TableSlots>

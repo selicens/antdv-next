@@ -6,15 +6,20 @@ import { unrefElement } from '@vueuse/core'
 import { cloneVNode, computed, defineComponent, isVNode, onBeforeUnmount, shallowRef, watch } from 'vue'
 import { useConfig } from '../../config-provider/context.ts'
 import useStyle from './style'
+
 import useWave from './useWave'
 
-export interface WaveProps {
+export interface WaveProps extends
+  /* @vue-ignore */
+  WaveEmitsProps {
   disabled?: boolean
   component?: WaveComponent
   colorSource?: WaveColorSource
 }
 
 export interface WaveEmits {
+}
+export interface WaveEmitsProps {
 }
 
 export interface WaveSlots {

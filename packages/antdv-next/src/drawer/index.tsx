@@ -17,6 +17,7 @@ import { useComponentBaseConfig } from '../config-provider/context'
 import { usePanelRef } from '../watermark/context.ts'
 import DrawerPanel from './DrawerPanel'
 import useStyle from './style'
+
 import useFocusable from './useFocusable.ts'
 
 const _SizeTypes = ['default', 'large'] as const
@@ -38,8 +39,9 @@ export interface DrawerProps
     VcDrawerProps,
 'maskStyle' | 'destroyOnHidden' | 'rootClassName' | 'mask' | 'resizable' | 'classNames' | 'styles' | 'onClose' | 'onKeyUp' | 'onKeyDown' | 'onMouseEnter' | 'onMouseLeave' | 'onMouseOver' | 'onClick' | 'maskClosable' | OmitFocusType
   >,
-  Omit<DrawerPanelProps, 'prefixCls' | 'ariaId' | 'onClose'>
-{
+  Omit<DrawerPanelProps, 'prefixCls' | 'ariaId' | 'onClose'>,
+  /* @vue-ignore */
+  DrawerEmitsProps {
   size?: sizeType | number | string
   resizable?: boolean | DrawerResizableConfig
   rootClass?: string
@@ -67,6 +69,17 @@ export interface DrawerEmits {
   'mouseleave': (e: MouseEvent) => void
   'mouseover': (e: MouseEvent) => void
   'click': (e: MouseEvent) => void
+}
+export interface DrawerEmitsProps {
+  'onUpdate:open'?: DrawerEmits['update:open']
+  onAfterOpenChange?: DrawerEmits['afterOpenChange']
+  onClose?: DrawerEmits['close']
+  onKeydown?: DrawerEmits['keydown']
+  onKeyup?: DrawerEmits['keyup']
+  onMouseenter?: DrawerEmits['mouseenter']
+  onMouseleave?: DrawerEmits['mouseleave']
+  onMouseover?: DrawerEmits['mouseover']
+  onClick?: DrawerEmits['click']
 }
 
 export interface DrawerSlots {

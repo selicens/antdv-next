@@ -3,9 +3,16 @@ import type { BlockProps, TypographyBaseEmits, TypographySlots } from './interfa
 import { omit } from 'es-toolkit'
 import { defineComponent } from 'vue'
 import { devUseWarning, isDev } from '../_util/warning'
+
 import Base from './Base'
 
-export interface LinkProps extends BlockProps {
+export type TypographyBaseEmitsProps = {
+  [K in keyof TypographyBaseEmits as `on${Capitalize<string & K>}`]?: TypographyBaseEmits[K]
+}
+
+export interface LinkProps extends BlockProps,
+  /* @vue-ignore */
+  TypographyBaseEmitsProps {
   ellipsis?: boolean
   href?: string
   target?: string

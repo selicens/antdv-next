@@ -17,6 +17,7 @@ import { getFieldId, initialValueFormat, toArray } from '../util.ts'
 import { validateRules } from '../utils/validateUtil.ts'
 import { getNamePath, getValue, setValue } from '../utils/valueUtil.ts'
 import ItemHolder from './ItemHolder.tsx'
+
 import StatusProvider from './StatusProvider.tsx'
 
 const NAME_SPLIT = '__SPLIT__'
@@ -61,6 +62,9 @@ export type FormItemProps = BaseFormItemProps
 
 export interface FormItemEmits {
 }
+export interface FormItemEmitsProps {
+}
+
 export interface FormItemSlots {
   default: () => any
 }
@@ -76,8 +80,12 @@ function genEmptyMeta(): Meta {
   }
 }
 
+interface InternalFormItemProps extends FormItemProps,
+  /* @vue-ignore */
+  FormItemEmitsProps {}
+
 const InternalFormItem = defineComponent<
-  FormItemProps,
+  InternalFormItemProps,
   FormItemEmits,
   string,
   SlotsType<FormItemSlots>

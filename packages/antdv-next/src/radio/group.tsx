@@ -21,8 +21,20 @@ const defaults = {
   block: false,
 } as any
 
+export interface InternalRadioGroupProps extends RadioGroupProps,
+  /* @vue-ignore */
+  RadioGroupEmitsProps {}
+
+export interface RadioGroupEmitsProps {
+  onChange?: RadioGroupEmits['change']
+  onMouseenter?: RadioGroupEmits['mouseenter']
+  onMouseleave?: RadioGroupEmits['mouseleave']
+  onFocus?: RadioGroupEmits['focus']
+  onBlur?: RadioGroupEmits['blur']
+}
+
 const RadioGroup = defineComponent<
-  RadioGroupProps,
+  InternalRadioGroupProps,
   RadioGroupEmits,
   string,
   SlotsType<RadioGroupSlots>

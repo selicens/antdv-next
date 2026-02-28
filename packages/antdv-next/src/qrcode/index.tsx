@@ -1,9 +1,9 @@
 import type { App, CSSProperties, SlotsType } from 'vue'
 import type {
+  QRCodeProps as BaseQRCodeProps,
   ImageSettings,
   QRCodeClassNamesType,
   QRCodeEmits,
-  QRCodeProps,
   QRCodeSlots,
   QRCodeStylesType,
 } from './interface'
@@ -19,11 +19,11 @@ import { useComponentBaseConfig } from '../config-provider/context'
 import useLocale from '../locale/useLocale.ts'
 import { useToken } from '../theme/internal.ts'
 import QRcodeStatus from './QrcodeStatus.tsx'
+
 import useStyle from './style/index'
 
 export type {
   QRCodeEmits,
-  QRCodeProps,
 }
 
 const defaults = {
@@ -36,8 +36,16 @@ const defaults = {
   bgColor: 'transparent',
 } as any
 
+export interface InternalQRCodeProps extends BaseQRCodeProps,
+  /* @vue-ignore */
+  QRCodeEmitsProps {}
+
+export interface QRCodeEmitsProps {
+  onRefresh?: QRCodeEmits['refresh']
+}
+
 const QRCode = defineComponent<
-  QRCodeProps,
+  InternalQRCodeProps,
   QRCodeEmits,
   string,
   SlotsType<QRCodeSlots>
@@ -76,7 +84,7 @@ const QRCode = defineComponent<
     const [mergedClassNames, mergedStyles] = useMergeSemantic<
       QRCodeClassNamesType,
       QRCodeStylesType,
-      QRCodeProps
+      BaseQRCodeProps
     >(
       useToArr(contextClassNames, classes),
       useToArr(contextStyles, styles),
@@ -190,5 +198,7 @@ const QRCode = defineComponent<
 ;(QRCode as any).install = (app: App) => {
   app.component(QRCode.name, QRCode)
 }
+
+export type QRCodeProps = InternalQRCodeProps
 
 export default QRCode

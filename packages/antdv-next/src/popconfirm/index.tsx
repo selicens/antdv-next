@@ -30,7 +30,9 @@ export type PopconfirmClassNamesType = SemanticClassNamesType<
 
 export type PopconfirmStylesType = SemanticStylesType<PopconfirmProps, PopconfirmSemanticStyles>
 
-export interface PopconfirmProps extends Omit<PopoverProps, 'title' | 'content' | 'classes' | 'styles'> {
+export interface PopconfirmProps extends Omit<PopoverProps, 'title' | 'content' | 'classes' | 'styles'>,
+  /* @vue-ignore */
+  PopconfirmEmitsProps {
   title?: VueNode
   description?: VueNode
   disabled?: boolean
@@ -53,6 +55,12 @@ export interface PopconfirmEmits extends TooltipEmits {
   confirm: (e?: MouseEvent) => void
   cancel: (e?: MouseEvent) => void
   popupClick: (e: MouseEvent) => void
+}
+export interface PopconfirmEmitsProps {
+  onOpenChange?: PopconfirmEmits['openChange']
+  onConfirm?: PopconfirmEmits['confirm']
+  onCancel?: PopconfirmEmits['cancel']
+  onPopupClick?: PopconfirmEmits['popupClick']
 }
 
 export interface PopconfirmSlots {

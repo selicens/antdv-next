@@ -23,10 +23,17 @@ import useResize from './hooks/useResize.ts'
 import useSizes from './hooks/useSizes.ts'
 import { InternalPanel } from './Panel.tsx'
 import SplitBar from './SplitBar.tsx'
+
 import useStyle from './style'
 
+export interface InternalSplitterProps extends SplitterProps,
+  /* @vue-ignore */
+  SplitterEmitsProps {}
+
+export interface SplitterEmitsProps {}
+
 const Splitter = defineComponent<
-  SplitterProps,
+  InternalSplitterProps,
   SplitterEmits,
   string,
   SlotsType<SplitterSlots>

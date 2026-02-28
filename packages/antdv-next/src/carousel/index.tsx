@@ -16,7 +16,9 @@ import useStyle, { DotDuration } from './style'
 export type CarouselEffect = 'scrollx' | 'fade'
 export type DotPlacement = 'top' | 'bottom' | 'start' | 'end'
 export interface CarouselProps extends
-  Omit<Settings, 'prevArrow' | 'nextArrow' | 'dots' | 'className' | 'style' | 'dotsClass' | 'autoplay' | 'onInit' | 'onReInit' | 'onEdge' | 'onSwipe' | 'onLazyLoad' | 'onLazyLoadError'>, ComponentBaseProps {
+  Omit<Settings, 'prevArrow' | 'nextArrow' | 'dots' | 'className' | 'style' | 'dotsClass' | 'autoplay' | 'onInit' | 'onReInit' | 'onEdge' | 'onSwipe' | 'onLazyLoad' | 'onLazyLoadError'>, ComponentBaseProps,
+  /* @vue-ignore */
+  CarouselEmitsProps {
   effect?: CarouselEffect
   id?: string
   slickGoTo?: number
@@ -43,6 +45,14 @@ export interface CarouselEmits {
   swipe: NonNullable<Settings['onSwipe']>
   lazyLoad: NonNullable<Settings['onLazyLoad']>
   lazyLoadError: NonNullable<Settings['onLazyLoadError']>
+}
+export interface CarouselEmitsProps {
+  onInit?: CarouselEmits['init']
+  onReInit?: CarouselEmits['reInit']
+  onEdge?: CarouselEmits['edge']
+  onSwipe?: CarouselEmits['swipe']
+  onLazyLoad?: CarouselEmits['lazyLoad']
+  onLazyLoadError?: CarouselEmits['lazyLoadError']
 }
 
 export interface CarouselRef {

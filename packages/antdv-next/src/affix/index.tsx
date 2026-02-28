@@ -6,7 +6,7 @@ import { filterEmpty } from '@v-c/util/dist/props-util'
 import { unrefElement, useResizeObserver } from '@vueuse/core'
 import { computed, createVNode, defineComponent, isVNode, nextTick, onBeforeUnmount, onMounted, shallowRef, watch } from 'vue'
 import throttleByAnimationFrameFn from '../_util/throttleByAnimationFrame'
-import { useConfig } from '../config-provider/context'
+import { useConfig } from '../config-provider'
 import useStyle from './style'
 import { getFixedBottom, getFixedTop, getTargetRect } from './utils'
 
@@ -25,7 +25,9 @@ function getDefaultTarget() {
 }
 
 // Affix
-export interface AffixProps extends ComponentBaseProps {
+export interface AffixProps extends ComponentBaseProps,
+  /* @vue-ignore */
+  AffixEmitsProps {
   /** Triggered when the specified offset is reached from the top of the window */
   offsetTop?: number
   /** Triggered when the specified offset is reached from the bottom of the window */
@@ -36,6 +38,9 @@ export interface AffixProps extends ComponentBaseProps {
 
 export interface AffixEmits {
   change: (affixed: boolean) => void
+}
+export interface AffixEmitsProps {
+  onChange?: AffixEmits['change']
 }
 
 const AFFIX_STATUS_NONE = 0

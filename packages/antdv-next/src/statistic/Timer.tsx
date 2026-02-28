@@ -6,6 +6,7 @@ import { omit } from 'es-toolkit'
 import { computed, defineComponent, onMounted, shallowRef, watch } from 'vue'
 import { cloneElement } from '../_util/vueNode.ts'
 import Statistic from './Statistic.tsx'
+
 import { formatCounter } from './utils.ts'
 
 export type TimerType = 'countdown' | 'countup'
@@ -37,8 +38,17 @@ const defaults = {
   suffix: undefined,
   prefix: undefined,
 } as any
+export interface InternalStatisticTimerProps extends StatisticTimerProps,
+  /* @vue-ignore */
+  StatisticTimeEmitsProps {}
+
+export interface StatisticTimeEmitsProps {
+  onFinish?: StatisticTimeEmits['finish']
+  onChange?: StatisticTimeEmits['change']
+}
+
 const StatisticTimer = defineComponent<
-  StatisticTimerProps,
+  InternalStatisticTimerProps,
   StatisticTimeEmits,
   string,
   SlotsType<StatisticSlots>

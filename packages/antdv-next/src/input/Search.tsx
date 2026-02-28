@@ -57,7 +57,9 @@ export type InputSearchStylesType = SemanticStylesType<SearchProps, InputSearchS
   button?: ButtonSemanticStyles
 }
 
-export interface SearchProps extends Omit<BaseInputProps, 'class' | 'style' | 'rootClass'>, ComponentBaseProps {
+export interface SearchProps extends Omit<BaseInputProps, 'class' | 'style' | 'rootClass'>, ComponentBaseProps,
+  /* @vue-ignore */
+  SearchEmitsProps {
   inputPrefixCls?: string
   on?: never
   enterButton?: boolean | VueNode
@@ -70,6 +72,9 @@ export interface SearchProps extends Omit<BaseInputProps, 'class' | 'style' | 'r
 
 export interface SearchEmits extends BaseInputEmits {
   search: (value: string, event?: Event | MouseEvent | KeyboardEvent, info?: { source?: 'clear' | 'input' }) => void
+}
+export interface SearchEmitsProps {
+  onSearch?: SearchEmits['search']
 }
 
 const omitInputKeys: (keyof SearchProps)[] = [

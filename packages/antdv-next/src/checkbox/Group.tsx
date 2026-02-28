@@ -30,7 +30,9 @@ export interface AbstractCheckboxGroupProps extends ComponentBaseProps {
   disabled?: boolean
 }
 
-export interface CheckboxGroupProps extends AbstractCheckboxGroupProps {
+export interface CheckboxGroupProps extends AbstractCheckboxGroupProps,
+  /* @vue-ignore */
+  CheckboxGroupEmitsProps {
   name?: string
   defaultValue?: any[]
   value?: any[]
@@ -41,6 +43,9 @@ export interface CheckboxGroupProps extends AbstractCheckboxGroupProps {
 
 export interface CheckboxGroupEmits {
   'change': (checkedValue: any[]) => void
+}
+export interface CheckboxGroupEmitsProps {
+  onChange?: CheckboxGroupEmits['change']
 }
 
 export interface CheckboxGroupSlots {

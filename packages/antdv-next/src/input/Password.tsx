@@ -15,7 +15,9 @@ type VisibilityToggle = boolean | { visible?: boolean, onVisibleChange?: (visibl
 
 type PasswordAction = 'click' | 'hover'
 
-export interface PasswordProps extends Omit<BaseInputProps, 'type'> {
+export interface PasswordProps extends Omit<BaseInputProps, 'type'>,
+  /* @vue-ignore */
+  PasswordEmitsProps {
   inputPrefixCls?: string
   action?: PasswordAction
   visibilityToggle?: VisibilityToggle
@@ -26,6 +28,9 @@ export interface PasswordProps extends Omit<BaseInputProps, 'type'> {
 
 export interface PasswordEmits extends BaseInputEmits {
   'update:iconVisible': (visible: boolean) => void
+}
+export interface PasswordEmitsProps {
+  'onUpdate:iconVisible'?: PasswordEmits['update:iconVisible']
 }
 
 export interface PasswordSlots {

@@ -29,6 +29,7 @@ import ColorPickerPanel from './ColorPickerPanel'
 import ColorTrigger from './components/ColorTrigger'
 import useModeColor from './hooks/useModeColor'
 import useStyle from './style'
+
 import { formatColorValue, genAlphaColor, generateColor, getColorAlpha } from './util'
 
 const defaults = {
@@ -40,8 +41,23 @@ const defaults = {
   destroyOnHidden: false,
 } as any
 
+export interface InternalColorPickerProps extends ColorPickerProps,
+  /* @vue-ignore */
+  ColorPickerEmitsProps {}
+
+export interface ColorPickerEmitsProps {
+  onChange?: ColorPickerEmits['change']
+  onClear?: ColorPickerEmits['clear']
+  onChangeComplete?: ColorPickerEmits['changeComplete']
+  onOpenChange?: ColorPickerEmits['openChange']
+  'onUpdate:open'?: ColorPickerEmits['update:open']
+  onFormatChange?: ColorPickerEmits['formatChange']
+  'onUpdate:value'?: ColorPickerEmits['update:value']
+  'onUpdate:format'?: ColorPickerEmits['update:format']
+}
+
 const ColorPicker = defineComponent<
-  ColorPickerProps,
+  InternalColorPickerProps,
   ColorPickerEmits,
   string,
   SlotsType<ColorPickerSlots>

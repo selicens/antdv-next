@@ -24,6 +24,7 @@ import useDelay from './hooks/useDelay'
 import usePositions from './hooks/usePositions'
 import useRefs from './hooks/useRefs'
 import MasonryItem from './MasonryItem'
+
 import useStyle from './style'
 
 export type Gap = number | undefined
@@ -45,7 +46,9 @@ export type MasonryClassNamesType = SemanticClassNamesType<MasonryProps, Masonry
 
 export type MasonryStylesType = SemanticStylesType<MasonryProps, MasonrySemanticStyles>
 
-export interface MasonryProps extends ComponentBaseProps {
+export interface MasonryProps extends ComponentBaseProps,
+  /* @vue-ignore */
+  MasonryEmitsProps {
   classes?: MasonryClassNamesType
   styles?: MasonryStylesType
   /** Spacing between items */
@@ -68,6 +71,9 @@ export interface MasonryProps extends ComponentBaseProps {
 
 export interface MasonryEmits {
   layoutChange: (sortInfo: { key: Key, column: number }[]) => void
+}
+export interface MasonryEmitsProps {
+  onLayoutChange?: MasonryEmits['layoutChange']
 }
 
 export interface MasonrySlots {

@@ -132,7 +132,9 @@ interface BaseTreeSelectProps<ValueType = any, OptionType extends DataNode = Dat
 }
 
 export interface TreeSelectProps<ValueType = any, OptionType extends DataNode = DataNode>
-  extends BaseTreeSelectProps<ValueType, OptionType> {
+  extends BaseTreeSelectProps<ValueType, OptionType>,
+  /* @vue-ignore */
+  TreeSelectEmitsProps {
   styles?: TreeSelectStylesType
   classes?: TreeSelectClassNamesType
   suffixIcon?: VueNode
@@ -187,6 +189,20 @@ export interface TreeSelectEmits {
   'deselect': NonNullable<VcTreeSelectProps['onDeselect']>
   'popupScroll': NonNullable<VcTreeSelectProps['onPopupScroll']>
   'search': NonNullable<VcTreeSelectProps['onSearch']>
+}
+export interface TreeSelectEmitsProps {
+  onFocus?: TreeSelectEmits['focus']
+  onBlur?: TreeSelectEmits['blur']
+  onOpenChange?: TreeSelectEmits['openChange']
+  onDropdownVisibleChange?: TreeSelectEmits['dropdownVisibleChange']
+  onSelect?: TreeSelectEmits['select']
+  onTreeExpand?: TreeSelectEmits['treeExpand']
+  onTreeLoad?: TreeSelectEmits['treeLoad']
+  onChange?: TreeSelectEmits['change']
+  'onUpdate:value'?: TreeSelectEmits['update:value']
+  onDeselect?: TreeSelectEmits['deselect']
+  onPopupScroll?: TreeSelectEmits['popupScroll']
+  onSearch?: TreeSelectEmits['search']
 }
 
 export interface TreeSelectSlots {

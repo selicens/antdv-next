@@ -101,7 +101,9 @@ export interface TriggerCommonApi extends ComponentBaseProps {
   motion?: VcTooltipProps['motion']
 }
 
-export interface TooltipProps extends TriggerCommonApi {
+export interface TooltipProps extends TriggerCommonApi,
+  /* @vue-ignore */
+  TooltipEmitsProps {
   afterOpenChange?: (open: boolean) => void
   builtinPlacements?: typeof Placements
   title?: VueNode
@@ -113,6 +115,11 @@ export interface TooltipProps extends TriggerCommonApi {
 export interface TooltipEmits {
   'openChange': (open: boolean) => void
   'update:open': (open: boolean) => void
+}
+
+export interface TooltipEmitsProps {
+  onOpenChange?: TooltipEmits['openChange']
+  'onUpdate:open'?: TooltipEmits['update:open']
 }
 
 export interface TooltipSlots {

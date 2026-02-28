@@ -70,7 +70,9 @@ export type SegmentedClassNamesType = SemanticClassNamesType<
 
 export type SegmentedStylesType = SemanticStylesType<SegmentedProps, SegmentedSemanticStyles>
 
-export interface SegmentedProps extends Omit<RCSegmentedProps, 'size' | 'options' | 'itemRender' | 'styles' | 'classNames' | 'onChange'> {
+export interface SegmentedProps extends Omit<RCSegmentedProps, 'size' | 'options' | 'itemRender' | 'styles' | 'classNames' | 'onChange'>,
+  /* @vue-ignore */
+  SegmentedEmitsProps {
   options: SegmentedOptions
   rootClass?: string
   /** Option to fit width to its parent's width */
@@ -89,6 +91,10 @@ export interface SegmentedProps extends Omit<RCSegmentedProps, 'size' | 'options
 export interface SegmentedEmits {
   'change': (value: RcSegmentedValue) => void
   'update:value': (value: RcSegmentedValue) => void
+}
+export interface SegmentedEmitsProps {
+  onChange?: SegmentedEmits['change']
+  'onUpdate:value'?: SegmentedEmits['update:value']
 }
 
 export interface SegmentedSlots {

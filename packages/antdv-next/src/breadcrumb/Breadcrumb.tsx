@@ -72,7 +72,9 @@ export type BreadcrumbStylesType<T extends AnyObject = AnyObject> = SemanticStyl
   BreadcrumbSemanticStyles
 >
 
-export interface BreadcrumbProps<T extends AnyObject = AnyObject> {
+export interface BreadcrumbProps<T extends AnyObject = AnyObject> extends
+  /* @vue-ignore */
+  BreadcrumbEmitsProps {
   prefixCls?: string
   params?: T
   separator?: any
@@ -93,6 +95,9 @@ export interface BreadcrumbProps<T extends AnyObject = AnyObject> {
 export interface BreadcrumbEmits {
   clickItem: (item: ItemType, event: MouseEvent) => void
   [keys: string]: (...args: any[]) => any
+}
+export interface BreadcrumbEmitsProps {
+  onClickItem?: BreadcrumbEmits['clickItem']
 }
 
 export interface BreadcrumbSlots {

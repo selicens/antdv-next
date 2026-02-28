@@ -96,6 +96,13 @@ export interface TabsEmits {
   'tabScroll': NonNullable<VcTabsProps['onTabScroll']>
   'update:activeKey': (activeKey: string) => void
 }
+export interface TabsEmitsProps {
+  onEdit?: TabsEmits['edit']
+  onChange?: TabsEmits['change']
+  onTabClick?: TabsEmits['tabClick']
+  onTabScroll?: TabsEmits['tabScroll']
+  'onUpdate:activeKey'?: TabsEmits['update:activeKey']
+}
 
 export interface TabsProps extends BaseTabsProps, CompatibilityProps, Omit<
   VcTabsProps,
@@ -110,7 +117,9 @@ export interface TabsProps extends BaseTabsProps, CompatibilityProps, Omit<
   | 'onTabScroll'
   | 'onTabClick'
   | 'renderTabBar'
-> {
+>,
+  /* @vue-ignore */
+  TabsEmitsProps {
   addIcon?: VueNode
   moreIcon?: VueNode
   more?: MoreProps

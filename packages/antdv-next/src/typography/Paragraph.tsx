@@ -2,9 +2,16 @@ import type { SlotsType } from 'vue'
 import type { BlockProps, TypographyBaseEmits, TypographySlots } from './interface'
 import { omit } from 'es-toolkit'
 import { defineComponent } from 'vue'
+
 import Base from './Base'
 
-export interface ParagraphProps extends BlockProps {}
+export type TypographyBaseEmitsProps = {
+  [K in keyof TypographyBaseEmits as `on${Capitalize<string & K>}`]?: TypographyBaseEmits[K]
+}
+
+export interface ParagraphProps extends BlockProps,
+  /* @vue-ignore */
+  TypographyBaseEmitsProps {}
 
 const Paragraph = defineComponent<
   ParagraphProps,

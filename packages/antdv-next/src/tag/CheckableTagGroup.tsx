@@ -49,9 +49,17 @@ export interface CheckableTagGroupEmits<CheckableTagValue = CheckableTagDefaultV
   'change': (value: CheckableTagValue | CheckableTagValue[] | null) => void
   'update:value': (value: CheckableTagValue | CheckableTagValue[] | null) => void
 }
+export interface CheckableTagGroupEmitsProps<CheckableTagValue = CheckableTagDefaultValue> {
+  onChange?: CheckableTagGroupEmits<CheckableTagValue>['change']
+  'onUpdate:value'?: CheckableTagGroupEmits<CheckableTagValue>['update:value']
+}
+
+interface InternalCheckableTagGroupProps extends CheckableTagGroupProps,
+  /* @vue-ignore */
+  CheckableTagGroupEmitsProps {}
 
 const CheckableTagGroup = defineComponent<
-  CheckableTagGroupProps,
+  InternalCheckableTagGroupProps,
   CheckableTagGroupEmits,
   string
 >((

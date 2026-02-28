@@ -1,6 +1,6 @@
 import type { TourProps as VcTourProps } from '@v-c/tour'
 import type { App, SlotsType } from 'vue'
-import type { TourClassNamesType, TourEmits, TourProps, TourSlots, TourStepProps, TourStylesType } from './interface'
+import type { TourProps as BaseTourProps, TourClassNamesType, TourEmits, TourSlots, TourStepProps, TourStylesType } from './interface'
 import VcTour from '@v-c/tour'
 import { clsx } from '@v-c/util'
 import { filterEmpty } from '@v-c/util/dist/props-util'
@@ -15,10 +15,24 @@ import { useComponentBaseConfig } from '../config-provider/context'
 import { useToken } from '../theme/internal'
 import TourPanel from './panelRender'
 import PurePanel from './PurePanel.tsx'
+
 import useStyle from './style'
 
+export interface InternalTourProps extends BaseTourProps,
+  /* @vue-ignore */
+  TourEmitsProps {}
+
+export interface TourEmitsProps {
+  onChange?: TourEmits['change']
+  onClose?: TourEmits['close']
+  onFinish?: TourEmits['finish']
+  'onUpdate:open'?: TourEmits['update:open']
+  'onUpdate:current'?: TourEmits['update:current']
+  onPopupAlign?: TourEmits['popupAlign']
+}
+
 const Tour = defineComponent<
-  TourProps,
+  InternalTourProps,
   TourEmits,
   string,
   SlotsType<TourSlots>
@@ -75,16 +89,16 @@ const Tour = defineComponent<
       return {
         ...props,
         steps: mergedSteps.value,
-      } as TourProps
+      } as BaseTourProps
     })
 
     const [mergedClassNames, mergedStyles] = useMergeSemantic<
       TourClassNamesType,
       TourStylesType,
-      TourProps
+      BaseTourProps
     >(useToArr(contextClassNames, classes), useToArr(contextStyles, styles), useToProps(mergedProps))
 
-    const builtinPlacements: TourProps['builtinPlacements'] = config => getPlacements({
+    const builtinPlacements: BaseTourProps['builtinPlacements'] = config => getPlacements({
       arrowPointAtCenter: config?.arrowPointAtCenter ?? true,
       autoAdjustOverflow: true,
       offset: token.value.marginXXS,
@@ -199,11 +213,11 @@ const Tour = defineComponent<
 export type {
   TourEmits,
   TourLocale,
-  TourProps,
   TourSemanticName,
   TourSlots,
   TourStylesType,
 } from './interface'
+export type TourProps = InternalTourProps
 
 ;(Tour as any)._InternalPanelDoNotUseOrYouWillBeFired = PurePanel
 

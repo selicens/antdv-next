@@ -7,6 +7,7 @@ import { cloneVNode, computed, defineComponent, getCurrentInstance, isVNode, onM
 import { resolveStyleOrClass } from '../../_util/hooks'
 import Button from '../../button'
 import { isImageUrl, previewImage } from '../utils'
+
 import ListItem from './ListItem'
 
 const APPEND_ACTION_KEY = '__upload_append_action__'
@@ -22,8 +23,14 @@ const defaults = {
   appendActionVisible: true,
 } as any
 
+export interface InternalUploadListProps extends UploadListProps,
+  /* @vue-ignore */
+  UploadListEmitsProps {}
+
+export interface UploadListEmitsProps {}
+
 const UploadList = defineComponent<
-  UploadListProps,
+  InternalUploadListProps,
   UploadListEmits,
   string,
   SlotsType<UploadListSlots>

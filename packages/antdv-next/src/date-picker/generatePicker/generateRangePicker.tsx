@@ -52,11 +52,27 @@ export interface RangePickerSlots {
   [key: string]: any
 }
 
+export interface RangePickerEmitsProps<DateType = AnyObject> {
+  onChange?: RangePickerEmits<DateType>['change']
+  'onUpdate:value'?: RangePickerEmits<DateType>['update:value']
+  onCalendarChange?: RangePickerEmits<DateType>['calendarChange']
+  onPanelChange?: RangePickerEmits<DateType>['panelChange']
+  onOpenChange?: RangePickerEmits<DateType>['openChange']
+  onOk?: RangePickerEmits<DateType>['ok']
+  onFocus?: RangePickerEmits<DateType>['focus']
+  onBlur?: RangePickerEmits<DateType>['blur']
+  onKeydown?: RangePickerEmits<DateType>['keydown']
+}
+
+export interface InternalRangePickerProps<DateType extends AnyObject = AnyObject> extends RangePickerProps<DateType>,
+  /* @vue-ignore */
+  Omit<RangePickerEmitsProps<DateType>, keyof RangePickerProps<DateType>> {}
+
 function generateRangePicker<DateType extends AnyObject = AnyObject>(generateConfig: GenerateConfig<DateType>) {
   type DateRangePickerProps = RangePickerProps<DateType>
 
   const RangePickerComponent = defineComponent<
-    RangePickerProps<DateType>,
+    InternalRangePickerProps<DateType>,
     RangePickerEmits<DateType>,
     string,
     SlotsType<RangePickerSlots>

@@ -10,6 +10,7 @@ import { getAttrStyleAndClass } from '../_util/hooks'
 import { useComponentBaseConfig } from '../config-provider/context.ts'
 import { useDisabledContext } from '../config-provider/DisabledContext.tsx'
 import Tooltip from '../tooltip'
+
 import useStyle from './style'
 
 function isTooltipProps(item: TooltipProps | string): item is TooltipProps {
@@ -23,7 +24,9 @@ const defaults = {
 export interface RateProps extends Omit<
   VcRateProps,
 'onChange' | 'onHoverChange' | 'onFocus' | 'onBlur' | 'onKeyDown' | 'onMouseLeave' | 'onUpdate:value'
-> {
+>,
+  /* @vue-ignore */
+  RateEmitsProps {
   rootClass?: string
   size?: 'small' | 'middle' | 'large'
   tooltips?: (TooltipProps | string)[]
@@ -37,6 +40,15 @@ export interface RateEmits {
   'blur': () => void
   'keydown': (e: KeyboardEvent) => void
   'mouseleave': (e: FocusEvent) => void
+}
+export interface RateEmitsProps {
+  'onUpdate:value'?: RateEmits['update:value']
+  onChange?: RateEmits['change']
+  onHoverChange?: RateEmits['hoverChange']
+  onFocus?: RateEmits['focus']
+  onBlur?: RateEmits['blur']
+  onKeydown?: RateEmits['keydown']
+  onMouseleave?: RateEmits['mouseleave']
 }
 
 const Rate = defineComponent<

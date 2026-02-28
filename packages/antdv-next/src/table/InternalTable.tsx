@@ -166,7 +166,9 @@ export interface TableProps<RecordType = AnyObject>
   virtual?: boolean
 }
 
-export interface InternalTableProps<RecordType = AnyObject> extends TableProps<RecordType> {
+export interface InternalTableProps<RecordType = AnyObject> extends TableProps<RecordType>,
+  /* @vue-ignore */
+  TableEmitsProps {
   _renderTimes: number
 }
 
@@ -179,6 +181,11 @@ export interface TableEmits<RecordType = AnyObject> {
   ) => void
   'update:expandedRowKeys': (keys: readonly Key[]) => void
   'scroll': NonNullable<VcTableProps['onScroll']>
+}
+export interface TableEmitsProps<RecordType = AnyObject> {
+  onChange?: TableEmits<RecordType>['change']
+  'onUpdate:expandedRowKeys'?: TableEmits<RecordType>['update:expandedRowKeys']
+  onScroll?: TableEmits<RecordType>['scroll']
 }
 
 export interface TableSlots<RecordType = AnyObject> {

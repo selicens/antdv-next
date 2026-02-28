@@ -36,7 +36,9 @@ export type PopoverClassNamesType = SemanticClassNamesType<PopoverProps, Popover
 
 export type PopoverStylesType = SemanticStylesType<PopoverProps, PopoverSemanticStyles>
 
-export interface PopoverProps extends TooltipProps {
+export interface PopoverProps extends TooltipProps,
+  /* @vue-ignore */
+  PopoverEmitsProps {
   title?: VueNode
   content?: VueNode
   classes?: PopoverClassNamesType
@@ -48,6 +50,9 @@ export interface PopoverRef extends TooltipRef {
 }
 export interface PopoverEmits extends TooltipEmits {
   openChange: (open: boolean, e?: MouseEvent | KeyboardEvent) => void
+}
+export interface PopoverEmitsProps {
+  onOpenChange?: PopoverEmits['openChange']
 }
 
 export interface PopoverSlots {

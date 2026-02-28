@@ -56,7 +56,9 @@ export type CalendarStylesType<DateType> = SemanticStylesType<
   CalendarSemanticStyles
 >
 
-export interface CalendarProps<DateType> {
+export interface CalendarProps<DateType> extends
+  /* @vue-ignore */
+  CalendarEmitsProps<DateType> {
   prefixCls?: string
   rootClass?: string
   classes?: CalendarClassNamesType<DateType>
@@ -123,6 +125,12 @@ export interface CalendarEmits<DateType = AnyObject> {
   'update:value': (date: DateType) => void
   'panelChange': (date: DateType, mode: CalendarMode) => void
   'select': (date: DateType, selectInfo: SelectInfo) => void
+}
+export interface CalendarEmitsProps<DateType = AnyObject> {
+  onChange?: CalendarEmits<DateType>['change']
+  'onUpdate:value'?: CalendarEmits<DateType>['update:value']
+  onPanelChange?: CalendarEmits<DateType>['panelChange']
+  onSelect?: CalendarEmits<DateType>['select']
 }
 
 function isSameYear<T extends AnyObject>(date1: T, date2: T, config: GenerateConfig<T>) {

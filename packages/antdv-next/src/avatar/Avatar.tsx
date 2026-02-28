@@ -17,7 +17,9 @@ import useBreakpoint from '../grid/hooks/useBreakpoint'
 import { useAvatarContext } from './AvatarContext'
 import useStyle from './style'
 
-export interface AvatarProps extends ComponentBaseProps {
+export interface AvatarProps extends ComponentBaseProps,
+  /* @vue-ignore */
+  AvatarEmitsProps {
   /** Shape of avatar, options: `circle`, `square` */
   shape?: 'circle' | 'square'
   /**
@@ -45,6 +47,9 @@ export interface AvatarEmits {
   click: (e: MouseEvent) => void
 
   // error: () => boolean
+}
+export interface AvatarEmitsProps {
+  onClick?: AvatarEmits['click']
 }
 
 export interface AvatarSlots {

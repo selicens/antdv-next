@@ -88,7 +88,13 @@ export function convertLegacyProps(
   return {}
 }
 
-export interface ButtonProps extends BaseButtonProps {
+export interface ButtonEmitsProps {
+  onClick?: ButtonEmits['click']
+}
+
+export interface ButtonProps extends BaseButtonProps,
+  /* @vue-ignore */
+  ButtonEmitsProps {
   href?: string
   htmlType?: ButtonHTMLType
   target?: '_self' | '_blank' | '_parent' | '_top' | string

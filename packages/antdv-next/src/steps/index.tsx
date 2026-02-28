@@ -127,12 +127,17 @@ export interface BaseStepsProps {
   onChange?: (current: number) => void
 }
 
-export interface StepsProps extends BaseStepsProps {
+export interface StepsProps extends BaseStepsProps,
+  /* @vue-ignore */
+  StepsEmitsProps {
   prefixCls?: string
 }
 
 export interface StepsEmits {
   'update:current': (current: number) => void
+}
+export interface StepsEmitsProps {
+  'onUpdate:current'?: StepsEmits['update:current']
 }
 
 const waveEffectClassNames: StepsProps['classes'] = {

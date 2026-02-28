@@ -27,6 +27,7 @@ import Actions from './Actions'
 import useData from './hooks/useData'
 import useSelection from './hooks/useSelection'
 import Section from './Section'
+
 import useStyle from './style'
 
 const defaults = {
@@ -39,8 +40,21 @@ const defaults = {
   oneWay: false,
 } as any
 
+export interface InternalTransferProps extends TransferProps,
+  /* @vue-ignore */
+  TransferEmitsProps {}
+
+export interface TransferEmitsProps {
+  onChange?: TransferEmits['change']
+  onSelectChange?: TransferEmits['selectChange']
+  onSearch?: TransferEmits['search']
+  onScroll?: TransferEmits['scroll']
+  'onUpdate:targetKeys'?: TransferEmits['update:targetKeys']
+  'onUpdate:selectedKeys'?: TransferEmits['update:selectedKeys']
+}
+
 const Transfer = defineComponent<
-  TransferProps,
+  InternalTransferProps,
   TransferEmits,
   string,
   SlotsType<TransferSlots>

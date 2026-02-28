@@ -1,4 +1,5 @@
 import type { App } from 'vue'
+import type { InternalTransferProps } from './Transfer'
 import Actions from './Actions'
 import Search from './search'
 import Section from './Section'
@@ -22,13 +23,13 @@ export type {
   TransferListBodyProps,
   TransferListProps,
   TransferLocale,
-  TransferProps,
   TransferRender,
   TransferSearchOption,
   TransferSlots,
   TransferStylesType,
 } from './interface'
 export type { TransferSearchEmits, TransferSearchProps, TransferSearchSlots } from './search'
+export type TransferProps = InternalTransferProps
 
 const InternalTransfer = Transfer as typeof Transfer & {
   install: (app: App) => void

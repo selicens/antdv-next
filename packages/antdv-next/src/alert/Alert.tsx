@@ -35,7 +35,9 @@ export interface AlertSemanticType {
 export type AlertClassNamesType = SemanticType<AlertProps, AlertSemanticType['classes']>
 export type AlertStylesType = SemanticType<AlertProps, AlertSemanticType['styles']>
 
-export interface AlertProps extends ComponentBaseProps {
+export interface AlertProps extends ComponentBaseProps,
+  /* @vue-ignore */
+  AlertEmitsProps {
   /** Type of Alert styles, options:`success`, `info`, `warning`, `error` */
   type?: 'success' | 'info' | 'warning' | 'error'
   /** Whether Alert can be closed */
@@ -80,6 +82,13 @@ export interface AlertEmits {
   mouseleave: (e: any) => any
   click: (e: any) => any
 }
+export interface AlertEmitsProps {
+  onClose?: AlertEmits['close']
+  onMouseenter?: AlertEmits['mouseenter']
+  onMouseleave?: AlertEmits['mouseleave']
+  onClick?: AlertEmits['click']
+}
+
 interface IconNodeProps {
   type: AlertProps['type']
   icon?: AlertProps['icon']

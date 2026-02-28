@@ -8,7 +8,9 @@ import { useComponentBaseConfig, useConfig } from '../config-provider/context.ts
 import { useDisabledContext } from '../config-provider/DisabledContext.tsx'
 import useStyle from './style'
 
-export interface CheckableTagProps extends ComponentBaseProps {
+export interface CheckableTagProps extends ComponentBaseProps,
+  /* @vue-ignore */
+  CheckableTagEmitsProps {
   /**
    * It is an absolute controlled component and has no uncontrolled mode.
    *
@@ -26,6 +28,11 @@ export interface CheckableTagEmits {
   'change': (checked: boolean) => void
   'update:checked': (checked: boolean) => void
   'click': (e: MouseEvent) => void
+}
+export interface CheckableTagEmitsProps {
+  onChange?: CheckableTagEmits['change']
+  'onUpdate:checked'?: CheckableTagEmits['update:checked']
+  onClick?: CheckableTagEmits['click']
 }
 
 export interface CheckableTagSlots {

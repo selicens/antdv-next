@@ -4,7 +4,9 @@ import { SearchOutlined } from '@antdv-next/icons'
 import { defineComponent } from 'vue'
 import Input from '../input/Input'
 
-export interface TransferSearchProps {
+export interface TransferSearchProps extends
+  /* @vue-ignore */
+  TransferSearchEmitsProps {
   prefixCls?: string
   placeholder?: string
   value?: string
@@ -14,6 +16,11 @@ export interface TransferSearchProps {
 export interface TransferSearchEmits {
   change: (e: Event) => void
   clear: () => void
+}
+
+export interface TransferSearchEmitsProps {
+  onChange?: TransferSearchEmits['change']
+  onClear?: TransferSearchEmits['clear']
 }
 
 export interface TransferSearchSlots {
