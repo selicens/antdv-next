@@ -13,6 +13,14 @@
     "url": "git+https://github.com/antdv-next/antdv-next.git",
     "directory": "packages/antdv-next"
   },
+  "sideEffects": [
+    "./dist/reset.css",
+    "./dist/antd.css",
+    "./dist/antd-with-locales.js",
+    "./dist/antd-with-locales.esm.js",
+    "./dist/antd.esm.js",
+    "./dist/antd.js"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
