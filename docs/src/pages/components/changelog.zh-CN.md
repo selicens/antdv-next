@@ -2,6 +2,75 @@
 title: 组件更新日志
 ---
 
+## V1.1.0
+
+本次版本主要聚焦于 **同步 antd v6.3.1**、**修复组件行为与可访问性问题**，并进一步 **补充更多组件的单元测试覆盖**。同时包含文档更新、CI/脚本维护以及 sponsor/readme 优化。
+
+**✨ 新功能 Features**
+
+* feat(sponsor)：优化自定义赞助金额输入框样式 by @ffgenius [#250](https://github.com/antdv-next/antdv-next/pull/250)
+* feat：同步 antd 6.3.1 by @ffgenius [#269](https://github.com/antdv-next/antdv-next/pull/269)
+* feat(readme)：将贡献者图片改为 Open Collective 链接 by @ffgenius [#274](https://github.com/antdv-next/antdv-next/pull/274)
+* feat：优化 prop types 性能 by @aibayanyu20 [#278](https://github.com/antdv-next/antdv-next/pull/278)
+
+**🐞 问题修复 Fixes**
+
+* fix(cascader)：补充 `popupClassName` 缺失的废弃提示 warning by @darkingtail [#242](https://github.com/antdv-next/antdv-next/pull/242)
+* fix(collapse)：在 CollapsePanel no-arrow class 中使用 `prefixCls.value` by @shiqkuangsan [#244](https://github.com/antdv-next/antdv-next/pull/244)
+* fix：修复 form directive 不生效并补充单元测试 by @aibayanyu20 [#243](https://github.com/antdv-next/antdv-next/pull/243)
+* fix(tree)：放宽 `treeData` 类型以支持自定义数据节点 by @darkingtail [#260](https://github.com/antdv-next/antdv-next/pull/260)
+* fix(pagination)：修复 change 事件触发问题 by @cc-hearts [#265](https://github.com/antdv-next/antdv-next/pull/265)
+* fix(image)：配置 preview mask 时 cover slot 未渲染 by @shiqkuangsan [#272](https://github.com/antdv-next/antdv-next/pull/272)
+* fix(skeleton)：同步 Skeleton DOM 元素样式 by @utianhuan666 [#258](https://github.com/antdv-next/antdv-next/pull/258)
+* fix(checkbox)：支持 Checkbox 受控状态 by @cc-hearts [#275](https://github.com/antdv-next/antdv-next/pull/275)
+* fix(notification)：修复 `classNames` 暴露 key 不一致问题 by @shiqkuangsan [#279](https://github.com/antdv-next/antdv-next/pull/279)
+* fix(a11y)：为 Radio 与 Segmented 应用 `prefers-reduced-motion` by @darkingtail [#281](https://github.com/antdv-next/antdv-next/pull/281)
+* fix(auto-complete)：修复自定义输入框 placeholder 默认展示问题 by @cc-hearts [#283](https://github.com/antdv-next/antdv-next/pull/283)
+* fix(tabs)：修复 onPrevClick/onNextClick 废弃警告未清理问题 by @shiqkuangsan [#287](https://github.com/antdv-next/antdv-next/pull/287)
+* fix(tabs)：修复 `renderTabBar` 属性变量遮蔽问题 by @shiqkuangsan [#286](https://github.com/antdv-next/antdv-next/pull/286)
+* fix：修复 slick 高度问题 by @aibayanyu20 [#288](https://github.com/antdv-next/antdv-next/pull/288)
+* fix：修复 Table loading 与无数据空状态展示问题 by @aibayanyu20 [#289](https://github.com/antdv-next/antdv-next/pull/289)
+
+**🧪 单元测试 Tests**
+
+本版本为 DatePicker、Progress、Collapse、Popconfirm、Drawer、Message、Dropdown、Mentions、Notification 等组件补充单元测试，提升回归保护能力。
+
+* test(date-picker)：新增单元测试 by @aibayanyu20 [#233](https://github.com/antdv-next/antdv-next/pull/233)
+* test(progress)：为 Progress 组件新增单元测试 by @darkingtail [#246](https://github.com/antdv-next/antdv-next/pull/246)
+* test(collapse)：为 Collapse 组件新增单元测试 by @shiqkuangsan [#247](https://github.com/antdv-next/antdv-next/pull/247)
+* test(popconfirm)：为 Popconfirm 组件新增单元测试 by @darkingtail [#248](https://github.com/antdv-next/antdv-next/pull/248)
+* test(drawer)：为 Drawer 组件新增单元测试 by @darkingtail [#252](https://github.com/antdv-next/antdv-next/pull/252)
+* test(message)：为 Message 组件新增单元测试 by @darkingtail [#263](https://github.com/antdv-next/antdv-next/pull/263)
+* test(dropdown)：为 Dropdown 组件新增单元测试 by @shiqkuangsan [#266](https://github.com/antdv-next/antdv-next/pull/266)
+* test(mentions)：为 Mentions 组件新增单元测试 by @shiqkuangsan [#270](https://github.com/antdv-next/antdv-next/pull/270)
+* test(notification)：为 Notification 组件新增单元测试 by @shiqkuangsan [#284](https://github.com/antdv-next/antdv-next/pull/284)
+
+**📝 文档更新 Documentation**
+
+* fix(docs)：调整 modal lock 场景下滚动条宽度样式 by @han1548772930 [#245](https://github.com/antdv-next/antdv-next/pull/245)
+* docs：补充浏览器直接引入示例 by @selicens [#255](https://github.com/antdv-next/antdv-next/pull/255)
+* docs(typography)：修复 `enterIcon` 属性描述格式 by @wujighostking [#262](https://github.com/antdv-next/antdv-next/pull/262)
+* docs(cascader)：补充语义化 DOM 并新增单元测试 by @ffgenius [#261](https://github.com/antdv-next/antdv-next/pull/261)
+* chore(docs)：为 shiqkuangsan 增加 sponsor 二维码 by @shiqkuangsan [#271](https://github.com/antdv-next/antdv-next/pull/271)
+
+**🛠 重构与维护 Refactor & Maintenance**
+
+* ci：调整 docs scripts generate 流程 by @aibayanyu20 [#249](https://github.com/antdv-next/antdv-next/pull/249)
+* chore(select/image/util)：版本升级 by @cc-hearts [#277](https://github.com/antdv-next/antdv-next/pull/277)
+
+---
+
+**👏 新贡献者 New Contributors**
+
+感谢以下社区贡献者的首次参与：
+
+* @han1548772930（[#245](https://github.com/antdv-next/antdv-next/pull/245)）
+* @utianhuan666（[#258](https://github.com/antdv-next/antdv-next/pull/258)）
+
+**Full Changelog**
+https://github.com/antdv-next/antdv-next/compare/antdv-next@1.0.5...antdv-next@1.1.0
+
+
 ## V1.0.5
 
 本次版本主要聚焦于 **组件交互与数据流相关问题修复**，并进一步 **补充单元测试覆盖**。包含 Tooltip、DatePicker、Autocomplete、Select、Descriptions 以及应用级 class/style 处理等修复。

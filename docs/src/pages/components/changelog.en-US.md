@@ -2,6 +2,75 @@
 title: Component Changelog
 ---
 
+## V1.1.0
+
+This release focuses on **syncing with antd v6.3.1**, **fixing component behavior and accessibility issues**, and **expanding unit test coverage** across more components. It also includes documentation updates, CI/script maintenance, and sponsor/readme improvements.
+
+**✨ Features**
+
+* feat(sponsor): optimize the style of the custom amount input box by @ffgenius in [#250](https://github.com/antdv-next/antdv-next/pull/250)
+* feat: sync antd 6.3.1 by @ffgenius in [#269](https://github.com/antdv-next/antdv-next/pull/269)
+* feat(readme): change contributor image to Open Collective link by @ffgenius in [#274](https://github.com/antdv-next/antdv-next/pull/274)
+* feat: perf prop types by @aibayanyu20 in [#278](https://github.com/antdv-next/antdv-next/pull/278)
+
+**🐞 Fixes**
+
+* fix(cascader): add missing deprecated warning for `popupClassName` by @darkingtail in [#242](https://github.com/antdv-next/antdv-next/pull/242)
+* fix(collapse): use `prefixCls.value` in CollapsePanel no-arrow class by @shiqkuangsan in [#244](https://github.com/antdv-next/antdv-next/pull/244)
+* fix: fix form directive not effect & add test unit by @aibayanyu20 in [#243](https://github.com/antdv-next/antdv-next/pull/243)
+* fix(tree): relax `treeData` type to accept custom data nodes by @darkingtail in [#260](https://github.com/antdv-next/antdv-next/pull/260)
+* fix(pagination): fix change event trigger by @cc-hearts in [#265](https://github.com/antdv-next/antdv-next/pull/265)
+* fix(image): cover slot not rendered when preview mask is configured by @shiqkuangsan in [#272](https://github.com/antdv-next/antdv-next/pull/272)
+* fix(skeleton): synchronise the DOM element styles of Skeleton by @utianhuan666 in [#258](https://github.com/antdv-next/antdv-next/pull/258)
+* fix(checkbox): support controlled state for checkbox by @cc-hearts in [#275](https://github.com/antdv-next/antdv-next/pull/275)
+* fix(notification): correct expose key mismatch for `classNames` by @shiqkuangsan in [#279](https://github.com/antdv-next/antdv-next/pull/279)
+* fix(a11y): apply `prefers-reduced-motion` to Radio and Segmented by @darkingtail in [#281](https://github.com/antdv-next/antdv-next/pull/281)
+* fix(auto-complete): fix default display of custom input placeholder by @cc-hearts in [#283](https://github.com/antdv-next/antdv-next/pull/283)
+* fix(tabs): fix dead onPrevClick/onNextClick deprecation warning by @shiqkuangsan in [#287](https://github.com/antdv-next/antdv-next/pull/287)
+* fix(tabs): fix `renderTabBar` prop variable shadowing by @shiqkuangsan in [#286](https://github.com/antdv-next/antdv-next/pull/286)
+* fix: fix slick height by @aibayanyu20 in [#288](https://github.com/antdv-next/antdv-next/pull/288)
+* fix: fix table loading & no data empty state by @aibayanyu20 in [#289](https://github.com/antdv-next/antdv-next/pull/289)
+
+**🧪 Tests**
+
+This release adds unit tests for DatePicker, Progress, Collapse, Popconfirm, Drawer, Message, Dropdown, Mentions, and Notification.
+
+* test(date-picker): add unit test by @aibayanyu20 in [#233](https://github.com/antdv-next/antdv-next/pull/233)
+* test(progress): add unit tests for Progress component by @darkingtail in [#246](https://github.com/antdv-next/antdv-next/pull/246)
+* test(collapse): add unit tests for Collapse component by @shiqkuangsan in [#247](https://github.com/antdv-next/antdv-next/pull/247)
+* test(popconfirm): add unit tests for Popconfirm component by @darkingtail in [#248](https://github.com/antdv-next/antdv-next/pull/248)
+* test(drawer): add unit tests for Drawer component by @darkingtail in [#252](https://github.com/antdv-next/antdv-next/pull/252)
+* test(message): add unit tests for Message component by @darkingtail in [#263](https://github.com/antdv-next/antdv-next/pull/263)
+* test(dropdown): add unit tests for Dropdown component by @shiqkuangsan in [#266](https://github.com/antdv-next/antdv-next/pull/266)
+* test(mentions): add unit tests for Mentions component by @shiqkuangsan in [#270](https://github.com/antdv-next/antdv-next/pull/270)
+* test(notification): add unit tests for Notification component by @shiqkuangsan in [#284](https://github.com/antdv-next/antdv-next/pull/284)
+
+**📝 Documentation**
+
+* fix(docs): adjust scrollbar width styling for modal lock by @han1548772930 in [#245](https://github.com/antdv-next/antdv-next/pull/245)
+* docs: add examples for browser import by @selicens in [#255](https://github.com/antdv-next/antdv-next/pull/255)
+* docs(typography): fix formatting of `enterIcon` prop description by @wujighostking in [#262](https://github.com/antdv-next/antdv-next/pull/262)
+* docs(cascader): supplement semantic DOM and add unit tests by @ffgenius in [#261](https://github.com/antdv-next/antdv-next/pull/261)
+* chore(docs): add sponsor qrcode for shiqkuangsan by @shiqkuangsan in [#271](https://github.com/antdv-next/antdv-next/pull/271)
+
+**🛠 Refactor & Maintenance**
+
+* ci: change docs scripts generate by @aibayanyu20 in [#249](https://github.com/antdv-next/antdv-next/pull/249)
+* chore(select/image/util): bump version by @cc-hearts in [#277](https://github.com/antdv-next/antdv-next/pull/277)
+
+---
+
+**👏 New Contributors**
+
+Thanks to the following contributors for their first contributions:
+
+* @han1548772930 in [#245](https://github.com/antdv-next/antdv-next/pull/245)
+* @utianhuan666 in [#258](https://github.com/antdv-next/antdv-next/pull/258)
+
+**Full Changelog**
+https://github.com/antdv-next/antdv-next/compare/antdv-next@1.0.5...antdv-next@1.1.0
+
+
 ## V1.0.5
 
 This release focuses on **fixing component interaction and data flow issues**, while also **expanding unit test coverage** for more components. It includes fixes for Tooltip, DatePicker, Autocomplete, Select, Descriptions, and app-level class/style handling.
