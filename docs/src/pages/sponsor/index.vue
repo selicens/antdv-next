@@ -2,7 +2,7 @@
 import type { TabsProps } from 'antdv-next'
 import { AlipayCircleOutlined, GithubOutlined, TeamOutlined, UserOutlined, WechatOutlined } from '@antdv-next/icons'
 import dayjs from 'dayjs'
-import { h, onMounted, reactive, shallowRef } from 'vue'
+import { h, onMounted, onUnmounted, reactive, shallowRef, watch } from 'vue'
 
 // 当前 tab
 const activeTab = shallowRef('org')
@@ -144,10 +144,118 @@ const sponsorColumns = [
   { title: '留言', dataIndex: 'sponsorMessage', key: 'sponsorMessage', ellipsis: true },
   { title: '时间', dataIndex: 'paidAt', key: 'paidAt', width: 180 },
 ]
-function getSubmitUrl() {
-  const api = '/pay/alipay/page'
 
-  const url = `${submitUrl}${api}`
+const wechatPayVisible = shallowRef(false)
+const wechatPayCodeUrl = shallowRef('')
+const wechatPayOrderNo = shallowRef('')
+const wechatPayStatus = shallowRef<'idle' | 'pending' | 'timeout' | 'error'>('idle')
+const wechatPayQuerying = shallowRef(false)
+const wechatPayError = shallowRef('')
+const WECHAT_POLL_INTERVAL = 5000
+const WECHAT_MAX_POLL_COUNT = 120
+let wechatPollTimer: ReturnType<typeof setTimeout> | null = null
+let wechatPollCount = 0
+
+function getSuccessPath(orderNo: string) {
+  const path = window.location.pathname.includes('/sponsor-cn') ? '/sponsor/success-cn' : '/sponsor/success'
+  return `${path}?out_trade_no=${encodeURIComponent(orderNo)}`
+}
+
+function stopWechatPayPoll() {
+  if (wechatPollTimer) {
+    clearTimeout(wechatPollTimer)
+    wechatPollTimer = null
+  }
+}
+
+function closeWechatPayModal() {
+  wechatPayVisible.value = false
+  stopWechatPayPoll()
+  wechatPayCodeUrl.value = ''
+  wechatPayOrderNo.value = ''
+  wechatPayStatus.value = 'idle'
+  wechatPayQuerying.value = false
+  wechatPayError.value = ''
+}
+
+async function queryWechatPayment() {
+  if (!wechatPayOrderNo.value || wechatPayQuerying.value) {
+    return false
+  }
+
+  wechatPayQuerying.value = true
+  try {
+    const res = await fetch(`${submitUrl}/pay/query?orderNo=${encodeURIComponent(wechatPayOrderNo.value)}`)
+    const { code, data } = await res.json()
+
+    if (code === 0 && data) {
+      if (data.paid || data.status === 'paid') {
+        stopWechatPayPoll()
+        window.location.href = getSuccessPath(wechatPayOrderNo.value)
+        return true
+      }
+
+      if (data.status === 'pending') {
+        wechatPayStatus.value = 'pending'
+        wechatPayError.value = ''
+        return false
+      }
+    }
+
+    wechatPayStatus.value = 'error'
+    wechatPayError.value = '支付状态异常，请稍后重新查询'
+    stopWechatPayPoll()
+    return true
+  }
+  catch (error) {
+    console.error('查询微信支付状态失败', error)
+    wechatPayStatus.value = 'error'
+    wechatPayError.value = '支付状态查询失败，请稍后重试'
+    stopWechatPayPoll()
+    return true
+  }
+  finally {
+    wechatPayQuerying.value = false
+  }
+}
+
+function scheduleWechatPayPoll() {
+  stopWechatPayPoll()
+  if (!wechatPayVisible.value || !wechatPayOrderNo.value) {
+    return
+  }
+  if (wechatPollCount >= WECHAT_MAX_POLL_COUNT) {
+    wechatPayStatus.value = 'timeout'
+    wechatPayError.value = '等待支付确认超时，您可以完成支付后手动刷新状态'
+    return
+  }
+
+  wechatPollTimer = setTimeout(async () => {
+    wechatPollCount += 1
+    const finished = await queryWechatPayment()
+    if (!finished) {
+      scheduleWechatPayPoll()
+    }
+  }, WECHAT_POLL_INTERVAL)
+}
+
+function startWechatPayPoll(orderNo: string) {
+  wechatPayOrderNo.value = orderNo
+  wechatPayStatus.value = 'pending'
+  wechatPayError.value = ''
+  wechatPollCount = 0
+  scheduleWechatPayPoll()
+}
+
+async function refreshWechatPayment() {
+  const finished = await queryWechatPayment()
+  if (!finished && wechatPayVisible.value && !wechatPollTimer) {
+    scheduleWechatPayPoll()
+  }
+}
+
+function getSubmitRequest() {
+  const url = `${submitUrl}/pay/page`
   return fetch(url, {
     method: 'POST',
     headers: {
@@ -156,6 +264,8 @@ function getSubmitUrl() {
     body: JSON.stringify({
       amount: orgSponsorForm.amount,
       subject: orgSponsorForm.subject,
+      payType: orgSponsorForm.payType,
+      ...(orgSponsorForm.payType === 'wechat' ? { tradeType: 'native' } : {}),
       sponsorName: orgSponsorForm.sponsorName,
       sponsorEmail: orgSponsorForm.sponsorEmail,
       sponsorMessage: orgSponsorForm.sponsorMessage,
@@ -174,10 +284,21 @@ async function handleOrgSponsorSubmit() {
     return
   submitting.value = true
   try {
-    const res = await getSubmitUrl()
+    const res = await getSubmitRequest()
     const { code, data } = await res.json()
-    if (code === 0 && data?.url) {
+    if (code !== 0 || !data) {
+      return
+    }
+
+    if (orgSponsorForm.payType === 'alipay' && data.url) {
       window.open(data.url, '_blank')
+      return
+    }
+
+    if (orgSponsorForm.payType === 'wechat' && data.codeUrl && data.orderNo) {
+      wechatPayCodeUrl.value = data.codeUrl
+      wechatPayVisible.value = true
+      startWechatPayPoll(data.orderNo)
     }
   }
   finally {
@@ -187,6 +308,16 @@ async function handleOrgSponsorSubmit() {
 
 onMounted(() => {
   fetchSponsors()
+})
+
+onUnmounted(() => {
+  stopWechatPayPoll()
+})
+
+watch(wechatPayVisible, (visible) => {
+  if (!visible) {
+    stopWechatPayPoll()
+  }
 })
 
 const amountOptions = [
@@ -274,10 +405,10 @@ const amountOptions = [
                         支付宝
                       </a-space>
                     </a-radio>
-                    <a-radio value="wechat" disabled>
+                    <a-radio value="wechat">
                       <a-space>
                         <WechatOutlined class="text-18px" style="color: #07c160" />
-                        微信支付（暂未开放）
+                        微信支付
                       </a-space>
                     </a-radio>
                   </a-radio-group>
@@ -427,6 +558,73 @@ const amountOptions = [
         <p>Antdv Next. 全面保障支付安全及财务合规性。</p>
       </div>
     </div>
+
+    <a-modal
+      v-model:open="wechatPayVisible"
+      :footer="null"
+      :width="420"
+      centered
+      title="微信支付"
+      @cancel="closeWechatPayModal"
+    >
+      <div class="wechat-pay-sheet">
+        <div class="wechat-pay-badge">
+          <WechatOutlined />
+        </div>
+        <h3 class="wechat-pay-title">
+          请使用微信扫一扫完成支付
+        </h3>
+        <p class="wechat-pay-subtitle">
+          完成扫码后页面会自动确认支付状态，并在成功后跳转到结果页。
+        </p>
+
+        <div class="wechat-pay-qrcode">
+          <a-qrcode :value="wechatPayCodeUrl" :size="220" :bordered="false" />
+        </div>
+
+        <div class="wechat-pay-meta">
+          <div class="wechat-pay-row">
+            <span>订单号</span>
+            <strong>{{ wechatPayOrderNo }}</strong>
+          </div>
+          <div class="wechat-pay-row">
+            <span>支付金额</span>
+            <strong>¥{{ orgSponsorForm.amount }}</strong>
+          </div>
+        </div>
+
+        <a-alert
+          v-if="wechatPayStatus === 'timeout'"
+          type="warning"
+          show-icon
+          :message="wechatPayError"
+          class="wechat-pay-alert"
+        />
+        <a-alert
+          v-else-if="wechatPayStatus === 'error'"
+          type="error"
+          show-icon
+          :message="wechatPayError"
+          class="wechat-pay-alert"
+        />
+        <a-alert
+          v-else
+          type="info"
+          show-icon
+          message="支付结果确认中，请保持此窗口打开。"
+          class="wechat-pay-alert"
+        />
+
+        <a-space class="wechat-pay-actions">
+          <a-button type="primary" :loading="wechatPayQuerying" @click="refreshWechatPayment">
+            我已支付，刷新状态
+          </a-button>
+          <a-button @click="closeWechatPayModal">
+            稍后再说
+          </a-button>
+        </a-space>
+      </div>
+    </a-modal>
   </div>
 </template>
 
@@ -634,6 +832,79 @@ const amountOptions = [
   margin: 0;
 }
 
+.wechat-pay-sheet {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding-top: 8px;
+}
+
+.wechat-pay-badge {
+  width: 56px;
+  height: 56px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(7, 193, 96, 0.12);
+  color: #07c160;
+  font-size: 28px;
+}
+
+.wechat-pay-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ant-color-text);
+}
+
+.wechat-pay-subtitle {
+  margin: 0;
+  text-align: center;
+  color: var(--ant-color-text-secondary);
+  line-height: 1.6;
+}
+
+.wechat-pay-qrcode {
+  padding: 18px;
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(7, 193, 96, 0.08), rgba(7, 193, 96, 0.02));
+}
+
+.wechat-pay-meta {
+  width: 100%;
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--ant-color-fill-quaternary);
+}
+
+.wechat-pay-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  color: var(--ant-color-text-secondary);
+}
+
+.wechat-pay-row + .wechat-pay-row {
+  margin-top: 10px;
+}
+
+.wechat-pay-row strong {
+  color: var(--ant-color-text);
+  text-align: right;
+  word-break: break-all;
+}
+
+.wechat-pay-alert {
+  width: 100%;
+}
+
+.wechat-pay-actions {
+  width: 100%;
+  justify-content: center;
+}
+
 @media (max-width: 768px) {
   .sponsor-page {
     padding: 20px 12px;
@@ -728,6 +999,10 @@ const amountOptions = [
 
   .sponsor-footer {
     margin-top: 28px;
+  }
+
+  .wechat-pay-qrcode {
+    padding: 14px;
   }
 }
 
