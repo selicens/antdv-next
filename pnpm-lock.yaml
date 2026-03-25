@@ -339,8 +339,8 @@ catalogs:
       specifier: ^1.0.2
       version: 1.0.2
     '@v-c/image':
-      specifier: ^1.0.8
-      version: 1.0.8
+      specifier: ^1.0.9
+      version: 1.0.9
     '@v-c/input':
       specifier: ^1.0.2
       version: 1.0.2
@@ -795,7 +795,7 @@ importers:
         version: 1.0.2(vue@3.5.30(typescript@5.9.3))
       '@v-c/image':
         specifier: catalog:vc
-        version: 1.0.8(vue@3.5.30(typescript@5.9.3))
+        version: 1.0.9(vue@3.5.30(typescript@5.9.3))
       '@v-c/input':
         specifier: catalog:vc
         version: 1.0.2(vue@3.5.30(typescript@5.9.3))
@@ -2654,13 +2654,13 @@ packages:
     peerDependencies:
       vue: ^3.0.0
 
-  '@v-c/image@1.0.7':
-    resolution: {integrity: sha512-9mZtZRDp5kKSquclq+/9dEpSn8USB/r5k7s4YUcHrplZN8pfvNFB3ed1m/j/Tsozcuw5U0jS8iSOyUPDor+smA==}
+  '@v-c/image@1.0.8':
+    resolution: {integrity: sha512-6Nui8tH76K22MsY+XwpyHtVALReqRzWsFyRmkxvuiIDsjpQqjFqy9RIMtgCItKq1/r9aLXwXw69UZ4lM81z9kg==}
     peerDependencies:
       vue: ^3.0.0
 
-  '@v-c/image@1.0.8':
-    resolution: {integrity: sha512-6Nui8tH76K22MsY+XwpyHtVALReqRzWsFyRmkxvuiIDsjpQqjFqy9RIMtgCItKq1/r9aLXwXw69UZ4lM81z9kg==}
+  '@v-c/image@1.0.9':
+    resolution: {integrity: sha512-0SGcTAopppmo8rjk/E9Kb8kWZ7yIoZeS2XTwnJNs2YOrwvZzY3OJA/5BB/5+siW0uZBe9XKnnO8byS3Frwr2xA==}
     peerDependencies:
       vue: ^3.0.0
 
@@ -7888,13 +7888,13 @@ snapshots:
       '@v-c/util': 1.0.19(vue@3.5.30(typescript@5.9.3))
       vue: 3.5.30(typescript@5.9.3)
 
-  '@v-c/image@1.0.7(vue@3.5.30(typescript@5.9.3))':
+  '@v-c/image@1.0.8(vue@3.5.30(typescript@5.9.3))':
     dependencies:
       '@v-c/portal': 1.0.8(vue@3.5.30(typescript@5.9.3))
       '@v-c/util': 1.0.19(vue@3.5.30(typescript@5.9.3))
       vue: 3.5.30(typescript@5.9.3)
 
-  '@v-c/image@1.0.8(vue@3.5.30(typescript@5.9.3))':
+  '@v-c/image@1.0.9(vue@3.5.30(typescript@5.9.3))':
     dependencies:
       '@v-c/portal': 1.0.8(vue@3.5.30(typescript@5.9.3))
       '@v-c/util': 1.0.19(vue@3.5.30(typescript@5.9.3))
@@ -8462,7 +8462,7 @@ snapshots:
       '@v-c/dialog': 1.0.3(vue@3.5.30(typescript@5.9.3))
       '@v-c/drawer': 1.0.2(vue@3.5.30(typescript@5.9.3))
       '@v-c/dropdown': 1.0.2(vue@3.5.30(typescript@5.9.3))
-      '@v-c/image': 1.0.7(vue@3.5.30(typescript@5.9.3))
+      '@v-c/image': 1.0.8(vue@3.5.30(typescript@5.9.3))
       '@v-c/input': 1.0.2(vue@3.5.30(typescript@5.9.3))
       '@v-c/input-number': 1.0.5(vue@3.5.30(typescript@5.9.3))
       '@v-c/mentions': 1.0.0(vue@3.5.30(typescript@5.9.3))
