@@ -47,16 +47,16 @@ const pageTurning = computed(() => {
   const currentIndex = menus.findIndex((item) => {
     if (appStore.locale === 'zh-CN') {
       const replacePath = currentPath.replace('-cn', '')
-      return item.key === replacePath || item.label === replacePath
+      return item.key === replacePath
     }
-    return item.key === currentPath || item.label === currentPath
+    return item.key === currentPath
   })
   const prev = currentIndex >= 0 && menus[currentIndex - 1]
   const next = currentIndex <= menus.length && menus[currentIndex + 1]
   const prevPath = prev ? getMenuUrl(prev.key as string) : ''
   const nextPath = next ? getMenuUrl(next.key as string) : ''
-  const prevLocale = prev ? siderLocales.value?.[prev.key as string]?.[locale.value] : prev?.label
-  const nextLocale = next ? siderLocales.value?.[next.key as string]?.[locale.value] : next?.label
+  const prevLocale = prev && siderLocales.value?.[prev.key as string]?.[locale.value]
+  const nextLocale = next && siderLocales.value?.[next.key as string]?.[locale.value]
   return {
     prev,
     next,
