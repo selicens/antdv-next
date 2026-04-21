@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { MenuEmits } from 'antdv-next'
+import type { MenuProps } from 'antdv-next'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
 import { useDocPage } from '@/composables/doc-page'
@@ -13,21 +13,18 @@ const appStore = useAppStore()
 const { siderMenus, siderKey, siderOpenKeys, siderLocales, locale, direction, darkMode } = storeToRefs(appStore)
 const { anchorItems } = useDocPage()
 const router = useRouter()
-const handleChangeMenu: MenuEmits['click'] = (info) => {
-  const key = info.key
-  const locale = appStore.locale
-  if (key) {
-    if (locale === 'zh-CN') {
-      router.push({
-        path: `${key}-cn`,
-      })
-    }
-    else {
-      router.push({
-        path: key,
-      })
-    }
+
+function getMenuUrl(key: string) {
+  const currentLocale = appStore.locale
+  if (currentLocale === 'zh-CN') {
+    return `${key}-cn`
   }
+  return key
+}
+
+const handleMenuClick: MenuProps['onClick'] = (info) => {
+  const key = info.key
+  router.push({ path: getMenuUrl(key) })
 }
 </script>
 
@@ -41,10 +38,16 @@ const handleChangeMenu: MenuEmits['click'] = (info) => {
         mode="inline"
         :selected-keys="siderKey"
         :open-keys="siderOpenKeys"
-        @click="handleChangeMenu"
+        @click="handleMenuClick"
       >
         <template #labelRender="{ key, label }">
-          {{ siderLocales?.[key]?.[locale] ?? label }}
+          <a
+            class="ant-doc-main-sider-menu-item-link"
+            :href="getMenuUrl(key as string)"
+            @click.prevent
+          >
+            {{ siderLocales?.[key]?.[locale] ?? label }}
+          </a>
         </template>
         <template #extraRender="{ tag }">
           <template v-if="tag">
@@ -95,6 +98,10 @@ const handleChangeMenu: MenuEmits['click'] = (info) => {
       padding-bottom: var(--ant-margin-xxl) !important;
       padding-inline: var(--ant-margin-xxs);
       background: transparent;
+
+      &-item-link {
+        color: inherit;
+      }
 
       //.ant-menu-inline > .ant-menu-item-group > .ant-menu-item-group-title::after {
       //  position: relative;
