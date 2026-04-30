@@ -363,8 +363,8 @@ catalogs:
       specifier: ^1.0.0
       version: 1.0.0
     '@v-c/menu':
-      specifier: ^1.0.13
-      version: 1.0.13
+      specifier: ^1.0.14
+      version: 1.0.14
     '@v-c/mutate-observer':
       specifier: ^1.0.1
       version: 1.0.1
@@ -831,7 +831,7 @@ importers:
         version: 1.0.0(vue@3.5.30(typescript@5.9.3))
       '@v-c/menu':
         specifier: catalog:vc
-        version: 1.0.13(vue@3.5.30(typescript@5.9.3))
+        version: 1.0.14(vue@3.5.30(typescript@5.9.3))
       '@v-c/mutate-observer':
         specifier: catalog:vc
         version: 1.0.1(vue@3.5.30(typescript@5.9.3))
@@ -2880,6 +2880,11 @@ packages:
 
   '@v-c/menu@1.0.13':
     resolution: {integrity: sha512-RbOuk+R0V2bm04daK5LvlJ95N/XS2k+YSnvrGUDCKVkCIAPEe6NZMU6clcj5F4yKtKwWDggq/n5NlJPfJKFSPA==}
+    peerDependencies:
+      vue: ^3.0.0
+
+  '@v-c/menu@1.0.14':
+    resolution: {integrity: sha512-AzAbKJ69svJ1F7FLfY6FZ2Qn7fofgvq4DF7gp2fEPOd6CZ70+qM9ZPHDsW0SXukaYcIVH1tcSf+HkiC+7BCwRw==}
     peerDependencies:
       vue: ^3.0.0
 
@@ -8364,13 +8369,20 @@ snapshots:
   '@v-c/mentions@1.0.0(vue@3.5.30(typescript@5.9.3))':
     dependencies:
       '@v-c/input': 1.0.3(vue@3.5.30(typescript@5.9.3))
-      '@v-c/menu': 1.0.13(vue@3.5.30(typescript@5.9.3))
+      '@v-c/menu': 1.0.14(vue@3.5.30(typescript@5.9.3))
       '@v-c/textarea': 1.0.4(vue@3.5.30(typescript@5.9.3))
       '@v-c/trigger': 1.0.14(vue@3.5.30(typescript@5.9.3))
       '@v-c/util': 1.0.19(vue@3.5.30(typescript@5.9.3))
       vue: 3.5.30(typescript@5.9.3)
 
   '@v-c/menu@1.0.13(vue@3.5.30(typescript@5.9.3))':
+    dependencies:
+      '@v-c/overflow': 1.0.5(vue@3.5.30(typescript@5.9.3))
+      '@v-c/trigger': 1.0.14(vue@3.5.30(typescript@5.9.3))
+      '@v-c/util': 1.0.19(vue@3.5.30(typescript@5.9.3))
+      vue: 3.5.30(typescript@5.9.3)
+
+  '@v-c/menu@1.0.14(vue@3.5.30(typescript@5.9.3))':
     dependencies:
       '@v-c/overflow': 1.0.5(vue@3.5.30(typescript@5.9.3))
       '@v-c/trigger': 1.0.14(vue@3.5.30(typescript@5.9.3))
@@ -8501,7 +8513,7 @@ snapshots:
   '@v-c/tabs@1.0.2(vue@3.5.30(typescript@5.9.3))':
     dependencies:
       '@v-c/dropdown': 1.0.2(vue@3.5.30(typescript@5.9.3))
-      '@v-c/menu': 1.0.13(vue@3.5.30(typescript@5.9.3))
+      '@v-c/menu': 1.0.14(vue@3.5.30(typescript@5.9.3))
       '@v-c/overflow': 1.0.4(vue@3.5.30(typescript@5.9.3))
       '@v-c/resize-observer': 1.0.8(vue@3.5.30(typescript@5.9.3))
       '@v-c/util': 1.0.19(vue@3.5.30(typescript@5.9.3))
