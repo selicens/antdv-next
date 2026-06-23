@@ -2,6 +2,46 @@
 title: 组件更新日志
 ---
 
+## V1.3.6
+
+发布日期：2026-06-18
+
+本次版本主要修复 **Segmented 无图标选项仍渲染空图标节点**、**Dropdown 未透传 `menu` 的 `classes` / `styles` / `rootClass`**、**Input 重复 `class` 属性** 等问题，并将 Form 表单级 `rules` 类型放宽为递归 `RulesMap`，同时优化 DirectoryTree 类型与升级依赖。
+
+**🐞 问题修复 Fixes**
+
+* fix(segmented)：无 `icon` 的选项不再渲染空的 `.ant-segmented-item-icon` 节点，与 React ant-design 对齐（#600）—— [#601](https://github.com/antdv-next/antdv-next/pull/601)
+* fix(dropdown)：将 `menu` 的 `classes` / `styles` / `rootClass` 透传到弹层 Menu，不再被显式语义类名覆盖（#599）—— [#601](https://github.com/antdv-next/antdv-next/pull/601)
+* fix(input)：修复重复的 `class` 属性
+
+**🔧 类型优化 Types**
+
+* refactor(form)：将表单级 `rules` 类型放宽为递归 `RulesMap`，支持嵌套（`{ user: { email: [...] } }`）与索引（`{ list: { 0: [...] } }`）配置无需断言通过类型检查 —— [#601](https://github.com/antdv-next/antdv-next/pull/601)
+* perf(tree)：优化 DirectoryTree 类型
+
+**🧪 测试 Tests**
+
+* test：更新 Space 与 Transfer 快照
+
+**🧰 依赖更新 Dependencies**
+
+* chore：升级依赖
+
+## V1.3.5
+
+发布日期：2026-06-13
+
+本次版本修复 **Form.Item 在每次聚焦/失焦时以全新 meta 对象触发无变更更新导致子节点重渲染** 的问题 —— 配合内联对象属性（如 `:show-time`）会重置 DatePicker 面板内的草稿选择，使 a-form-item 内无法点击「确定」确认；同时升级 `@v-c/picker` 配套修复。
+
+**🐞 问题修复 Fixes**
+
+* fix(form)：跳过无变更的 meta 更新，避免重渲染 FormItem 子节点（修复 a-form-item 内 DatePicker 面板草稿选择被重置）—— [#597](https://github.com/antdv-next/antdv-next/pull/597)
+
+**🧰 依赖更新 Dependencies**
+
+* chore(deps)：升级 `@v-c/picker` 至 ^1.1.3，配套修复父级重渲染传入等价新属性时草稿选择被重置的问题（antdv-next #597）
+* chore：更新文档站 css
+
 ## V1.3.4
 
 发布日期：2026-06-12

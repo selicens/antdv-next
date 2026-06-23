@@ -2,6 +2,46 @@
 title: Component Changelog
 ---
 
+## V1.3.6
+
+Release Date: 2026-06-18
+
+This release fixes **Segmented rendering an empty icon node for options without an icon**, **Dropdown not forwarding `menu`'s `classes` / `styles` / `rootClass`** and **Input emitting a duplicate `class` attribute**, relaxes the Form form-level `rules` type to a recursive `RulesMap`, and refines the DirectoryTree typing while bumping dependencies.
+
+**🐞 Fixes**
+
+* fix(segmented): no longer render an empty `.ant-segmented-item-icon` node for options without an `icon`, aligning with React ant-design (#600) — [#601](https://github.com/antdv-next/antdv-next/pull/601)
+* fix(dropdown): forward `menu`'s `classes` / `styles` / `rootClass` to the overlay Menu instead of having them overridden by the explicit semantic classes (#599) — [#601](https://github.com/antdv-next/antdv-next/pull/601)
+* fix(input): fix the duplicate `class` attribute
+
+**🔧 Types**
+
+* refactor(form): relax the form-level `rules` type to a recursive `RulesMap` so nested (`{ user: { email: [...] } }`) and indexed (`{ list: { 0: [...] } }`) configs type-check without casts — [#601](https://github.com/antdv-next/antdv-next/pull/601)
+* perf(tree): refine DirectoryTree typing
+
+**🧪 Tests**
+
+* test: update Space and Transfer snapshots
+
+**🧰 Dependencies**
+
+* chore: upgrade dependencies
+
+## V1.3.5
+
+Release Date: 2026-06-13
+
+This release fixes **Form.Item triggering a no-op meta update with a fresh meta object on every focus/blur, re-rendering its child** — combined with inline object props (e.g. `:show-time`) this reset DatePicker's in-panel draft selection, making the OK confirm impossible inside a-form-item — and bumps `@v-c/picker` for the companion fix.
+
+**🐞 Fixes**
+
+* fix(form): skip no-op meta updates to avoid re-rendering FormItem children (fixes DatePicker in-panel draft selection being reset inside a-form-item) — [#597](https://github.com/antdv-next/antdv-next/pull/597)
+
+**🧰 Dependencies**
+
+* chore(deps): bump `@v-c/picker` to ^1.1.3 for the companion fix where a parent re-render passing equivalent-but-new props reset the draft selection (antdv-next #597)
+* chore: update the docs-site css
+
 ## V1.3.4
 
 Release Date: 2026-06-12
