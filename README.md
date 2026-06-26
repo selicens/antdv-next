@@ -15,6 +15,11 @@ Antdv Next is a Vue 3 enterprise component library built on the Ant Design desig
 
 English · [中文](./README.zh-CN.md)
 
+## ❤️ Sponsors
+
+| <a href="https://ergouzi.life/register?utm_source=antdv-next"><img src="https://nzj13gqqmj.ufs.sh/f/7vCb7ZuKZQXM8I2IHQXhPqNEAXV4gJm0LzopUFvck3bCKG1e" width="80" alt="二狗子中转"></a> |
+| :-: |
+
 </div>
 
 ## ✨ Features
